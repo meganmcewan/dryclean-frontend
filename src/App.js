@@ -5,6 +5,13 @@ import Home from './components/home.js'
 import Login from './components/login.js'
 import Signup from './components/signup.js'
 import orderForm from './components/orderForm.js'
+import { signUp, getUsers, login} from './requests';
+
+
+// these are the imported functions to talk to the backend
+import './requests';
+
+
 class App extends Component {
   constructor () {
     super()
@@ -18,7 +25,9 @@ class App extends Component {
     }
   }
 
+
   render () {
+
     return (
       <Switch>
         <Route exact path='/' component={Home} />
