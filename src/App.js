@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import './App.css'
+import { Switch, Route } from 'react-router'
+import Home from './components/home.js'
 import Login from './components/login.js'
-
+import Signup from './components/signup.js'
+import orderForm from './components/orderForm.js'
 class App extends Component {
   constructor () {
     super()
@@ -17,9 +20,12 @@ class App extends Component {
 
   render () {
     return (
-      <div className='App'>
-        Hello World
-      </div>
+      <Switch>
+        <Route exact path='/' component={Home} />
+        <Route path='/login' component={Login} />
+        <Route path='/signup' component={Signup} />
+        <Route path='/orderform' component={orderForm} />
+      </Switch>
     )
   }
 }

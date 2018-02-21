@@ -26,3 +26,15 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+.inital-css{
+  text-align: center;
+}
+
+.navWrapper{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
