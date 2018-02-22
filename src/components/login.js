@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+
 class Login extends Component {
     submitLogin = () => {
     console.log('clicked login submit button')
+    this.props.history.push('/dashboard')
     }
-    
+
 
   render () {
     return (
