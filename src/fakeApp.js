@@ -1,5 +1,7 @@
 
-import { signUp, getUsers, login} from './requests';
+import React, { Component } from 'react'
+import './App.css'
+import { signup, getUsers, login} from './requests';
 
 class App extends Component {
     signUp = () => {
@@ -41,6 +43,8 @@ class App extends Component {
                     <input ref={ref => this.info2 = ref} type="text" /> 
                     <button onClick={this.addOrder}>Add a new order!</button>
             </div>    
-        );
+        )
     }
 }
+
+export default App
