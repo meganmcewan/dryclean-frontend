@@ -7,23 +7,21 @@ import Signup from './components/signup.js'
 import CreateAccount from './components/createaccount'
 import orderForm from './components/orderForm.js'
 import dashboard from './components/dashboard.js'
+import confirmation from './components/confirmation.js'
+
 // import { signUp, getUsers, login} from './requests';
 
 // these are the imported functions to talk to the backend
 // import './requests';
 
+
 class App extends Component {
-  constructor () {
-    super()
-    this.state = {
-      loggedIn: false,
-      userType: 'merchant',
-      displayPage: null,
-      openOrders: [],
-      closedOrders: [],
-      pastDue: []
-    }
-  }
+  
+  
+  // signUp = () => {
+  //   signup(this.email.value, this.username.value, this.password.value)
+
+  // }
 
   render () {
     return (
@@ -34,6 +32,7 @@ class App extends Component {
         <Route path='/createaccount' component={CreateAccount} />
         <Route path='/orderform' component={orderForm} />
         <Route path='/dashboard' component={dashboard} />
+        <Route path='/confirmation' component={confirmation} />
       </Switch>
     )
   }

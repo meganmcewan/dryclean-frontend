@@ -93,13 +93,12 @@ export function addOrder(orderID, userID, info1, info2){
 
 
 
-async function test() {
- const user = await addOrder('293847', '3u3y', 'hello', 'hi');
+// async function test() {
+//  const user = await addOrder('293847', '3u3y', 'hello', 'hi');
 
 
-//   setTimeout(signout, 2000)
+// //   setTimeout(signout, 2000)
     
-}
+// }
 
-
-test();
+// test();
