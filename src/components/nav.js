@@ -5,8 +5,8 @@ function navBar () {
   return (
     <div>
       <div className='navWrapper'>
-        <Link to='/'>Dashboard</Link>
-        <Link to='/'>New Order</Link>
+        <Link to='/dashboard'>Dashboard</Link>
+        <Link to='/orderForm'>New Order</Link>
       </div>
     </div>
   )
