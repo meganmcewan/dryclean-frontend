@@ -42,7 +42,7 @@ export function registerMerchant (merchantObj, priceObj){
       ladiesSuit: priceObj.regular.ladiesSuit,
       dress: priceObj.regular.dress,
       skirt: priceObj.regular.skirt,
-      jacket: priceObj.regular.jacket, 
+      jacket: priceObj.regular.jacket,
       blouse: priceObj.regular.blouse,
       tie: priceObj.regular.tie
 
@@ -81,8 +81,8 @@ export function registerUser(email, userType, password ) {
         userType: userType.toLowerCase(),
       
     });
-    console.log(firebaseUser.uid)
-    return firebaseUser.uid;
+ 
+  return firebaseUser.uid;
   })
 
   .catch(function(error) {
@@ -104,8 +104,7 @@ export function login (email, password){
     return firebase.auth().signInWithEmailAndPassword(email, password)
     .then (firebaseuser => {
         console.log(firebaseuser.uid)
-        return firebaseuser.uid})
-
+        return firebaseuser.uid  })
       .catch(function(error) {
 
         // Handle Errors here.
@@ -146,6 +145,7 @@ export function addOrder(orderID, userID, info1, info2){
     userID: userID,
     info1: "input info1",
     info2: "input info2",
+    orderStatus: "open",
     orderConf: Math.floor((Math.random() * 100000) + 1)
 
   })
@@ -157,12 +157,19 @@ export function addOrder(orderID, userID, info1, info2){
   //this is to read the data 
 
   database.ref('/Orders/'+ orderID).once('value')
-  .then(snapshot => console.log(snapshot.val().orderConf))
+  // .then(snapshot => console.log(snapshot.val()))
+}
 
+  export function ordersDashboard (userID){
+
+    
+    database.ref('/Orders/').once('value')
+    .then(snapshot => console.log(snapshot.val()) )
+  }
   
   // .then (showAlert => alert(info))
 
-}
+// }
 
 
 ///////  testing area ////////
