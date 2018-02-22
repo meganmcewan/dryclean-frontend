@@ -4,7 +4,21 @@ import { Link } from 'react-router-dom'
 class orderForm extends Component {
   constructor () {
     super()
-    this.state = {currentPage : null}
+    this.state = {currentPage : null,
+                  trousers : null,
+                  suit : null,
+                  ladiesSuit: null,
+                  dress: null,
+                  skirt: null,
+                  jacket: null,
+                  ties: null,
+                  blouse: null,
+                  shirt: null,
+                  ties: null,
+                  custom1 : null,
+                  custom2 : null
+              
+                }
   }
 
   orderFormHome = () => {
@@ -83,8 +97,8 @@ class orderForm extends Component {
         <form>
           <div>
             <div>
-              <button >Trousers</button>
-              <button >Suit</button>
+              <button type="button" onClick={() => this.setState(PreSt => ({trousers: PreSt.trousers + 1}))}>Trousers {this.state.trousers} </button>
+              <button type="button" onClick={() => this.setState(PreSt => ({ suit: PreSt.suit + 1 }))}>Suit {this.state.suit} </button>
             </div> 
             <div>
               <button >Overcoat</button>
