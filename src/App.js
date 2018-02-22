@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router'
 import Home from './components/home.js'
 import Login from './components/login.js'
 import Signup from './components/signup.js'
+import CreateAccount from './components/createaccount'
 import orderForm from './components/orderForm.js'
 class App extends Component {
   constructor () {
@@ -24,6 +25,7 @@ class App extends Component {
         <Route exact path='/' component={Home} />
         <Route path='/login' component={Login} />
         <Route path='/signup' component={Signup} />
+        <Route path='/createaccount' component={CreateAccount} />
         <Route path='/orderform' component={orderForm} />
       </Switch>
     )
