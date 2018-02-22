@@ -14,18 +14,14 @@ import confirmation from './components/confirmation.js'
 // these are the imported functions to talk to the backend
 // import './requests';
 
+
 class App extends Component {
-  constructor () {
-    super()
-    this.state = {
-      loggedIn: false,
-      userType: 'merchant',
-      displayPage: null,
-      openOrders: [],
-      closedOrders: [],
-      pastDue: []
-    }
-  }
+  
+  
+  // signUp = () => {
+  //   signup(this.email.value, this.username.value, this.password.value)
+
+  // }
 
   render () {
     return (
