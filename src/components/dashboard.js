@@ -101,6 +101,10 @@ class Dashboard extends Component {
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
   }
 
+componentWillMount(){
+  console.log('user id log', this.props.location.state)
+}
+
   render() {
     return (
       <div className='inital-css'>
