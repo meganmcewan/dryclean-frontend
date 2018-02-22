@@ -147,9 +147,14 @@ class CreateAccount extends Component {
                         </div>
                     </div>
                 </div>
-                <button>Create Account</button>
+                <button onClick={this.createNewAccount}>Create Account</button>
             </div>
         )
+    }
+
+    createNewAccount = () => {
+        console.log('create account')
+        this.props.history.push('/dashboard')
     }
 
     render() {
