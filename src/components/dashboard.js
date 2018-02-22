@@ -9,7 +9,7 @@ class Dashboard extends Component {
     }
   }
 
-//------- BUTTON THAT TAKES YOU TO A 'NEW ORDER' FORM
+//------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
     console.log('new order button pressed')
     this.props.history.push('/orderform')
