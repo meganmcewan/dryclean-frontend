@@ -75,6 +75,8 @@ export function signout(){
 
 export function addOrder(orderID, userID, info1, info2){
 
+    userID = database.
+
   database.ref('/Orders/' + orderID).set({
     orderID: orderID,
     userID: userID,

@@ -1,5 +1,5 @@
 
-import { signUp, getUsers, login} from './requests';
+import { signUp, getUsers, login} from './requests'
 
 class App extends Component {
     signUp = () => {
@@ -19,6 +19,7 @@ class App extends Component {
     }
 
     addOrder = ()=>{
+        
         addOrder(this.orderID.value, this.userID.value, this.info1.value, this.info2.value)
 
     }
@@ -27,20 +28,22 @@ class App extends Component {
     render() {
         return(
             <div>
-                <input ref={ref => this.email = ref} type="email" />
-                <input ref={ref => this.password = ref} type="password" />    
-                <button onClick={this.signUp}>Sign Up</button>
-                <button onClick={this.login}>login</button>
+                    <div>
+                        <input ref={ref => this.email = ref} type="email" />
+                        <input ref={ref => this.password = ref} type="password"/>    
+                        <button onClick={this.signUp}>Sign Up</button>
+                        <button onClick={this.login}>login</button>
 
-            </div>
+                    </div>
 
-            <div>
-                    <input ref={ref => this.orderID = ref} type="text" />
-                    <input ref={ref => this.userID = ref} type="text" /> 
-                    <input ref={ref => this.info1 = ref} type="text" /> 
-                    <input ref={ref => this.info2 = ref} type="text" /> 
-                    <button onClick={this.addOrder}>Add a new order!</button>
-            </div>    
-        );
+                    <div>
+                            <input ref={ref => this.orderID = ref} type="text" />
+                            <input ref={ref => this.userID = ref} type="text" /> 
+                            <input ref={ref => this.info1 = ref} type="text" /> 
+                            <input ref={ref => this.info2 = ref} type="text" /> 
+                            <button onClick={this.addOrder}>Add a new order!</button>
+                    </div> 
+            </div>   
+        )
     }
 }
