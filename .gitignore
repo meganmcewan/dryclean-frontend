@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+src/tempApp.js
 
 # production
 /build
@@ -21,4 +22,4 @@ yarn-debug.log*
 yarn-error.log*
 
 #JSON files
-.key.json
+src/key.json
