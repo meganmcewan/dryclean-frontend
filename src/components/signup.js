@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { registerUser } from '../requests';
 
 class Signup extends Component {
 
     submitSignup = (e) => {
         e.preventDefault()
+        registerUser(this.user.value,)
         console.log('signup username:', this.user.value)
         console.log('signup password:', this.pass.value)
         console.log('signup username:', this.phone.value)
+
+
+
         this.props.history.push('/createaccount')
     }
+
+
 
     render() {
         return (

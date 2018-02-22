@@ -42,7 +42,8 @@ class Dashboard extends Component {
   }
 
   pastDueOrders = () => {
-    return(<div>
+    return
+    (<div>
       <h3>Past Due Orders</h3>
       <div className='flex'>
         <p>Order</p>
