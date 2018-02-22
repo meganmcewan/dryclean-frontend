@@ -20,7 +20,7 @@ class Login extends Component {
 
       if(uidFromBack !== undefined){
         this.setState({userId :uidFromBack })
-        this.props.history.push({'/dashboard', state: {message: "hello, im a passed message!"}})
+        this.props.history.push('/dashboard')
       }
       else {alert ('username or password incorrect')}
     }
