@@ -25,7 +25,8 @@ export function signup(email, username, password) {
         email: email
          
     });
-    return firebaseUser;
+ 
+  return firebaseUser.uid;
   })
   .catch(function(error) {
     // Handle Errors here.
@@ -44,8 +45,7 @@ export function login (email, password){
     return firebase.auth().signInWithEmailAndPassword(email, password)
     .then (firebaseuser => {
         console.log(firebaseuser.uid)
-        return firebaseuser.uid})
-
+        return firebaseuser.uid  })
       .catch(function(error) {
 
         // Handle Errors here.
@@ -80,16 +80,24 @@ export function addOrder(orderID, userID, info1, info2){
     userID: userID,
     info1: "input info1",
     info2: "input info2",
+    orderStatus: "open",
     orderConf: Math.floor((Math.random() * 100000) + 1)
 
   })
   database.ref('/Orders/'+ orderID).once('value')
-  .then(snapshot => console.log(snapshot.val().orderConf))
+  // .then(snapshot => console.log(snapshot.val()))
+}
 
+  export function ordersDashboard (userID){
+
+    
+    database.ref('/Orders/').once('value')
+    .then(snapshot => console.log(snapshot.val()) )
+  }
   
   // .then (showAlert => alert(info))
 
-}
+// }
 
 
 
