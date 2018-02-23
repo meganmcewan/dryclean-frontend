@@ -138,16 +138,72 @@ export async function registerMerchant (merchantObj, priceObj) {
   
 }
 
-// export function registerPrices (priceObj) {
-
-// }
-
-
 
 
 
 
 /// ////// order related functions ///////
+
+
+ //////checks if phone number exits. if it does send obj//////
+
+ // this function checks to see if the phone number exists. if exits will return
+// user object, if not will create a new user with this number
+
+function getUser(snapshot) {
+  let users = [];
+  snapshot.forEach(item => {
+    users.push({value:item.val(), userId: item.key})
+  })
+  return users.length > 0 ? users[0] : null;
+}
+
+export async function checkPhoneNum (phoneNumber, merchantId){
+
+      var snapshot = await database.ref('/Merchants/'+ merchantId +'/Users/')
+      .orderByChild('phoneNumber')
+      .equalTo(phoneNumber)
+      .once('value');
+      
+      let user = getUser(snapshot);
+
+      if (!user){
+          var newUser = await database.ref('/Merchants/'+merchantId +'/Users/').push();
+          await newUser.set({
+            phoneNumber: phoneNumber,
+        })
+        
+        return {status: 1, msg: "User added!", userId: newUser.key, 
+        phoneNumber: phoneNumber}
+      }
+      else{
+        return {status: 0, msg: "User found!", userId: user.userId, 
+        phoneNumber: user.value.phoneNumber}
+      }
+
+
+}
+
+/////// adds user details if user is new, or updates info if necessary/////
+
+export async function addUserDetails (userObj, merchantId){
+console.log("user obj is" ,userObj, "merchant id is", merchantId,
+"this is userobj.userId", userObj.userId)
+
+
+
+var newClient = await database.ref('/Merchants/' + merchantId.merchantId +'/Users/' + userObj.userId).set({
+    phoneNumber: userObj.phoneNumber,
+    clientName: userObj.clientName,
+    clientAddress: userObj.clientAddress,
+    clientCity: userObj.clientCity,
+    clientProvinceState: userObj.clientProvinceState,
+    clientPostalZip: userObj.clientPostalZip,
+    userId: userObj.userId
+
+})
+
+}
 
 // this order creates a new orderID, generates a readable order number
 // send the merchant ID and details, the current date and generates
@@ -177,69 +233,11 @@ export function createNewOrder (userId) {
   })
 }
 
-// this function checks to see if the phone number exists. if exits will return
-// user object, if not will create a new user with this number
-
-function getUser(snapshot) {
-  let users = [];
-  snapshot.forEach(item => {
-    users.push({value:item.val(), userId: item.key})
-  })
-  return users.length > 0 ? users[0] : null;
-}
-
-export async function checkPhoneNum (phoneNumber, merchantId){
-
-    //checks if phone number exits. if it does send obj
 
 
-    var snapshot = await database.ref('/Users/')
-    .orderByChild('phoneNumber')
-    .equalTo(phoneNumber)
-    .once('value');
-    
-    let user = getUser(snapshot);
 
-    if (!user){
-        var newUser = await database.ref('/Users/').push();
-        await newUser.set({
-           phoneNumber: phoneNumber,
-       })
-       
-       return {status: 1, msg: "User added!", userId: newUser.key, phoneNumber: phoneNumber}
-     }
-     else{
-       return {status: 0, msg: "User found!", userId: user.userId, phoneNumber: user.value.phoneNumber}
-     }
-
-
-}
-
-/////// adds user details if user is new, or updates info if necessary/////
-
-export async function addUserDetails (userObj, merchantId){
-  console.log("user obj is" ,userObj, "merchant id is", merchantId,
-"this is userobj.userId", userObj.userId)
-
- 
-
-  var newClient = await database.ref('/Users/' + userObj.userId).set({
-      phoneNumber: userObj.phoneNumber,
-      clientName: userObj.clientName,
-      clientAddress: userObj.clientAddress,
-      city: userObj.city,
-      province: userObj.province,
-      postalCode: userObj.postalCode
-
-  })
-//   database.ref('/Orders/'+ ).push().set({
-//     orderNum: '10001',
-
-//  })
 
 //need to map address to current user ID as well as order number
-
-}
 
 
 
