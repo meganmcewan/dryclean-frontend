@@ -20,12 +20,12 @@ var database = firebase.database();
 
 export function registerMerchant (merchantObj, priceObj){
     // this is to write the data
-    var userID = merchantObj.userID
+    var merchantId= merchantObj.merchantId
 
-    database.ref('/Merchants/' + userID).set({ 
-      userID: userID,
+    database.ref('/Merchants/' + merchantId).set({ 
+      merchantID: merchantId, 
       businessAddress: merchantObj.businessAddress,
-      city: merchantObj.city, 
+      city: merchantObj.city,  
       province: merchantObj.province,
       postalCode: merchantObj.postalCode,
       businessPhoneNum: merchantObj.businessPhoneNum
@@ -34,8 +34,8 @@ export function registerMerchant (merchantObj, priceObj){
 
     console.log('merchant is registered')
 
-    database.ref('/Prices/'+ userID + '/Regular/').set({
-      userID: userID,
+    database.ref('/Prices/'+ merchantId + '/Regular/').set({
+      merchantId: merchantId,
       trousers: priceObj.regular.trousers,
       suit: priceObj.regular.suit,
       overcoat: priceObj.regular.overcoat,
@@ -48,10 +48,10 @@ export function registerMerchant (merchantObj, priceObj){
 
     })
 
-    console.log("regular prices are registered for user:", userID)
+    console.log("regular prices are registered for user:", merchantId)
 
-    database.ref('/Prices/'+ userID + '/Express/').set({
-      userID: userID,
+    database.ref('/Prices/'+ merchantId + '/Express/').set({
+      merchantId: merchantId,
       trousers: priceObj.express.trousers,
       suit: priceObj.express.suit,
       overcoat: priceObj.express.overcoat,
@@ -64,7 +64,7 @@ export function registerMerchant (merchantObj, priceObj){
 
     })
 
-    console.log('express prices are registered for user:', userID)
+    console.log('express prices are registered for user:', merchantId)
   
 }
 
@@ -81,7 +81,7 @@ export function registerUser(email, userType, password ) {
       
     });
  
-  return firebaseUser.uid;
+  return {msg: 'user registered', userId: firebaseUser.uid};
   })
 
   .catch(function(error) {
@@ -147,7 +147,7 @@ export function createNewOrder (userId) {
 
   })
 
-  database.ref('/Orders/').push().set({
+  database.ref('/Orders/') ().set({
     orderNum: '10000',
     merchantID: userId,
     date: 'currentDate',
@@ -166,75 +166,93 @@ export function createNewOrder (userId) {
 // this function checks to see if the phone number exists. if exits will return
 // user object, if not will create a new user with this number
 
+function getUser(snapshot) {
+  let users = [];
+  snapshot.forEach(item => {
+    users.push({value:item.val(), userId: item.key})
+  })
+  return users.length > 0 ? users[0] : null;
+}
 
 export async function checkPhoneNum (phoneNumber, merchantID){
 
     //checks if phone number exits. if it does send obj
-    var users= [];
-    var orderByChild = await database.ref('/Users/')
+
+
+    var snapshot = await database.ref('/Users/')
     .orderByChild('phoneNumber')
     .equalTo(phoneNumber)
-    .once('value')
-    .then(snapshot => {
-      snapshot.forEach(item => {
-        users.push({value:item.val(), key: item.key})
-        
-      })
-    })
+    .once('value');
+    
+    let user = getUser(snapshot);
 
-    if (!users.length){
+    if (!user){
         var newUser = await database.ref('/Users/').push();
         await newUser.set({
            phoneNumber: phoneNumber,
        })
-      
-      //  console.log('new user just added', newUser.key)
-       return {status: 1, msg: "User added!", key: newUser.key, phoneNumber: phoneNumber}
+       
+       return {status: 1, msg: "User added!", userId: newUser.key, phoneNumber: phoneNumber}
      }
      else{
-       //
-       return {status: 0, msg: "User found!", key: users[0].key, phoneNumber: users[0].value.phoneNumber}
+       return {status: 0, msg: "User found!", userId: user.userId, phoneNumber: user.value.phoneNumber}
      }
-  
-    // database.ref('/Users/').once('value')
-    // .then(snapshot => {console.log('this is snapshot of users', snapshot.val())
-    // var users = snapshot.val();
 
-    // })
 
 }
 
-/////// adds order details to order created previously above /////
+/////// adds user details if user is new, or updates info if necessary/////
+
+export async function addUserDetails (userObj, merchantID){
+  console.log("user obj is" ,userObj, "merchant id is", merchantID,
+"this is userobj.userId", userObj.userId)
+
+ 
+
+  var newClient = await database.ref('/Users/' + userObj.userId).set({
+      phoneNumber: userObj.phoneNumber,
+      clientName: userObj.clientName,
+      clientAddress: userObj.clientAddress,
+      city: userObj.city,
+      province: userObj.province,
+      postalCode: userObj.postalCode
+
+  })
+//   database.ref('/Orders/'+ ).push().set({
+//     orderNum: '10001',
+
+//  })
+
+//need to map address to current user ID as well as order number
+
+}
 
 
 
 
+export function addOrder(orderObj, merchantID, userID){
 
+  // this is to write the data
+var orderID = 10001
+  database.ref('/Orders/' + orderID).set({
+    orderID: orderID,
+    userID: userID,
+    info1: "input info1",
+    info2: "input info2",
+    orderStatus: "open",
+    orderConf: Math.floor((Math.random() * 100000) + 1)
 
+  })
 
-// export function addOrder(orderObj){
+  database.ref('Merchants/' +userID + '/Orders/').push().set({
+    allOrders: orderID
+  })
 
-//   // this is to write the data
+  //this is to read the data 
 
-//   database.ref('/Orders/' + orderID).set({
-//     orderID: orderID,
-//     userID: userID,
-//     info1: "input info1",
-//     info2: "input info2",
-//     orderStatus: "open",
-//     orderConf: Math.floor((Math.random() * 100000) + 1)
-
-//   })
-
-//   database.ref('Merchants/' +userID + '/Orders/').push().set({
-//     allOrders: orderID
-//   })
-
-//   //this is to read the data 
-
-//   database.ref('/Orders/'+ orderID).once('value')
-//   // .then(snapshot => console.log(snapshot.val()))
-// }
+  database.ref('/Orders/'+ orderID).once('value')
+  // .then(snapshot => console.log(snapshot.val()))
+}
 
   export function ordersDashboard (userID){
 
@@ -243,21 +261,3 @@ export async function checkPhoneNum (phoneNumber, merchantID){
     .then(snapshot => console.log(snapshot.val()) )
   }
   
-  // .then (showAlert => alert(info))
-
-// }
-
-
-///////  testing area ////////
-
-
-
-// async function test() {
-//  const user = await addOrder('293847', '3u3y', 'hello', 'hi');
-
-
-// //   setTimeout(signout, 2000)
-    
-// }
-
-// test();

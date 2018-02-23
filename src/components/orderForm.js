@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { createNewOrder , checkPhoneNum } from '../requests';
+import { createNewOrder , checkPhoneNum, addUserDetails } from '../requests';
 
 class orderForm extends Component {
   constructor () {
@@ -44,12 +44,13 @@ class orderForm extends Component {
   goToOrderPageOne = () => {
     console.log('going to page 1')
 
-    /// here you will pass the phoneNumber from the inputs and Merchant ID from state tO this function so that it runs
+    /// here you will pass the phoneNumber from the inputs and Merchant ID from state to this function so that it runs
 
-    checkPhoneNum('5554443333', '33332222')
+    checkPhoneNum('5554440000', '33332222')
     .then( response => {
       console.log('res', response)
-      if(response){
+      ///this conditional will need to change to 1, is set to zero temporarily to pass the page
+      if(response.status===0){
         this.setState(st => ({ currentPage: 'orderFormPageOne' }))
       }
       else{
@@ -59,11 +60,7 @@ class orderForm extends Component {
     })
     .catch( err =>{
       console.log('err', err)
-
-
     })
-
-  
   }
 
   orderFormOne = () => {
@@ -101,6 +98,18 @@ class orderForm extends Component {
 
   goToOrderPageTwo = () => {
     console.log('going to page 2')
+    var tempMerchantID = { merchantID:'33332222' }
+    var tempUserObj = {
+      userId: '-L62LTzkGrMBz4KszB4m',
+      phoneNumber: '5554440000',
+      clientName: "added new new?",
+      clientAddress: "888 a new street",
+      city: 'montreal',
+      province: "QC",
+      postalCode: "h2e2s5"
+
+    }
+    addUserDetails (tempUserObj, tempMerchantID)
     this.setState(st => ({ currentPage: 'orderFormPageTwo' }))
     
   }
