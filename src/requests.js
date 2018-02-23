@@ -16,6 +16,72 @@ var database = firebase.database()
 
 /// //////login, sign up and singout functions//////////
 
+
+/////////SIGN UP FUNCITON //////////
+
+export function registerUser (email, userType, password) {
+  return firebase.auth().createUserWithEmailAndPassword(email, password)
+  .then(firebaseUser => {
+    database.ref('/Users/' + firebaseUser.uid).set({
+      email: email,
+      userType: userType.toLowerCase()
+
+    })
+
+    return { userId: firebaseUser.uid }
+  })
+
+  .catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code
+    var errorMessage = error.message
+    if (errorCode == 'auth/weak-password') {
+      alert('The password is too weak.')
+    } else {
+      alert(errorMessage)
+    }
+    console.log(error)
+  })
+}
+
+////////LOGIN FUNCTION////////
+
+export function login (email, password) {
+  return firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(firebaseuser => {
+      return firebaseuser.uid
+    })
+
+         // Handle Errors here.
+
+      .catch(function (error) {
+        var errorCode = error.code
+        var errorMessage = error.message
+        console.log(errorMessage)
+        console.log(errorCode)
+        if (errorCode == 'auth/user-not-found' || errorCode == 'auth/wrong-password') {
+          alert('username or password incorrect')
+        }
+      })
+}
+
+//////////SIGN OUT FUNCTION/////////
+
+export function signout () {
+  firebase.auth().signOut().then(function () {
+    console.log('sign out sucessful')
+    // Sign-out successful.
+  }).catch(function (error) {
+    console.log('something bad')
+    // An error happened.
+  })
+}
+
+
+////////////REGSITER A MERCHANT///////////
+
+
+
 export function registerMerchant (merchantObj, priceObj) {
     // this is to write the data
   var merchantId = merchantObj.merchantId
@@ -23,6 +89,9 @@ export function registerMerchant (merchantObj, priceObj) {
 
   database.ref('/Merchants/' + merchantId).set({
     merchantId: merchantId,
+    merchantFullName: merchantObj.merchantFullName,
+    merchantPersonalNumber: merchantObj.merchantPersonalNumber,
+    businessName: merchantObj.businessName,
     businessAddress: merchantObj.businessAddress,
     city: merchantObj.city,
     province: merchantObj.province,
@@ -31,20 +100,7 @@ export function registerMerchant (merchantObj, priceObj) {
     
   })
 
-// export function registerMerchant (merchantObj, priceObj){
-//     // this is to write the data
-//     var merchantId= merchantObj.merchantId
 
-//     database.ref('/Merchants/' + merchantId).set({ 
-//       merchantID: merchantId, 
-//       businessAddress: merchantObj.businessAddress,
-//       city: merchantObj.city,  
-//       province: merchantObj.province,
-//       postalCode: merchantObj.postalCode,
-//       businessPhoneNum: merchantObj.businessPhoneNum
-  
-  
-//   })
 
   console.log('merchant is registered')
 
@@ -86,59 +142,10 @@ export function registerMerchant (merchantObj, priceObj) {
 
 // }
 
-export function registerUser (email, userType, password) {
-  return firebase.auth().createUserWithEmailAndPassword(email, password)
-  .then(firebaseUser => {
-    database.ref('/Users/' + firebaseUser.uid).set({
-      email: email,
-      userType: userType.toLowerCase()
 
-    })
 
-    return { userId: firebaseUser.uid }
-  })
 
-  .catch(function (error) {
-    // Handle Errors here.
-    var errorCode = error.code
-    var errorMessage = error.message
-    if (errorCode == 'auth/weak-password') {
-      alert('The password is too weak.')
-    } else {
-      alert(errorMessage)
-    }
-    console.log(error)
-  })
-}
 
-export function login (email, password) {
-  return firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(firebaseuser => {
-      return firebaseuser.uid
-    })
-
-         // Handle Errors here.
-
-      .catch(function (error) {
-        var errorCode = error.code
-        var errorMessage = error.message
-        console.log(errorMessage)
-        console.log(errorCode)
-        if (errorCode == 'auth/user-not-found' || errorCode == 'auth/wrong-password') {
-          alert('username or password incorrect')
-        }
-      })
-}
-
-export function signout () {
-  firebase.auth().signOut().then(function () {
-    console.log('sign out sucessful')
-    // Sign-out successful.
-  }).catch(function (error) {
-    console.log('something bad')
-    // An error happened.
-  })
-}
 
 /// ////// order related functions ///////
 
