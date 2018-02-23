@@ -82,29 +82,29 @@ export function signout () {
 
 
 
-export function registerMerchant (merchantObj, priceObj) {
+export async function registerMerchant (merchantObj, priceObj) {
     // this is to write the data
-  var merchantId = merchantObj.merchantId
-  console.log(merchantObj)
+  var merchantId = await merchantObj.merchantId
+  console.log('here is merchant id' , merchantObj.merchantId)
 
-  // database.ref('/Merchants/' + merchantId).set({
-  //   merchantId: merchantId,
-  //   merchantFullName: merchantObj.merchantFullName,
-  //   merchantPersonalNumber: merchantObj.merchantPersonalNumber,
-  //   businessName: merchantObj.businessName,
-  //   businessAddress: merchantObj.businessAddress,
-  //   city: merchantObj.city,
-  //   province: merchantObj.province,
-  //   postalCode: merchantObj.postalCode,
-  //   businessPhoneNum: merchantObj.businessPhoneNum
+  var newMerchant = await database.ref('/Merchants/' + merchantId).set({
+    merchantId: merchantId,
+    merchantFullName: merchantObj.merchantFullName,
+    merchantPersonalNumber: merchantObj.merchantPersonalNumber,
+    businessName: merchantObj.businessName,
+    businessAddress: merchantObj.businessAddress,
+    city: merchantObj.city,
+    province: merchantObj.province,
+    postalCode: merchantObj.postalCode,
+    businessPhoneNum: merchantObj.businessPhoneNum
     
-  // })
+  })
 
 
 
   console.log('merchant is registered')
 
-    database.ref('/Prices/'+ merchantId + '/Regular/').set({
+    database.ref('/Merchants/' + merchantId + /'Prices'/ +'/Regular/').set({
       merchantId: merchantId,
       trousers: priceObj.regular.trousers,
       suit: priceObj.regular.suit,
@@ -120,7 +120,7 @@ export function registerMerchant (merchantObj, priceObj) {
 
     console.log("regular prices are registered for user:", merchantId)
 
-    database.ref('/Prices/'+ merchantId + '/Express/').set({
+    database.ref('/Merchants/' + merchantId + /'Prices'/ +'/Express/').set({
       merchantId: merchantId,
       trousers: priceObj.express.trousers,
       suit: priceObj.express.suit,
