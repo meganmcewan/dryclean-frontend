@@ -15,12 +15,12 @@ class Login extends Component {
     e.preventDefault()
 
     var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
-
+    
     if (uidFromBack !== undefined) {
-      this.setState({ userId: uidFromBack, isLoggedIn: true })
-      this.props.history.push('/dashboard', { userId: uidFromBack, isLoggedIn: true })
+      this.setState({ merchantID: uidFromBack.merchantID, isLoggedIn: true })
+      this.props.history.push('/dashboard', { merchantID: uidFromBack.merchantID, isLoggedIn: true })
     }
-    else { alert('username or password is incorrect') }
+   
   }
 
   render() {

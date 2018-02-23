@@ -17,11 +17,11 @@ class Signup extends Component {
         if (this.pass.value !== this.confirmPass.value) {
             this.setState({ formError: 'Passwords must match' })
         } else {
-            var uidFromBack = await registerUser(this.user.value, this.state.userType, this.pass.value)
-
+            var uidFromBack = await registerUser(this.user.value, this.pass.value)
+           
             if (uidFromBack !== undefined) {
-                this.setState({ userId: uidFromBack })
-                this.props.history.push('/createaccount', {userId: uidFromBack})
+                this.setState({ merchantId: uidFromBack.merchantId })
+                this.props.history.push('/createaccount', {merchantId: uidFromBack.merchantId})
             }
         }
     }

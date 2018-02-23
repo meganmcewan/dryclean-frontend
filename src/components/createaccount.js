@@ -8,7 +8,6 @@ class CreateAccount extends Component {
         this.state = {
             accountSetupForm: 'PERSONAL_INFO',
             merchantSubmittedInformation: {
-                merchantId: undefined,
                 merchantFullName: '',
                 merchantPersonalNumber: '',
                 businessName: '',
@@ -27,7 +26,7 @@ class CreateAccount extends Component {
         this.setState({
             accountSetupForm: 'BUSINESS_INFO',
             merchantSubmittedInformation: {
-                merchantId: this.props.location.state.userId.userId,
+                merchantId: this.props.location.state.merchantId.merchantId,
                 merchantFullName: this.merchantFullName.value,
                 merchantPersonalNumber: this.merchantPersonalNumber.value
             }
@@ -56,7 +55,7 @@ class CreateAccount extends Component {
         this.setState({
             accountSetupForm: 'PRICE_INFO',
             merchantSubmittedInformation: {
-                merchantId: this.props.location.state.userId.userId,
+                merchantId: this.props.location.state.merchantId,
                 merchantFullName: this.state.merchantSubmittedInformation.merchantFullName,
                 merchantPersonalNumber: this.state.merchantSubmittedInformation.merchantPersonalNumber,
                 businessName: this.businessName.value,
@@ -218,23 +217,22 @@ class CreateAccount extends Component {
 
         this.setState({ prices: prices },
             () => this.props.history.push('/dashboard', {
-                userId: this.props.location.state,
+                merchantId: this.props.location.state,
                 merchantSubmittedInformation: this.state.merchantSubmittedInformation,
                 prices: this.state.prices
             })
         )
-
         registerMerchant (this.state.merchantSubmittedInformation, prices)
     }
 
     componentWillMount() {
         // console.log('merchant ID: ', this.props.location.state.userId)
         // console.log('props log: ', this.props.location.state)
-        this.setState({ userId: this.props.location.state.userId }, () => console.log('user ID', this.state.userId))
+        this.setState({ merchantId: this.props.location.state.merchantId }, () => console.log('user ID', this.state.merchantId))
     }
 
     render() {
-        if(this.state.userId === undefined) { return <Redirect to='/signup'/>}
+        if(this.state.merchantId === undefined) { return <Redirect to='/signup'/>}
         if (this.state.accountSetupForm === 'PERSONAL_INFO') { return this.personalInfoForm() }
         if (this.state.accountSetupForm === 'BUSINESS_INFO') { return this.businessInfoForm() }
         if (this.state.accountSetupForm === 'PRICE_INFO') { return this.priceListForm() }

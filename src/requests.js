@@ -19,16 +19,16 @@ var database = firebase.database()
 
 /////////SIGN UP FUNCITON //////////
 
-export function registerUser (email, userType, password) {
+export function registerUser (email,password) {
   return firebase.auth().createUserWithEmailAndPassword(email, password)
   .then(firebaseUser => {
-    database.ref('/Users/' + firebaseUser.uid).set({
+    database.ref('/Merchants/' + firebaseUser.uid).set({
+      merchantId: firebaseUser.uid,
       email: email,
-      userType: userType.toLowerCase()
 
     })
 
-    return { userId: firebaseUser.uid }
+    return { merchantId: firebaseUser.uid }
   })
 
   .catch(function (error) {
@@ -49,7 +49,7 @@ export function registerUser (email, userType, password) {
 export function login (email, password) {
   return firebase.auth().signInWithEmailAndPassword(email, password)
     .then(firebaseuser => {
-      return firebaseuser.uid
+      return {merchantId: firebaseuser.uid}
     })
 
          // Handle Errors here.
@@ -85,20 +85,20 @@ export function signout () {
 export function registerMerchant (merchantObj, priceObj) {
     // this is to write the data
   var merchantId = merchantObj.merchantId
-  console.log(merchantId)
+  console.log(merchantObj)
 
-  database.ref('/Merchants/' + merchantId).set({
-    merchantId: merchantId,
-    merchantFullName: merchantObj.merchantFullName,
-    merchantPersonalNumber: merchantObj.merchantPersonalNumber,
-    businessName: merchantObj.businessName,
-    businessAddress: merchantObj.businessAddress,
-    city: merchantObj.city,
-    province: merchantObj.province,
-    postalCode: merchantObj.postalCode,
-    businessPhoneNum: merchantObj.businessPhoneNum
+  // database.ref('/Merchants/' + merchantId).set({
+  //   merchantId: merchantId,
+  //   merchantFullName: merchantObj.merchantFullName,
+  //   merchantPersonalNumber: merchantObj.merchantPersonalNumber,
+  //   businessName: merchantObj.businessName,
+  //   businessAddress: merchantObj.businessAddress,
+  //   city: merchantObj.city,
+  //   province: merchantObj.province,
+  //   postalCode: merchantObj.postalCode,
+  //   businessPhoneNum: merchantObj.businessPhoneNum
     
-  })
+  // })
 
 
 
@@ -163,7 +163,7 @@ export function createNewOrder (userId) {
 
   database.ref('/Orders/').push().set({
     orderNum: '10000',
-    merchantID: userId,
+    merchantId: userId,
     date: 'currentDate',
     standardReady: 'current date + 3 days',
     expressReady: 'current date +1 day'
@@ -188,7 +188,7 @@ function getUser(snapshot) {
   return users.length > 0 ? users[0] : null;
 }
 
-export async function checkPhoneNum (phoneNumber, merchantID){
+export async function checkPhoneNum (phoneNumber, merchantId){
 
     //checks if phone number exits. if it does send obj
 
@@ -217,8 +217,8 @@ export async function checkPhoneNum (phoneNumber, merchantID){
 
 /////// adds user details if user is new, or updates info if necessary/////
 
-export async function addUserDetails (userObj, merchantID){
-  console.log("user obj is" ,userObj, "merchant id is", merchantID,
+export async function addUserDetails (userObj, merchantId){
+  console.log("user obj is" ,userObj, "merchant id is", merchantId,
 "this is userobj.userId", userObj.userId)
 
  
@@ -244,7 +244,7 @@ export async function addUserDetails (userObj, merchantID){
 
 
 
-export function addOrder(orderObj, merchantID, userID){
+export function addOrder(orderObj, merchantId, userID){
 
   // this is to write the data
 var orderID = 10001
