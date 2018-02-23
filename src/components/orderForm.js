@@ -209,7 +209,6 @@ class orderForm extends Component {
     this.props.history.push('/confirmation')
   }
 
-
 render () {
   
   if (this.state.currentPage === null) return (this.orderFormHome())

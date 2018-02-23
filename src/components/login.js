@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { login } from '../requests';
 
 class Login extends Component {
@@ -10,30 +10,26 @@ class Login extends Component {
     }
   }
 
-    submitLogin = async (e) => {
-      e.preventDefault()
-      console.log('clicked login submit button')
-      console.log('login username: ', this.usernameInput.value)
-      console.log('login password: ', this.passwordInput.value)
+  submitLogin = async (e) => {
+    e.preventDefault()
 
-      var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
+    var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
 
-      if(uidFromBack !== undefined){
-        this.setState({userId :uidFromBack })
-        this.props.history.push('/dashboard', {userId: uidFromBack})
-      }
-      else {alert ('username or password incorrect')}
+    if (uidFromBack !== undefined) {
+      this.setState({ userId: uidFromBack, isLoggedIn: true })
+      this.props.history.push('/dashboard', { userId: uidFromBack, isLoggedIn: true })
     }
+    else { alert('username or password is incorrect') }
+  }
 
-  render () {
-    console.log(this.state.userId)
+  render() {
     return (
       <div className='inital-css'>
-          <h3>Log In:</h3>
-          <form>
-        <input ref={r => this.usernameInput = r} type='text' placeholder='Username' />
-        <input ref={r => this.passwordInput = r} type='password' placeholder='Password' />
-        <button onClick={this.submitLogin}>Submit</button>
+        <h3>Log In:</h3>
+        <form>
+          <input ref={r => this.usernameInput = r} type='text' placeholder='Email' />
+          <input ref={r => this.passwordInput = r} type='password' placeholder='Password' />
+          <button onClick={this.submitLogin}>Submit</button>
         </form>
         <div>or <Link to='/signup'>Sign Up</Link>
         </div>

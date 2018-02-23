@@ -9,15 +9,13 @@ import orderForm from './components/orderForm.js'
 import dashboard from './components/dashboard.js'
 import confirmation from './components/confirmation.js'
 
-import { signUp, getUsers, login} from './requests';
+import { signUp, getUsers, login} from './requests'
 
 // these are the imported functions to talk to the backend
 // import './requests';
 
 
 class App extends Component {
-  
-  
   // signUp = () => {
   //   signup(this.email.value, this.username.value, this.password.value)
 
