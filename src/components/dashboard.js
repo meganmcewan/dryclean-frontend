@@ -113,9 +113,9 @@ class Dashboard extends Component {
   }
 
   render() {
-    if (this.props.location.state === undefined){
-      return <Redirect to='/'></Redirect>
-    }
+    // if (this.props.location.state.merchantId == undefined){
+    //   return <Redirect to='/'></Redirect>
+    // }
     return (
       <div className='inital-css'>
       {/* <NavBar/> */}

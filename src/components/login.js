@@ -15,20 +15,20 @@ class Login extends Component {
     e.preventDefault()
 
     var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
-    
+
     if (uidFromBack !== undefined) {
       this.setState({ merchantID: uidFromBack.merchantID, isLoggedIn: true })
       this.props.history.push('/dashboard', { merchantID: uidFromBack.merchantID, isLoggedIn: true })
     }
-   
+
   }
 
   render() {
     return (
-      <div className='loginWrapper'>      
-      <div className='inital-css'>
+      <div className='loginWrapper'>
+        <div>
           <h3>Log In:</h3>
-          <form>
+          <form className='form'>
             <div>
               <input ref={r => this.usernameInput = r} type='text' placeholder='Email' />
             </div>
