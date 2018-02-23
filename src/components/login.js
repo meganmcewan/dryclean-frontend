@@ -10,6 +10,7 @@ class Login extends Component {
     }
   }
 
+  // SUBMITS & CHECKS LOGIN INFORMATION WITH BACKEND  ---------------------
   submitLogin = async (e) => {
     e.preventDefault()
 
@@ -24,14 +25,19 @@ class Login extends Component {
 
   render() {
     return (
+      <div className='loginWrapper'>      
       <div className='inital-css'>
-        <h3>Log In:</h3>
-        <form>
-          <input ref={r => this.usernameInput = r} type='text' placeholder='Email' />
-          <input ref={r => this.passwordInput = r} type='password' placeholder='Password' />
-          <button onClick={this.submitLogin}>Submit</button>
-        </form>
-        <div>or <Link to='/signup'>Sign Up</Link>
+          <h3>Log In:</h3>
+          <form>
+            <div>
+              <input ref={r => this.usernameInput = r} type='text' placeholder='Email' />
+            </div>
+            <div>
+              <input ref={r => this.passwordInput = r} type='password' placeholder='Password' />
+            </div>
+            <button className='ctaButton' onClick={this.submitLogin}>Submit</button>
+          </form>
+          <p>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
         </div>
       </div>
     )
@@ -39,22 +45,3 @@ class Login extends Component {
 }
 
 export default Login
-
-
-
-
-
-//   render () {
-//     console.log(this.state.userId)
-//     return (
-//       <div className='inital-css'>
-//           <h3>Log In:</h3>
-//         <input ref={ref => this.email = ref} type='text' placeholder='email' />
-//         <input ref={ref => this.password = ref} type='password' placeholder='Password' />
-//         <button onClick={this.submitLogin}>Submit</button>
-//         <div>or <Link to='/signup'>Sign Up</Link>
-//         </div>
-//       </div>
-//     )
-//   }
-// }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { createNewOrder } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
-// import { Redirect } from 'react-router'
-
+import { Redirect } from 'react-router'
+// import NavBar from './nav.js'
 
 class Dashboard extends Component {
   constructor() {
@@ -15,20 +15,15 @@ class Dashboard extends Component {
     }
   }
 
-//------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
-
-
-
+  //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
-    
-    console.log('new order button pressed')
     this.props.history.push('/orderform')
-    var currentMerchant =  createNewOrder (/*this.props.location.state.userId*/ '33332222')
+    var currentMerchant = createNewOrder(/*this.props.location.state.userId*/ '33332222')
     console.log("this is current merchant from back", currentMerchant)
     // this.props.history.push('/orderform', {userId: this.props.location.state})
   }
 
- //------- FUNCTIONS THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
+  //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
   openOrders = () => {
     return (
       <div>
@@ -40,7 +35,6 @@ class Dashboard extends Component {
           <p>Total</p>
         </div>
 
-
         <div className='order-listing'>
           <div className='flex'>
             <p>#1234</p>
@@ -50,36 +44,35 @@ class Dashboard extends Component {
           </div>
         </div>
       </div>
-
     )
   }
 
   pastDueOrders = () => {
-    return(
-    <div>
-      <h3>Past Due Orders</h3>
-      <div className='flex'>
-        <p>Order</p>
-        <p>Items</p>
-        <p>Ready</p>
-        <p>Total</p>
-      </div>
-
-
-      <div className='order-listing'>
+    return (
+      <div>
+        <h3>Past Due Orders</h3>
         <div className='flex'>
-          <p>#24343</p>
-          <p>2</p>
-          <p>01/13/18 12:00PM</p>
-          <p>$8.00</p>
+          <p>Order</p>
+          <p>Items</p>
+          <p>Ready</p>
+          <p>Total</p>
+        </div>
+
+
+        <div className='order-listing'>
+          <div className='flex'>
+            <p>#24343</p>
+            <p>2</p>
+            <p>01/13/18 12:00PM</p>
+            <p>$8.00</p>
+          </div>
         </div>
       </div>
-    </div>
     )
   }
 
   completedOrders = () => {
-    return(<div>
+    return (<div>
       <h3>Completed Orders</h3>
       <div className='flex'>
         <p>Order</p>
@@ -101,7 +94,7 @@ class Dashboard extends Component {
     )
   }
 
-//------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
+  //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
   showOpen = () => {
     this.setState({ dashboardOrders: 'OPEN_ORDERS' })
   }
@@ -113,19 +106,19 @@ class Dashboard extends Component {
   showCompleted = () => {
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
   }
-  componentWillMount () {
-    console.log('user id log', this.props.location.state.userId)
 
-    //state now contains userID that was passed from the back 
+  componentWillMount() {
+    console.log('user id:', this.props.location.state)
+  //   console.log('props state log: ', this.props.location.state)
   }
 
-componentWillMount(){
-  console.log('user id log', this.props.location.state)
-}
-
   render() {
+    if (this.props.location.state === undefined){
+      return <Redirect to='/'></Redirect>
+    }
     return (
       <div className='inital-css'>
+      {/* <NavBar/> */}
         <h3>Order Dashboard</h3>
         <input type='text' placeholder='Search' />
         <button>Submit</button>
@@ -137,9 +130,9 @@ componentWillMount(){
         </div>
 
         <div>{this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
-            : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
+          : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
             : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-            : null }
+              : null}
         </div>
 
         <button onClick={this.createNewOrder}>NEW ORDER</button>

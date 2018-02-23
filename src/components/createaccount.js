@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { registerMerchant } from '../requests.js'
+import { Redirect } from 'react-router'
 
 class CreateAccount extends Component {
     constructor() {
@@ -6,48 +8,26 @@ class CreateAccount extends Component {
         this.state = {
             accountSetupForm: 'PERSONAL_INFO',
             merchantSubmittedInformation: {
+                merchantId: undefined,
                 merchantFullName: '',
                 merchantPersonalNumber: '',
-                buisnessName: '',
-                buisnessNumber: '',
-                buisnessAddress: '',
+                businessName: '',
+                businessPhoneNum: '',
+                businessAddress: '',
                 city: '',
                 province: '',
                 postalCode: ''
             },
-            // prices: {
-            //     standard: {
-            //         trousers: 0,
-            //         suit: 0,
-            //         overcoat: 0,
-            //         ladiesCoat: 0,
-            //         dress: 0,
-            //         skirt: 0,
-            //         jacket: 0,
-            //         blouse: 0,
-            //         tie: 0
-            //     },
-            //     express: {
-            //         trousers: 0,
-            //         suit: 0,
-            //         overcoat: 0,
-            //         ladiesCoat: 0,
-            //         dress: 0,
-            //         skirt: 0,
-            //         jacket: 0,
-            //         blouse: 0,
-            //         tie: 0
-            //     }
-            // }
         }
     }
 
-    // 1/3  MERCHANT PERSONAL INFO  ---------------------
+// STEP 1/3  MERCHANT PERSONAL INFO  ---------------------
     submitPersonalInfoForm = (e) => {
         e.preventDefault()
         this.setState({
-            accountSetupForm: 'BUISNESS_INFO',
+            accountSetupForm: 'BUSINESS_INFO',
             merchantSubmittedInformation: {
+                merchantId: this.props.location.state.userId.userId,
                 merchantFullName: this.merchantFullName.value,
                 merchantPersonalNumber: this.merchantPersonalNumber.value
             }
@@ -70,16 +50,18 @@ class CreateAccount extends Component {
         )
     }
 
-    // 2/3  MERCHANT BUISNESS INFO  ---------------------
-    submitBuisnessInfoForm = () => {
+
+// STEP 2/3  MERCHANT BUSINESS INFO  ---------------------
+    submitBusinessInfoForm = () => {
         this.setState({
             accountSetupForm: 'PRICE_INFO',
             merchantSubmittedInformation: {
+                merchantId: this.props.location.state.userId.userId,
                 merchantFullName: this.state.merchantSubmittedInformation.merchantFullName,
                 merchantPersonalNumber: this.state.merchantSubmittedInformation.merchantPersonalNumber,
-                buisnessName: this.buisnessName.value,
-                buisnessNumber: this.buisnessNumber.value,
-                buisnessAddress: this.buisnessAddress.value,
+                businessName: this.businessName.value,
+                businessPhoneNum: this.businessPhoneNum.value,
+                businessAddress: this.businessAddress.value,
                 city: this.city.value,
                 province: this.province.value,
                 postalCode: this.postalCode.value,
@@ -87,25 +69,26 @@ class CreateAccount extends Component {
         })
     }
 
-    buisnessInfoForm = () => {
+    businessInfoForm = () => {
         return (
             <div className='inital-css'>
                 <h3>Merchant Account Setup:</h3>
                 <div>
-                    <p>2/3 - Buisness Account Info:</p>
-                    <input ref={r => this.buisnessName = r} placeholder='Buisness Name' />
-                    <input ref={r => this.buisnessNumber = r} placeholder='Buisness Phone #' />
-                    <input ref={r => this.buisnessAddress = r} placeholder='Buisness Address' />
+                    <p>2/3 - Business Account Info:</p>
+                    <input ref={r => this.businessName = r} placeholder='Business Name' />
+                    <input ref={r => this.businessPhoneNum = r} placeholder='Business Phone #' />
+                    <input ref={r => this.businessAddress = r} placeholder='Business Address' />
                     <input ref={r => this.city = r} placeholder='City' />
                     <input ref={r => this.province = r} placeholder='Province / State' />
                     <input ref={r => this.postalCode = r} placeholder='Postal / Zip Code' />
-                    <button onClick={this.submitBuisnessInfoForm}>Next</button>
+                    <button onClick={this.submitBusinessInfoForm}>Next</button>
                 </div>
             </div>
         )
     }
 
-    // 3/3  MERCHANT SERVICES / PRICE INFO  ---------------------
+
+// STEP 3/3  MERCHANT SERVICES / PRICE INFO  ---------------------
     priceListForm = () => {
         return (
             <div className='inital-css'>
@@ -115,7 +98,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Trousers </p>
                         <div>
-                            <input ref={r => this.trousersStandard = r} placeholder='Standard' />
+                            <input ref={r => this.trousersRegular = r} placeholder='Regular' />
                             <input ref={r => this.trousersExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -125,7 +108,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Suit </p>
                         <div>
-                            <input type='number' ref={r => this.suitStandard = r} placeholder='Standard' />
+                            <input type='number' ref={r => this.suitRegular = r} placeholder='Regular' />
                             <input type='number' ref={r => this.suitExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -135,7 +118,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Overcoat </p>
                         <div>
-                            <input type='number' ref={r => this.overcoatStandard = r} placeholder='Standard' />
+                            <input type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' />
                             <input type='number' ref={r => this.overcoatExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -145,8 +128,8 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Ladies Suit </p>
                         <div>
-                            <input type='number' ref={r => this.ladySuitStandard = r} placeholder='Standard' defaultValue='0' />
-                            <input type='number' ref={r => this.ladySuitExpress = r} placeholder='Express' />
+                            <input type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' />
+                            <input type='number' ref={r => this.ladiesSuitExpress = r} placeholder='Express' />
                         </div>
                     </div>
                 </div>
@@ -155,7 +138,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Dress </p>
                         <div>
-                            <input type='number' ref={r => this.dressStandard = r} placeholder='Standard' />
+                            <input type='number' ref={r => this.dressRegular = r} placeholder='Regular' />
                             <input type='number' ref={r => this.dressExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -165,7 +148,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Skirt </p>
                         <div>
-                            <input type='number' ref={r => this.skirtStandard = r} placeholder='Standard' />
+                            <input type='number' ref={r => this.skirtRegular = r} placeholder='Regular' />
                             <input type='number' ref={r => this.skirtExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -175,7 +158,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Jacket </p>
                         <div>
-                            <input type='number' ref={r => this.jacketStandard = r} placeholder='Standard' />
+                            <input type='number' ref={r => this.jacketRegular = r} placeholder='Regular' />
                             <input type='number' ref={r => this.jacketExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -185,7 +168,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Blouse </p>
                         <div>
-                            <input type='number' ref={r => this.blouseStandard = r} placeholder='Standard' />
+                            <input type='number' ref={r => this.blouseRegular = r} placeholder='Regular' />
                             <input type='number' ref={r => this.blouseExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -195,7 +178,7 @@ class CreateAccount extends Component {
                     <div className='flex'>
                         <p>Tie </p>
                         <div>
-                            <input type='number' ref={r => this.tieStandard = r} placeholder='Standard' />
+                            <input type='number' ref={r => this.tieRegular = r} placeholder='Regular' />
                             <input type='number' ref={r => this.tieExpress = r} placeholder='Express' />
                         </div>
                     </div>
@@ -205,26 +188,26 @@ class CreateAccount extends Component {
         )
     }
 
+
+// SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
     createNewAccount = () => {
-        // console.log('create account')
-        // console.log(this.state)
         var prices = {
-            standard: {
-                trousers: + this.trousersStandard.value,
-                suit: + this.suitStandard.value,
-                overcoat: + this.overcoatStandard.value,
-                ladiesCoat: + this.ladySuitStandard.value,
-                dress: + this.dressStandard.value,
-                skirt: + this.skirtStandard.value,
-                jacket: + this.jacketStandard.value,
-                blouse: + this.blouseStandard.value,
-                tie: + this.tieStandard.value
+            regular: {
+                trousers: + this.trousersRegular.value,
+                suit: + this.suitRegular.value,
+                overcoat: + this.overcoatRegular.value,
+                ladiesSuit: + this.ladiesSuitRegular.value,
+                dress: + this.dressRegular.value,
+                skirt: + this.skirtRegular.value,
+                jacket: + this.jacketRegular.value,
+                blouse: + this.blouseRegular.value,
+                tie: + this.tieRegular.value
             },
             express: {
                 trousers: + this.trousersExpress.value,
                 suit: + this.suitExpress.value,
                 overcoat: + this.overcoatExpress.value,
-                ladiesCoat: + this.ladySuitExpress.value,
+                ladiesSuit: + this.ladiesSuitExpress.value,
                 dress: + this.dressExpress.value,
                 skirt: + this.skirtExpress.value,
                 jacket: + this.jacketExpress.value,
@@ -234,35 +217,26 @@ class CreateAccount extends Component {
         }
 
         this.setState({ prices: prices },
-            () =>     this.props.history.push('/dashboard', {
+            () => this.props.history.push('/dashboard', {
                 userId: this.props.location.state,
                 merchantSubmittedInformation: this.state.merchantSubmittedInformation,
                 prices: this.state.prices
             })
         )
 
-        // console.log('input value concole log',
-        //     this.trousersStandard.value,
-        //     this.suitStandard.value,
-        //     this.overcoatStandard.value,
-        //     this.ladySuitStandard.value,
-        //     this.dressStandard.value,
-        //     this.skirtStandard.value,
-        //     this.jacketStandard.value,
-        //     this.blouseStandard.value,
-        //     this.tieStandard.value)
-        // console.log('state console log', this.state)
-    
+        registerMerchant (this.state.merchantSubmittedInformation, prices)
     }
 
     componentWillMount() {
-        // console.log('create-account-page userID:', this.props.location.state)
-        this.setState({ userId: this.props.location.state })
+        // console.log('merchant ID: ', this.props.location.state.userId)
+        // console.log('props log: ', this.props.location.state)
+        this.setState({ userId: this.props.location.state.userId }, () => console.log('user ID', this.state.userId))
     }
 
     render() {
+        if(this.state.userId === undefined) { return <Redirect to='/signup'/>}
         if (this.state.accountSetupForm === 'PERSONAL_INFO') { return this.personalInfoForm() }
-        if (this.state.accountSetupForm === 'BUISNESS_INFO') { return this.buisnessInfoForm() }
+        if (this.state.accountSetupForm === 'BUSINESS_INFO') { return this.businessInfoForm() }
         if (this.state.accountSetupForm === 'PRICE_INFO') { return this.priceListForm() }
     }
 }
