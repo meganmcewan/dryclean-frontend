@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { createNewOrder , checkPhoneNum } from '../requests';
 
 class orderForm extends Component {
   constructor () {
@@ -42,7 +43,26 @@ class orderForm extends Component {
 
   goToOrderPageOne = () => {
     console.log('going to page 1')
-    this.setState(st => ({ currentPage: 'orderFormPageOne' }))
+
+    /// here you will pass the phoneNumber from the inputs and Merchant ID from state tO this function so that it runs
+
+    checkPhoneNum('5554443333', '33332222')
+    .then( response => {
+      console.log('res', response)
+      if(response){
+        this.setState(st => ({ currentPage: 'orderFormPageOne' }))
+      }
+      else{
+        //show some error message to user
+        
+      }
+    })
+    .catch( err =>{
+      console.log('err', err)
+
+
+    })
+
   
   }
 

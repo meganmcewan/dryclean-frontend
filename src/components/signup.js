@@ -30,7 +30,7 @@ class Signup extends Component {
         console.log(uidFromBack)
         if(uidFromBack !== undefined){
             this.setState({userId :uidFromBack })
-            this.props.history.push('/dashboard')
+            this.props.history.push('/createaccount')
           }
         }
     }

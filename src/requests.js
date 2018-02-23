@@ -25,7 +25,7 @@ export function registerMerchant (merchantObj, priceObj){
     database.ref('/Merchants/' + userID).set({ 
       userID: userID,
       businessAddress: merchantObj.businessAddress,
-      city: merchantObj.city,
+      city: merchantObj.city, 
       province: merchantObj.province,
       postalCode: merchantObj.postalCode,
       businessPhoneNum: merchantObj.businessPhoneNum
@@ -72,7 +72,6 @@ export function registerPrices (priceObj){
 
 }
 
-
 export function registerUser(email, userType, password ) {
   return firebase.auth().createUserWithEmailAndPassword(email, password)
   .then(firebaseUser => {
@@ -105,9 +104,10 @@ export function login (email, password){
     .then (firebaseuser => {
        
         return firebaseuser.uid  })
-      .catch(function(error) {
 
-        // Handle Errors here.
+         // Handle Errors here.
+
+      .catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorMessage)
@@ -117,8 +117,7 @@ export function login (email, password){
            
         }
     
-       
-        // ...
+
       });
       
 }
@@ -136,30 +135,106 @@ export function signout(){
 
 ///////// order related functions ///////
 
+// this order creates a new orderID, generates a readable order number
+// send the merchant ID and details, the current date and generates 
+// standard and express delivery dates
 
-export function addOrder(orderID, userID, info1, info2){
+export function createNewOrder (userId) {
+  console.log('create new order running on back')
 
-  // this is to write the data
-
-  database.ref('/Orders/' + orderID).set({
-    orderID: orderID,
-    userID: userID,
-    info1: "input info1",
-    info2: "input info2",
-    orderStatus: "open",
-    orderConf: Math.floor((Math.random() * 100000) + 1)
+  database.ref('Merchants/' + userId + '/Orders/').push().set({
+     orderNum: '10001',
 
   })
 
-  database.ref('Merchants/' +userID + '/Orders/').push().set({
-    allOrders: orderID
+  database.ref('/Orders/').push().set({
+    orderNum: '10000',
+    merchantID: userId,
+    date: 'currentDate',
+    standardReady: 'current date + 3 days',
+    expressReady: 'current date +1 day'
+
   })
 
-  //this is to read the data 
-
-  database.ref('/Orders/'+ orderID).once('value')
-  // .then(snapshot => console.log(snapshot.val()))
+  database.ref('/Merchants/' + userId).once('value')
+  .then(snapshot => { console.log('this is snapshot',snapshot.val())
+    return snapshot.val()})
+  
+ 
 }
+
+// this function checks to see if the phone number exists. if exits will return
+// user object, if not will create a new user with this number
+
+
+export async function checkPhoneNum (phoneNumber, merchantID){
+
+    //checks if phone number exits. if it does send obj
+    var users= [];
+    var orderByChild = await database.ref('/Users/')
+    .orderByChild('phoneNumber')
+    .equalTo(phoneNumber)
+    .once('value')
+    .then(snapshot => {
+      snapshot.forEach(item => {
+        users.push({value:item.val(), key: item.key})
+        
+      })
+    })
+
+    if (!users.length){
+        var newUser = await database.ref('/Users/').push();
+        await newUser.set({
+           phoneNumber: phoneNumber,
+       })
+      
+      //  console.log('new user just added', newUser.key)
+       return {status: 1, msg: "User added!", key: newUser.key, phoneNumber: phoneNumber}
+     }
+     else{
+       //
+       return {status: 0, msg: "User found!", key: users[0].key, phoneNumber: users[0].value.phoneNumber}
+     }
+  
+    // database.ref('/Users/').once('value')
+    // .then(snapshot => {console.log('this is snapshot of users', snapshot.val())
+    // var users = snapshot.val();
+
+    // })
+
+}
+
+/////// adds order details to order created previously above /////
+
+
+
+
+
+
+
+// export function addOrder(orderObj){
+
+//   // this is to write the data
+
+//   database.ref('/Orders/' + orderID).set({
+//     orderID: orderID,
+//     userID: userID,
+//     info1: "input info1",
+//     info2: "input info2",
+//     orderStatus: "open",
+//     orderConf: Math.floor((Math.random() * 100000) + 1)
+
+//   })
+
+//   database.ref('Merchants/' +userID + '/Orders/').push().set({
+//     allOrders: orderID
+//   })
+
+//   //this is to read the data 
+
+//   database.ref('/Orders/'+ orderID).once('value')
+//   // .then(snapshot => console.log(snapshot.val()))
+// }
 
   export function ordersDashboard (userID){
 
