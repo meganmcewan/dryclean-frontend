@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+// import Login from './login.js'
+// import { withRouter } from 'react-router-dom'
+// import { Redirect } from 'react-router'
+
 
 class Dashboard extends Component {
   constructor() {
     super()
     this.state = {
-      dashboardOrders: 'OPEN_ORDERS'
+      dashboardOrders: 'OPEN_ORDERS',
+      isLoggedIn: false
     }
   }
 
 //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
-    console.log('new order button pressed')
-    this.props.history.push('/orderform')
+    this.props.history.push('/orderform', {userId: this.props.location.state})
   }
 
  //------- FUNCTIONS THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
@@ -42,7 +45,8 @@ class Dashboard extends Component {
   }
 
   pastDueOrders = () => {
-    return(<div>
+    return(
+    <div>
       <h3>Past Due Orders</h3>
       <div className='flex'>
         <p>Order</p>
@@ -97,7 +101,6 @@ class Dashboard extends Component {
   }
 
   showCompleted = () => {
-    console.log('completed order button pressed')
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
   }
 
@@ -129,5 +132,6 @@ componentWillMount(){
     )
   }
 }
+
 
 export default Dashboard

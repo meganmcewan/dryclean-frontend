@@ -103,7 +103,7 @@ export function registerUser(email, userType, password ) {
 export function login (email, password){
     return firebase.auth().signInWithEmailAndPassword(email, password)
     .then (firebaseuser => {
-        console.log(firebaseuser.uid)
+       
         return firebaseuser.uid  })
       .catch(function(error) {
 
@@ -114,6 +114,7 @@ export function login (email, password){
         console.log(errorCode)
         if(errorCode == 'auth/user-not-found' || errorCode == 'auth/wrong-password'){
            alert ('username or password incorrect')
+           
         }
     
        
