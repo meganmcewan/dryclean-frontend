@@ -1,18 +1,31 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { createNewOrder } from '../requests';
+// import Login from './login.js'
+// import { withRouter } from 'react-router-dom'
+// import { Redirect } from 'react-router'
+
 
 class Dashboard extends Component {
   constructor() {
     super()
     this.state = {
-      dashboardOrders: 'OPEN_ORDERS'
+      dashboardOrders: 'OPEN_ORDERS',
+      isLoggedIn: false
     }
   }
 
-//------- BUTTON THAT TAKES YOU TO A 'NEW ORDER' FORM
+//------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
+
+
+
   createNewOrder = () => {
+    
     console.log('new order button pressed')
     this.props.history.push('/orderform')
+    var currentMerchant =  createNewOrder (/*this.props.location.state.userId*/ '33332222')
+    console.log("this is current merchant from back", currentMerchant)
+    // this.props.history.push('/orderform', {userId: this.props.location.state})
   }
 
  //------- FUNCTIONS THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
@@ -42,7 +55,8 @@ class Dashboard extends Component {
   }
 
   pastDueOrders = () => {
-    return(<div>
+    return(
+    <div>
       <h3>Past Due Orders</h3>
       <div className='flex'>
         <p>Order</p>
@@ -97,9 +111,17 @@ class Dashboard extends Component {
   }
 
   showCompleted = () => {
-    console.log('completed order button pressed')
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
   }
+  componentWillMount () {
+    console.log('user id log', this.props.location.state.userId)
+
+    //state now contains userID that was passed from the back 
+  }
+
+componentWillMount(){
+  console.log('user id log', this.props.location.state)
+}
 
   render() {
     return (
@@ -125,5 +147,6 @@ class Dashboard extends Component {
     )
   }
 }
+
 
 export default Dashboard
