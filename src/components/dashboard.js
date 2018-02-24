@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
@@ -101,15 +101,37 @@ class Dashboard extends Component {
 
   //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
   showOpen = () => {
+    
+    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
+    getOpenOrders(merchantObj)
+    .then (x => console.log(x))
+
+    ///x contains the object with the array you need to display
+
     this.setState({ dashboardOrders: 'OPEN_ORDERS' })
   }
 
-  showPastDue = () => {
+ showPastDue = () => {
+    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
+    var pastOrders = getPastDueOrders(merchantObj)
+    .then (x => console.log(x));
+
+    ///x contains the object with the array you need to display
+
     this.setState({ dashboardOrders: 'PAST_DUE' })
   }
 
   showCompleted = () => {
+
+    
+    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
+    getClosedOrders (merchantObj)
+    .then (x => console.log(x));
+
+    ///x contains the object with the array you need to display
+    
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
+
   }
 
   componentWillMount() {
