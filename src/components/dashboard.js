@@ -11,17 +11,20 @@ class Dashboard extends Component {
     super()
     this.state = {
       dashboardOrders: 'OPEN_ORDERS',
-      isLoggedIn: false
+      isLoggedIn: false,
+      openOrders: [],
+      pastDueOrders: [],
+      completedOrders: []
     }
   }
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
     this.props.history.push('/orderform')
-    var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb",'stOzHE8aelahFyvNxhbP9v1sY7G2')
-    
-    .then(x => console.log('this is current mertchant in then', x))
-    
+    var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", 'stOzHE8aelahFyvNxhbP9v1sY7G2')
+
+      .then(x => console.log('this is current mertchant in then', x))
+
     console.log("this is current merchant from back", currentMerchant)
     // this.props.history.push('/orderform', {userId: this.props.location.state})
   }
@@ -99,76 +102,81 @@ class Dashboard extends Component {
 
   //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
   showOpen = () => {
-    
-    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
+
+    var merchantObj = { merchantId: 'ZJMpfNdnzAd4LCwJyVclUI9BuK82' }
     getOpenOrders(merchantObj)
-    .then (x => console.log(x))
+      .then(x => {console.log(x)
+      var keys = Object.keys(x)
 
-    ///x contains the object with the array you need to display
+      var ordersOpen = keys.map(element => {
+          return x[element];
+      })
+      this.setState({ openOrders: ordersOpen })
+    })
 
-    this.setState({ dashboardOrders: 'OPEN_ORDERS' })
-  }
+        ///x contains the object with the array you need to display
+
+        this.setState({ dashboardOrders: 'OPEN_ORDERS' })
+      }
 
  showPastDue = () => {
-    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
-    var pastOrders = getPastDueOrders(merchantObj)
-    .then (x => console.log(x));
+        var merchantObj = { merchantId: 'ZJMpfNdnzAd4LCwJyVclUI9BuK82' }
+        var pastOrders = getPastDueOrders(merchantObj)
+          .then(x => console.log(x));
 
-    ///x contains the object with the array you need to display
+        ///x contains the object with the array you need to display
 
-    this.setState({ dashboardOrders: 'PAST_DUE' })
-  }
+        this.setState({ dashboardOrders: 'PAST_DUE' })
+      }
 
   showCompleted = () => {
 
-    
-    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
-    getClosedOrders (merchantObj)
-    .then (x => console.log(x));
+        var merchantObj = { merchantId: 'ZJMpfNdnzAd4LCwJyVclUI9BuK82' }
+        getClosedOrders(merchantObj)
+          .then(x => console.log(x));
 
-    ///x contains the object with the array you need to display
-    
-    this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
+        ///x contains the object with the array you need to display
 
-  }
+        this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
+
+      }
 
   componentWillMount() {
-    console.log('user id:', this.props.location.state)
-    // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
-    
-    //   console.log('props state log: ', this.props.location.state)
-  }
+        console.log('user id:', this.props.location.state)
+        // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
+        //   console.log('props state log: ', this.props.location.state)
+      }
 
   render() {
-    // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
-    // if (this.props.location.state.merchantId == undefined){
-    //   return <Redirect to='/login'></Redirect>
-    // }
-    return (
-      <div className='inital-css'>
+        // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
+        // if (this.props.location.state.merchantId == undefined){
+        //   return <Redirect to='/login'></Redirect>
+        // }
+        return(
+      <div className = 'inital-css' >
 
-        <div className='app-nav'>
-          <h3>Dashboard</h3>
-        </div>
-        <input type='text' placeholder='Search' />
-        <button>Submit</button>
+            <div className='app-nav'>
+              <h3>Dashboard</h3>
+            </div>
+            <input type='text' placeholder='Search' />
+            <button>Submit</button>
 
-        <div>
-          <button onClick={this.showOpen}>Open</button>
-          <button onClick={this.showPastDue}>Past Due</button>
-          <button onClick={this.showCompleted}>Completed</button>
-        </div>
+            <div>
+              <button onClick={this.showOpen}>Open</button>
+              <button onClick={this.showPastDue}>Past Due</button>
+              <button onClick={this.showCompleted}>Completed</button>
+            </div>
 
-        <div>{this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
-          : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
-            : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-              : null}
-        </div>
-        <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
+            <div>{this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
+              : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
+                : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
+                  : null}
+            </div>
+            <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
       </div>
     )
-  }
+      }
 }
 
 
-export default Dashboard
+  export default Dashboard
