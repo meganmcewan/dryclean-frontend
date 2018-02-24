@@ -175,7 +175,14 @@ export async function checkPhoneNum (phoneNumber, merchantId){
         phoneNumber: phoneNumber}
       }
       else{
-        return {status: 0, msg: "User found!", userId: user.userId, 
+        return {status: 0, msg: "User found!",
+         userId: user.userId, 
+        
+         clientName: user.value.clientName,
+         clientAddress: user.value.clientAddress,
+         clientCity: user.value.clientCity,
+         clientProvinceState: user.value.clientProvinceState,
+         clientPostalZip: user.value.clientPostalZip,
         phoneNumber: user.value.phoneNumber}
       }
 
@@ -219,18 +226,12 @@ export async function createNewOrder (userId, merchantId) {
     merchantId: merchantId,
     date: 'currentDate',
     standardReady: 'current date + 3 days',
-    expressReady: 'current date +1 day'
+    expressReady: 'current date +1 day',
+    userId: userId,
+    orderStatus: "open"
 
   })
 
-  // database.ref('/Orders/').push().set({
-  //   orderNum: '10000',
-  //   merchantId: merchantId,
-  //   date: 'currentDate',
-  //   standardReady: 'current date + 3 days',
-  //   expressReady: 'current date +1 day'
-
-  // })
 
   var snapshot = await database.ref('/Merchants/' + merchantId )
     .once('value')

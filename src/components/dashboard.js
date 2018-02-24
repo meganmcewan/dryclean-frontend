@@ -17,12 +17,14 @@ class Dashboard extends Component {
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
-    this.props.history.push('/orderform')
-    var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb",'stOzHE8aelahFyvNxhbP9v1sY7G2')
-    
-    .then(x => console.log('this is current mertchant in then', x))
-    
-    console.log("this is current merchant from back", currentMerchant)
+
+
+    this.props.history.push('/orderform',  { merchantId :this.props.location.state.merchantId })
+    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb",this.props.location.state.merchantId)
+
+      // .then(x => console.log('this is current mertchant in then', x))
+
+    // console.log("this is current merchant from back", currentMerchant)
     // this.props.history.push('/orderform', {userId: this.props.location.state})
   }
 
@@ -112,16 +114,16 @@ class Dashboard extends Component {
 
   componentWillMount() {
     console.log('user id:', this.props.location.state)
-  //   console.log('props state log: ', this.props.location.state)
+    //   console.log('props state log: ', this.props.location.state)
   }
 
   render() {
-    if (this.props.location.state === undefined){
+    if (this.props.location.state === undefined) {
       return <Redirect to='/'></Redirect>
     }
     return (
       <div className='inital-css'>
-      {/* <NavBar/> */}
+        {/* <NavBar/> */}
         <h3>Order Dashboard</h3>
         <input type='text' placeholder='Search' />
         <button>Submit</button>

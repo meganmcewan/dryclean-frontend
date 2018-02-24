@@ -17,8 +17,8 @@ class Login extends Component {
     var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
     
     if (uidFromBack !== undefined) {
-      this.setState({ merchantID: uidFromBack.merchantID, isLoggedIn: true })
-      this.props.history.push('/dashboard', { merchantID: uidFromBack.merchantID, isLoggedIn: true })
+      this.setState({ merchantId: uidFromBack.merchantId, isLoggedIn: true })
+      this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
     }
    
   }
