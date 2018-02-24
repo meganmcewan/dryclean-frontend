@@ -18,7 +18,7 @@ class Signup extends Component {
             this.setState({ formError: 'Passwords must match' })
         } else {
             var uidFromBack = await registerUser(this.user.value, this.pass.value)
-           
+
             if (uidFromBack !== undefined) {
                 this.setState({ merchantId: uidFromBack.merchantId })
                 this.props.history.push('/createaccount', {merchantId: uidFromBack.merchantId})
@@ -28,7 +28,6 @@ class Signup extends Component {
 
 //CHECKS THE 'RADIO' SELECT BUTTONS IF MERCHANT OR CUSTOMER ACCOUNT IS SELECTED
     handleOnChange = (event) => {
-        console.log('merchant type selected:', event.target.value)
         this.setState({userType: event.target.value})
     }
 

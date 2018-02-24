@@ -13,15 +13,21 @@ class Login extends Component {
   // SUBMITS & CHECKS LOGIN INFORMATION WITH BACKEND  ---------------------
   submitLogin = async (e) => {
     e.preventDefault()
+    
 
     var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
 
+    
     if (uidFromBack !== undefined) {
-      this.setState({ merchantID: uidFromBack.merchantID, isLoggedIn: true })
-      this.props.history.push('/dashboard', { merchantID: uidFromBack.merchantID, isLoggedIn: true })
+      this.setState({ merchantId: uidFromBack.merchantId, isLoggedIn: true })
+      // console.log('uid', uidFromBack)
+      // console.log('login id?????', this.state)
+      
+      this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
     }
 
   }
+
 
   render() {
     return (

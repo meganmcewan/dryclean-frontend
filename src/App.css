@@ -33,6 +33,7 @@ body{
 
 input{
   height: 30px;
+  width: 160px;
   margin-top: 5px;
   margin-bottom: 5px;
   padding: 5px;
@@ -43,6 +44,7 @@ input{
   /* display: block; */
   /* border-radius: 5px; */
 }
+
 
 button{
   background-color: rgb(0, 0, 0);
@@ -72,7 +74,8 @@ Link{
 .flex{
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  text-align: left;
 }
 
 .order-listing{
@@ -119,6 +122,7 @@ Link{
   background-color: rgb(63, 63, 63);
   color: white;
   padding: 20px;
+  text-align: center;
 }
 
 .app-nav h3{
@@ -148,4 +152,39 @@ Link{
   margin-left: auto;
   margin-right: auto;
   width: 300px;
+}
+
+
+/* CREATE ACCOUNT FORM STYLES  -----------------  */
+
+.item-name{
+  margin-left: 10%;
+}
+
+.price-wrapper{
+  margin-right: 10%;
+}
+
+.price-input{
+  width: 60px;
+  margin-left: 5px;
+}
+
+.item-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+.settings-wrapper{
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+
+input[type=radio]{
+  width: 20px;
 }

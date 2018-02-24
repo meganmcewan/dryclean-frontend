@@ -112,12 +112,15 @@ class Dashboard extends Component {
 
   componentWillMount() {
     console.log('user id:', this.props.location.state)
+    // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
+    
     //   console.log('props state log: ', this.props.location.state)
   }
 
   render() {
+    // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
     // if (this.props.location.state.merchantId == undefined){
-    //   return <Redirect to='/'></Redirect>
+    //   return <Redirect to='/login'></Redirect>
     // }
     return (
       <div className='inital-css'>

@@ -42,8 +42,12 @@ class CreateAccount extends Component {
                 <div>
                     <p> 1/3 - Personal Info:</p>
                     <form>
-                        <input ref={r => this.merchantFullName = r} placeholder='Full Name' />
-                        <input ref={r => this.merchantPersonalNumber = r} placeholder='Phone Number' />
+                        <div>
+                            <input ref={r => this.merchantFullName = r} placeholder='Full Name' />
+                        </div>
+                        <div>
+                            <input ref={r => this.merchantPersonalNumber = r} placeholder='Phone Number' />
+                        </div>
                         <button onClick={this.submitPersonalInfoForm}>Next</button>
                     </form>
                 </div>
@@ -73,7 +77,9 @@ class CreateAccount extends Component {
     businessInfoForm = () => {
         return (
             <div className='inital-css'>
-                <h3>Account Setup:</h3>
+                <div className='app-nav'>
+                    <h3>Account Setup:</h3>
+                </div>
                 <div>
                     <p>2/3 - Business Account Info:</p>
                     <input ref={r => this.businessName = r} placeholder='Business Name' />
@@ -92,105 +98,109 @@ class CreateAccount extends Component {
     // STEP 3/3  MERCHANT SERVICES / PRICE INFO  ---------------------
     priceListForm = () => {
         return (
-            <div className='inital-css'>
-                <h3>Account Setup:</h3>
-                <div>
-                    <p>3/3 - Price List Setup:</p>
-                    <div className='flex'>
-                        <p>Trousers </p>
-                        <div>
-                            <input ref={r => this.trousersRegular = r} placeholder='Regular' />
-                            <input ref={r => this.trousersExpress = r} placeholder='Express' />
+            <div>
+                <div className='app-nav'>
+                    <h3>Account Setup:</h3>
+                </div>
+                <div className='settings-wrapper'>
+                    <div>
+                        <p>3/3 - Price List Setup:</p>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Trousers </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' ref={r => this.trousersRegular = r} placeholder='Regular' />
+                                <input className='price-input' ref={r => this.trousersExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Suit </p>
-                        <div>
-                            <input type='number' ref={r => this.suitRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.suitExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Suit </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.suitRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.suitExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Overcoat </p>
-                        <div>
-                            <input type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.overcoatExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Overcoat </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.overcoatExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Ladies Suit </p>
-                        <div>
-                            <input type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.ladiesSuitExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Ladies Suit </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.ladiesSuitExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Dress </p>
-                        <div>
-                            <input type='number' ref={r => this.dressRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.dressExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Dress </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.dressRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.dressExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Skirt </p>
-                        <div>
-                            <input type='number' ref={r => this.skirtRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.skirtExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Skirt </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.skirtRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.skirtExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Jacket </p>
-                        <div>
-                            <input type='number' ref={r => this.jacketRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.jacketExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Jacket </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.jacketRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.jacketExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Blouse </p>
-                        <div>
-                            <input type='number' ref={r => this.blouseRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.blouseExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Blouse </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.blouseExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div>
-                    <div className='flex'>
-                        <p>Tie </p>
-                        <div>
-                            <input type='number' ref={r => this.tieRegular = r} placeholder='Regular' />
-                            <input type='number' ref={r => this.tieExpress = r} placeholder='Express' />
+                    <div>
+                        <div className='item-wrapper'>
+                            <div className='item-name'>Tie </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.tieRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.tieExpress = r} placeholder='Express' />
+                            </div>
                         </div>
                     </div>
+                    <button onClick={this.createNewAccount}>Create Account</button>
                 </div>
-                <button onClick={this.createNewAccount}>Create Account</button>
             </div>
         )
     }
 
 
-    // SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
+// SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
     createNewAccount = () => {
         var prices = {
             regular: {
@@ -228,13 +238,12 @@ class CreateAccount extends Component {
     }
 
     componentWillMount() {
-        // console.log('merchant ID: ', this.props.location.state.userId)
-        // console.log('props log: ', this.props.location.state)
+        console.log(this.state.merchantId)
         this.setState({ merchantId: this.props.location.state.merchantId }, () => console.log('user ID', this.state.merchantId))
     }
 
     render() {
-        if (this.state.merchantId === undefined) { return <Redirect to='/signup' /> }
+        // if (this.state.merchantId === undefined) { return <Redirect to='/signup' /> }
         if (this.state.accountSetupForm === 'PERSONAL_INFO') { return this.personalInfoForm() }
         if (this.state.accountSetupForm === 'BUSINESS_INFO') { return this.businessInfoForm() }
         if (this.state.accountSetupForm === 'PRICE_INFO') { return this.priceListForm() }
