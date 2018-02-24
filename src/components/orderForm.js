@@ -141,7 +141,7 @@ class orderForm extends Component {
 
     /// here you will pass the phoneNumber from the inputs and Merchant ID from state to this function so that it runs
 
-    checkPhoneNum('5554440000', '33332222')
+    checkPhoneNum('5556669999', '64I1fz0WTxPmPxt1qRSGRpwsNg53')
     .then( response => {
       console.log('res', response)
       ///this conditional will need to change to 1, is set to zero temporarily to pass the page
@@ -155,7 +155,7 @@ class orderForm extends Component {
     .catch( err =>{
       console.log('err', err)
     })
-  }
+  } 
 
   orderFormOne = () => {
     return (
@@ -231,18 +231,22 @@ class orderForm extends Component {
   goToOrderPageTwo = (event) => {
     event.preventDefault()
     console.log('going to page 2')
-    var tempMerchantID = { merchantID:'33332222' }
+
+
+    var tempMerchantId = { merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2' }
     var tempUserObj = {
-      userId: '-L62LTzkGrMBz4KszB4m',
-      phoneNumber: '5554440000',
-      clientName: "added new new?",
-      clientAddress: "888 a new street",
-      city: 'montreal',
-      province: "QC",
-      postalCode: "h2e2s5"
+      clientPostalZip: '12345',
+      clientProvinceState:'qc',
+      clientCity : 'montreal',
+      clientAddress : '1234 street',
+      clientName : 'bobly bob',
+      userId: '-L63lbV5gsOoVOHV6dcb',
+      phoneNumber: '5556669999'
+      // isPickup :
+      // isDelivery : 
 
     }
-    addUserDetails (tempUserObj, tempMerchantID)
+    addUserDetails (tempUserObj, tempMerchantId)
 
 
     
