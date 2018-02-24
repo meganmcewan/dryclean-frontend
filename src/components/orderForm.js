@@ -141,7 +141,7 @@ class orderForm extends Component {
 
     /// here you will pass the phoneNumber from the inputs and Merchant ID from state to this function so that it runs
 
-    checkPhoneNum('5556669999', '64I1fz0WTxPmPxt1qRSGRpwsNg53')
+    checkPhoneNum('55566677777', 'stOzHE8aelahFyvNxhbP9v1sY7G2')
     .then( response => {
       console.log('res', response)
       ///this conditional will need to change to 1, is set to zero temporarily to pass the page

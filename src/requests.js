@@ -215,22 +215,18 @@ export async function createNewOrder (userId, merchantId) {
   console.log('create new order running on back')
 
   var x = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push().set({
-    orderNum: '10000',
+    orderNum: '10005',
     merchantId: merchantId,
+    userId: userId,
     date: 'currentDate',
     standardReady: 'current date + 3 days',
-    expressReady: 'current date +1 day'
+    expressReady: 'current date +1 day',
+    orderDetails: {pants: +1, shirts: +2},
+    orderStatus: 'past due'
+
 
   })
 
-  // database.ref('/Orders/').push().set({
-  //   orderNum: '10000',
-  //   merchantId: merchantId,
-  //   date: 'currentDate',
-  //   standardReady: 'current date + 3 days',
-  //   expressReady: 'current date +1 day'
-
-  // })
 
   var snapshot = await database.ref('/Merchants/' + merchantId )
     .once('value')
@@ -249,35 +245,128 @@ export async function createNewOrder (userId, merchantId) {
 
 
 
-export function addOrder(orderObj, merchantId, userID){
+// export function addOrder(orderObj, merchantId, userID){
 
-  // this is to write the data
-var orderID = 10001
-  database.ref('/Orders/' + orderID).set({
-    orderID: orderID,
-    userID: userID,
-    info1: "input info1",
-    info2: "input info2",
-    orderStatus: "open",
-    orderConf: Math.floor((Math.random() * 100000) + 1)
+//   this is to write the data
+// var orderID = 10001
+//   database.ref('/Orders/' + orderID).set({
+//     orderID: orderID,
+//     userID: userID,
+//     info1: "input info1",
+//     info2: "input info2",
+//     orderStatus: "open",
+//     orderConf: Math.floor((Math.random() * 100000) + 1)
 
+//   })
+
+//   database.ref('Merchants/' +userID + '/Orders/').push().set({
+//     allOrders: orderID
+//   })
+
+//   //this is to read the data 
+
+//   database.ref('/Orders/'+ orderID).once('value')
+//   // .then(snapshot => console.log(snapshot.val()))
+// }
+
+
+
+
+
+////////////////DASHBOARD FUNCTIONS ///////////////////////
+
+
+///////this function gets all of the orders for the requested merchant//////
+
+function makeOrdersArr (snapshot){
+  let users = [];
+  let usersOrders =[];
+  let allOrders=[];
+  let flatOrders =[];
+ 
+  
+  snapshot.forEach (item =>{
+    users.push(item.val())
+  })
+ 
+  users.forEach(user => {usersOrders.push(user.Orders);
   })
 
-  database.ref('Merchants/' +userID + '/Orders/').push().set({
-    allOrders: orderID
+  usersOrders.forEach(ordersObj => {allOrders.push(Object.values(ordersObj))
   })
+  
+  allOrders.forEach(item => {item.forEach(e => flatOrders.push(e))
+  });
 
-  //this is to read the data 
-
-  database.ref('/Orders/'+ orderID).once('value')
-  // .then(snapshot => console.log(snapshot.val()))
+  return flatOrders
+  
+  
 }
 
-export function ordersDashboard (userID) {
-  database.ref('/Orders/').once('value')
-    .then(snapshot => console.log(snapshot.val()))
+
+export async function getOpenOrders (merchantId) {
+
+
+  var snapshot = await  database.ref('/Merchants/'+ merchantId.merchantId + '/Users/') 
+    .once('value')
+
+    let openOrders = [];
+    let merchantOrders =  makeOrdersArr(snapshot)  
+
+    merchantOrders.forEach(order =>{
+      if (order.orderStatus ==="open"){
+        openOrders.push(order)
+      }
+    })
+
+  return {openOrders: openOrders}
+
+
 }
 
-    
+export async function getClosedOrders (merchantId) {
+
+
+  var snapshot = await  database.ref('/Merchants/'+ merchantId.merchantId + '/Users/') 
+    .once('value')
+
+    let closedOrders = [];
+    let merchantOrders =  makeOrdersArr(snapshot)  
+
+    merchantOrders.forEach(order =>{
+      if (order.orderStatus ==="closed"){
+        closedOrders.push(order)
+      }
+    })
+ 
+  return {closedOrders : closedOrders}
+
+
+}
+
+
+export async function getPastDueOrders (merchantId) {
+
+
+  var snapshot = await  database.ref('/Merchants/'+ merchantId.merchantId + '/Users/') 
+    .once('value')
+
+    let pastDueOrders = [];
+    let merchantOrders =  makeOrdersArr(snapshot)  
+
+    merchantOrders.forEach(order =>{
+      if (order.orderStatus ==="past due"){
+        pastDueOrders.push(order)
+      }
+    })
+
+  return {pastDueOrders : pastDueOrders}
+
+
+}
+
+
+
+
   
   
