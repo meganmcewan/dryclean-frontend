@@ -25,19 +25,19 @@ class Login extends Component {
 
   render() {
     return (
+      <div className='inital-css'>
       <div className='loginWrapper'>
-        <div>
           <h3>Log In:</h3>
-          <form className='form'>
-            <div>
+          <form>
+            <div className='formInput'>
               <input ref={r => this.usernameInput = r} type='text' placeholder='Email' />
             </div>
-            <div>
+            <div className='formInput'>
               <input ref={r => this.passwordInput = r} type='password' placeholder='Password' />
             </div>
             <button className='ctaButton' onClick={this.submitLogin}>Submit</button>
           </form>
-          <p>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
+          <p className='footnote'>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
         </div>
       </div>
     )

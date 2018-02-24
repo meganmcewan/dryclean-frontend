@@ -109,7 +109,7 @@ class Dashboard extends Component {
 
   componentWillMount() {
     console.log('user id:', this.props.location.state)
-  //   console.log('props state log: ', this.props.location.state)
+    //   console.log('props state log: ', this.props.location.state)
   }
 
   render() {
@@ -118,8 +118,10 @@ class Dashboard extends Component {
     // }
     return (
       <div className='inital-css'>
-      {/* <NavBar/> */}
-        <h3>Order Dashboard</h3>
+
+        <div className='app-nav'>
+          <h3>Dashboard</h3>
+        </div>
         <input type='text' placeholder='Search' />
         <button>Submit</button>
 
@@ -134,8 +136,7 @@ class Dashboard extends Component {
             : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
               : null}
         </div>
-
-        <button onClick={this.createNewOrder}>NEW ORDER</button>
+        <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
       </div>
     )
   }

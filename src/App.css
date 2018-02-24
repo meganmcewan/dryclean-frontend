@@ -40,13 +40,21 @@ input{
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: rgb(0, 0, 0);
-  display: block;
+  /* display: block; */
   /* border-radius: 5px; */
 }
 
 button{
-  background-color: rgb(204, 204, 204);
+  background-color: rgb(0, 0, 0);
+  color: white;
   padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+}
+
+Link{
+  text-decoration: none;
 }
 
 .inital-css{
@@ -80,16 +88,64 @@ button{
 
 .loginWrapper{
   padding: 20px;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 20px;
   width: 80vw;
   max-width: 400px;
-  height: 40vh;
-  display: flex;
+  height: 350px;
+  margin-right: auto;
+  margin-left: auto;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  border-radius: 5px;
 }
 
 .form{
   margin-left: auto;
   margin-right: auto;
+}
+
+.formInput{
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.footnote{
+  font-size: 12px;
+  color: rgb(153, 153, 153);
+}
+
+.app-nav{
+  background-color: rgb(63, 63, 63);
+  color: white;
+  padding: 20px;
+}
+
+.app-nav h3{
+  margin: 0;
+}
+
+#clnr-logo{
+  width: 30%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#newOrderButton{
+  font-size: 18px;
+  background-color: rgb(8, 4, 4);
+  /* width: 50px;
+  height: 50px; */
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
+.home-btns-wrapper{
+  display: flex;
+  justify-content: space-around;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
 }

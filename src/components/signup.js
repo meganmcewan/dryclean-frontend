@@ -35,6 +35,7 @@ class Signup extends Component {
     render() {
         return (
             <div className='inital-css'>
+            <div className='loginWrapper'>
                 <form>
                     <h3>Sign Up:</h3>
 
@@ -49,8 +50,9 @@ class Signup extends Component {
 
                     <div>{this.state.formError}</div>
                     <button onClick={this.submitSignup}>Submit</button>
-                    <div>or <Link to='/login'>Log In</Link></div>
+                    <p className='footnote'>Already have an account? <Link to='/login'>Log In</Link></p>
                 </form>
+            </div>
             </div>
         )
     }

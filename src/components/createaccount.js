@@ -20,7 +20,7 @@ class CreateAccount extends Component {
         }
     }
 
-// STEP 1/3  MERCHANT PERSONAL INFO  ---------------------
+    // STEP 1/3  MERCHANT PERSONAL INFO  ---------------------
     submitPersonalInfoForm = (e) => {
         e.preventDefault()
         this.setState({
@@ -36,7 +36,9 @@ class CreateAccount extends Component {
     personalInfoForm = () => {
         return (
             <div className='inital-css'>
-                <h3>Merchant Account Setup:</h3>
+                <div className='app-nav'>
+                    <h3>Account Setup:</h3>
+                </div>
                 <div>
                     <p> 1/3 - Personal Info:</p>
                     <form>
@@ -50,7 +52,7 @@ class CreateAccount extends Component {
     }
 
 
-// STEP 2/3  MERCHANT BUSINESS INFO  ---------------------
+    // STEP 2/3  MERCHANT BUSINESS INFO  ---------------------
     submitBusinessInfoForm = () => {
         this.setState({
             accountSetupForm: 'PRICE_INFO',
@@ -71,7 +73,7 @@ class CreateAccount extends Component {
     businessInfoForm = () => {
         return (
             <div className='inital-css'>
-                <h3>Merchant Account Setup:</h3>
+                <h3>Account Setup:</h3>
                 <div>
                     <p>2/3 - Business Account Info:</p>
                     <input ref={r => this.businessName = r} placeholder='Business Name' />
@@ -87,11 +89,11 @@ class CreateAccount extends Component {
     }
 
 
-// STEP 3/3  MERCHANT SERVICES / PRICE INFO  ---------------------
+    // STEP 3/3  MERCHANT SERVICES / PRICE INFO  ---------------------
     priceListForm = () => {
         return (
             <div className='inital-css'>
-                <h3>Merchant Account Setup:</h3>
+                <h3>Account Setup:</h3>
                 <div>
                     <p>3/3 - Price List Setup:</p>
                     <div className='flex'>
@@ -188,7 +190,7 @@ class CreateAccount extends Component {
     }
 
 
-// SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
+    // SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
     createNewAccount = () => {
         var prices = {
             regular: {
@@ -222,7 +224,7 @@ class CreateAccount extends Component {
                 prices: this.state.prices
             })
         )
-        registerMerchant (this.state.merchantSubmittedInformation, prices)
+        registerMerchant(this.state.merchantSubmittedInformation, prices)
     }
 
     componentWillMount() {
@@ -232,7 +234,7 @@ class CreateAccount extends Component {
     }
 
     render() {
-        if(this.state.merchantId === undefined) { return <Redirect to='/signup'/>}
+        if (this.state.merchantId === undefined) { return <Redirect to='/signup' /> }
         if (this.state.accountSetupForm === 'PERSONAL_INFO') { return this.personalInfoForm() }
         if (this.state.accountSetupForm === 'BUSINESS_INFO') { return this.businessInfoForm() }
         if (this.state.accountSetupForm === 'PRICE_INFO') { return this.priceListForm() }
