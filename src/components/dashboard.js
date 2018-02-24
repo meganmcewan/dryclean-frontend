@@ -114,7 +114,7 @@ class Dashboard extends Component {
     var pastOrders = getPastDueOrders(merchantObj)
     .then (x => console.log(x));
 
-    ///x contains the object with the array you need to display
+    /// x contains the object with the array you need to display
 
     this.setState({ dashboardOrders: 'PAST_DUE' })
   }

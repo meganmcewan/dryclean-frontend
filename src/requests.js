@@ -240,11 +240,6 @@ export async function createNewOrder (userId, merchantId) {
 
 
 
-//need to map address to current user ID as well as order number
-
-
-
-
 // export function addOrder(orderObj, merchantId, userID){
 
 //   this is to write the data
