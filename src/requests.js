@@ -104,8 +104,7 @@ export async function registerMerchant (merchantObj, priceObj) {
 
   console.log('merchant is registered')
 
-    database.ref('/Merchants/' + merchantId + /'Prices'/ +'/Regular/').set({
-      merchantId: merchantId,
+    database.ref('/Merchants/' + merchantId + '/Prices/' +'/Regular/').set({
       trousers: priceObj.regular.trousers,
       suit: priceObj.regular.suit,
       overcoat: priceObj.regular.overcoat,
@@ -120,8 +119,7 @@ export async function registerMerchant (merchantObj, priceObj) {
 
     console.log("regular prices are registered for user:", merchantId)
 
-    database.ref('/Merchants/' + merchantId + /'Prices'/ +'/Express/').set({
-      merchantId: merchantId,
+    database.ref('/Merchants/' + merchantId + '/Prices/' +'/Express/').set({
       trousers: priceObj.express.trousers,
       suit: priceObj.express.suit,
       overcoat: priceObj.express.overcoat,
@@ -152,7 +150,7 @@ export async function registerMerchant (merchantObj, priceObj) {
 
 function getUser(snapshot) {
   let users = [];
-  snapshot.forEach(item => {
+    snapshot.forEach(item => {
     users.push({value:item.val(), userId: item.key})
   })
   return users.length > 0 ? users[0] : null;
@@ -168,7 +166,7 @@ export async function checkPhoneNum (phoneNumber, merchantId){
       let user = getUser(snapshot);
 
       if (!user){
-          var newUser = await database.ref('/Merchants/'+merchantId +'/Users/').push();
+          var newUser = await database.ref('/Merchants/'+ merchantId +'/Users/').push();
           await newUser.set({
             phoneNumber: phoneNumber,
         })
@@ -187,9 +185,6 @@ export async function checkPhoneNum (phoneNumber, merchantId){
 /////// adds user details if user is new, or updates info if necessary/////
 
 export async function addUserDetails (userObj, merchantId){
-console.log("user obj is" ,userObj, "merchant id is", merchantId,
-"this is userobj.userId", userObj.userId)
-
 
 
 var newClient = await database.ref('/Merchants/' + merchantId.merchantId +'/Users/' + userObj.userId).set({
@@ -202,35 +197,47 @@ var newClient = await database.ref('/Merchants/' + merchantId.merchantId +'/User
     userId: userObj.userId
 
 })
-
+ 
+  var snapshot = await database.ref('/Merchants/' + merchantId.merchantId +'/Prices/')
+        .once('value')
+   
+       
+        return {merchantId: merchantId.merchantId, prices: snapshot.val()}
 }
+
+
 
 // this order creates a new orderID, generates a readable order number
 // send the merchant ID and details, the current date and generates
 // standard and express delivery dates
 
-export function createNewOrder (userId) {
+export async function createNewOrder (userId, merchantId) {
   console.log('create new order running on back')
 
-  database.ref('Merchants/' + userId + '/Orders/').push().set({
-    orderNum: '10001'
-
-  })
-
-  database.ref('/Orders/').push().set({
+  var x = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push().set({
     orderNum: '10000',
-    merchantId: userId,
+    merchantId: merchantId,
     date: 'currentDate',
     standardReady: 'current date + 3 days',
     expressReady: 'current date +1 day'
 
   })
 
-  database.ref('/Merchants/' + userId).once('value')
-  .then(snapshot => {
+  // database.ref('/Orders/').push().set({
+  //   orderNum: '10000',
+  //   merchantId: merchantId,
+  //   date: 'currentDate',
+  //   standardReady: 'current date + 3 days',
+  //   expressReady: 'current date +1 day'
+
+  // })
+
+  var snapshot = await database.ref('/Merchants/' + merchantId )
+    .once('value')
+
     console.log('this is snapshot', snapshot.val())
-    return snapshot.val()
-  })
+    return {merchantId: snapshot.val()}
+  
 }
 
 

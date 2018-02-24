@@ -203,7 +203,7 @@ class orderForm extends Component {
     console.log('going to page 2')
 
 
-    var tempMerchantId = { merchantId:'64I1fz0WTxPmPxt1qRSGRpwsNg53' }
+    var tempMerchantId = { merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2' }
     var tempUserObj = {
       clientPostalZip: '12345',
       clientProvinceState:'qc',
