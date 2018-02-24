@@ -18,7 +18,10 @@ class Dashboard extends Component {
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
     this.props.history.push('/orderform')
-    var currentMerchant = createNewOrder(/*this.props.location.state.userId*/ '33332222')
+    var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb",'stOzHE8aelahFyvNxhbP9v1sY7G2')
+    
+    .then(x => console.log('this is current mertchant in then', x))
+    
     console.log("this is current merchant from back", currentMerchant)
     // this.props.history.push('/orderform', {userId: this.props.location.state})
   }

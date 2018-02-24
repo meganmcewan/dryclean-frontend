@@ -17,6 +17,13 @@ class orderForm extends Component {
                   expServPickup: '1pm, Jan 03, 2018',
                   orderStatus: 'open',
                   currentPage : '',
+                  isPickup: true,
+                  isDelivery: false,
+                  clientName : 'Bob',
+                  clientAddress : '5430 Boul Saint Laurent, suite 305',
+                  clientCity : 'Montreal',
+                  clientProvinceState : 'QC',
+                  clientPostalZip : 'H3P1C5',
                   trousers : null,
                   suit : null,
                   overcoat : null,
@@ -33,10 +40,27 @@ class orderForm extends Component {
                   phoneNumber : '',
                   isPickup: true,
                   isDelivery: false,
+                  totalPrice : null,
+                  prices: {
+                    trousers: 3.50,
+                    suit: 12.99,
+                    overcoat: 15.99,
+                    ladySuit: 12.99,
+                    dress: 18.99,
+                    skirt: 5.99,
+                    jacket: 21.99,
+                    ties: 4.00,
+                    blouse: 3.00,
+                    shirt: 3.00,
+                    tie: 4.99,
+                    custom1: null,
+                    custom2: null,
+
+                  }
                 }
   }
 
-  goToOrderHome = (event) => {
+  goToOrderHome = (event) => {``
     event.preventDefault()
     console.log(this.state.phoneNumber)
     this.setState({ currentPage: '' })
@@ -53,6 +77,15 @@ class orderForm extends Component {
     });
   }
 
+  pickupClicked = () => {
+      this.setState({ isDelivery: false, isPickup: true })
+  }
+
+  deliveryClicked = () =>{
+      this.setState({isDelivery: true, isPickup: false})
+      alert('confirm the delivery address with the client: ')
+    }
+  
   businessAddress = () =>{
     return(
       <div>
@@ -116,8 +149,7 @@ class orderForm extends Component {
         this.setState(st => ({ currentPage: 'orderFormPageOne' }))
       }
       else{
-        //show some error message to user
-        
+        //show some error message to user  
       }
     })
     .catch( err =>{
@@ -140,15 +172,13 @@ class orderForm extends Component {
               type="radio" 
               id="pickup"
               name="deliveryMethod" 
-              checked={this.state.isPickup}
-              onChange={this.handleInputChange}/>
+              onClick={this.pickupClicked}/>
             <label for="pickup">Pickup</label>
             <input 
               type="radio"
               id="delivery"
               name="deliveryMethod"
-              checked={this.state.isDelivery}
-              onChange={this.handleInputChange} />
+              onClick={this.deliveryClicked} />
             <label for="delivery">Delivery</label>
           </div>
           <div>
@@ -203,7 +233,7 @@ class orderForm extends Component {
     console.log('going to page 2')
 
 
-    var tempMerchantId = { merchantId:'64I1fz0WTxPmPxt1qRSGRpwsNg53' }
+    var tempMerchantId = { merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2' }
     var tempUserObj = {
       clientPostalZip: '12345',
       clientProvinceState:'qc',
@@ -234,6 +264,27 @@ class orderForm extends Component {
     
   }
 
+  updatePrice = (inp, productName) => {
+    var inc = inp * this.state.prices[productName]
+    console.log(inc)
+    this.setState(PreSt => ({ totalPrice: inc + PreSt.totalPrice}))
+  }
+
+  updateOrderDetails = (productName) =>{
+    this.setState(PreSt => {
+      let newProductQty = PreSt[productName] + 1;
+      this.updatePrice(1, productName);
+      let newState = {};
+      newState[productName] = newProductQty
+      return newState;
+    })
+  }
+
+  totalPrice = () =>{
+    let ret = Math.floor(this.state.totalPrice * 100)/100
+    console.log(ret)
+    return (ret)
+  }
   orderFormTwo = () => {
     return (
       <div className='inital-css'>
@@ -246,30 +297,34 @@ class orderForm extends Component {
         <form onSubmit={this.goToReview}>
           <div>
             <div>
-              <button type="button" onClick={() => this.setState(PreSt => ({trousers: PreSt.trousers + 1}))}>Trousers {this.state.trousers} </button>
-              <button type="button" onClick={() => this.setState(PreSt => ({ suit: PreSt.suit + 1 }))}>Suit {this.state.suit} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('trousers')}>Trousers {this.state.trousers} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('suit')}>Suit {this.state.suit} </button>
             </div> 
             <div>
-              <button type="button" onClick={() => this.setState(PreSt => ({ overcoat: PreSt.overcoat + 1 }))}>Overcoat {this.state.overcoat} </button>
-              <button type="button" onClick={() => this.setState(PreSt => ({ ladySuit: PreSt.ladySuit + 1 }))}>Ladies Suit {this.state.ladySuit} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('overcoat')}>Overcoat {this.state.overcoat} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('ladySuit')}>Ladies Suit {this.state.ladySuit} </button>
             </div> 
             <div>
-              <button type="button" onClick={() => this.setState(PreSt => ({ dress: PreSt.dress + 1 }))}>Dress {this.state.dress} </button>
-              <button type="button" onClick={() => this.setState(PreSt => ({ skirt: PreSt.skirt + 1 }))}>Skirt {this.state.skirt} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('dress')}>Dress {this.state.dress} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('skirt')}>Skirt {this.state.skirt} </button>
             </div> 
             <div>
-              <button type="button" onClick={() => this.setState(PreSt => ({ jacket: PreSt.jacket + 1 }))}>Jacket {this.state.jacket} </button>
-              <button type="button" onClick={() => this.setState(PreSt => ({ blouse: PreSt.blouse + 1 }))}>Blouse {this.state.blouse} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('jacket')}>Jacket {this.state.jacket} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('blouse')}>Blouse {this.state.blouse} </button>
             </div> 
             <div>
-              <button type="button" onClick={() => this.setState(PreSt => ({ shirt: PreSt.shirt + 1 }))}>Shirt {this.state.shirt} </button>
-              <button type="button" onClick={() => this.setState(PreSt => ({ tie: PreSt.tie + 1 }))}>Tie {this.state.tie} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('shirt')}>Shirt {this.state.shirt} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('tie')}>Tie {this.state.tie} </button>
             </div> 
             <div>
-              <button type="button" onClick={() => this.setState(PreSt => ({ custom1: PreSt.custom1 + 1 }))}>Custom Item {this.state.custom1} </button>
-              <button type="button" onClick={() => this.setState(PreSt => ({ custom2: PreSt.custom2 + 1 }))}>Custom Item {this.state.custom2} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('custom1')}>Custom Item {this.state.custom1} </button>
+              <button type="button" onClick={() => this.updateOrderDetails('custom2')}>Custom Item {this.state.custom2} </button>
             </div> 
             </div>
+          <div>
+            <div>This is the sub-total:</div>
+            <div>${this.totalPrice()}</div>
+          </div>
         <div>
             <input ref={inp => this.isRegService = inp} type="radio" id="RegService" name="serviceType" value="text" />
           <label for="pickup">Regular Service</label>
@@ -278,10 +333,11 @@ class orderForm extends Component {
             <input ref={inp => this.isCustomService = inp} type="radio" id="isCustomService" name="serviceType" value="text" />
           <label for="delivery">Custom Service</label>
         </div>
+        <div>
           <div>{this.state.regServPickup}</div>
           <div>{this.state.expServPickup}</div>
           <div>Custom Date!?</div>
-
+        </div>
         <div>
           <button onClick={this.goToOrderPageOne}>Back/Edit</button>
           <button type="submit">Review</button>
@@ -293,6 +349,7 @@ class orderForm extends Component {
 
   goToReview = (event) => {
     event.preventDefault()
+    console.log(this.state)
     console.log('going to Review')
       this.setState(st => ({ currentPage: 'orderFormReview' }))
     
@@ -352,7 +409,6 @@ render () {
   if (this.state.currentPage === '') return (this.orderFormHome())
   if (this.state.currentPage === 'orderFormPageOne') return (this.orderFormOne())
   if (this.state.currentPage === 'orderFormPageTwo') return (this.orderFormTwo())
-  if (this.state.currentPage === 'orderFormPageThree') return (this.orderFormThree())
   if (this.state.currentPage === 'orderFormReview') return (this.orderFormReview())
   }
 }
