@@ -11,6 +11,7 @@ class Dashboard extends Component {
     super()
     this.state = {
       dashboardOrders: 'OPEN_ORDERS',
+      merchantId: undefined,
       isLoggedIn: false,
       openOrders: [],
       pastDueOrders: [],
@@ -18,10 +19,13 @@ class Dashboard extends Component {
     }
   }
 
-  componentDidMount() {
-    this.setState({merchantId: this.props.location.state.merchantId})
 
-    var merchantObj = { merchantId: 'xq2OkpPed0N5M1Hr42thgq6PJZv1' }
+  componentDidMount() {
+    
+    console.log('this is merchant merchant id state on component will mount', this.props.location.state.merchantId)
+    this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
+    console.log('merchant state', this.state.merchantId)
+        var merchantObj = { merchantId: this.props.location.state.merchantId }
 
     getOpenOrders(merchantObj)
       .then(x => { this.setState({ openOrders: x.openOrders }); })
@@ -35,15 +39,22 @@ class Dashboard extends Component {
     // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
     //   console.log('props state log: ', this.props.location.state)
   }
-
+   
+  
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
-    this.props.history.push('/orderform', { merchantId :this.props.location.state.merchantId })
-    var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", 'stOzHE8aelahFyvNxhbP9v1sY7G2')
-      .then(x => console.log('this is current mertchant in then', x))
-    console.log("this is current merchant from back", currentMerchant)
-    // this.props.history.push('/orderform', {userId: this.props.location.state})
+
+    console.log('this is merchant id state in create new order button', this.state.merchantId)
+    
+    this.props.history.push('/orderform',  { merchantId :this.state.merchantId })
+    
+    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
+    // .then(x => console.log('this is current mertchant in then', x))
+    
+    // console.log("this is current merchant from back", currentMerchant)
+  // this.props.history.push('/orderform', {userId: this.props.location.state})
+
   }
 
   //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
@@ -117,12 +128,17 @@ class Dashboard extends Component {
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
   }
 
-  render() {
+
+   render() {
     // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
     // if (this.props.location.state.merchantId == undefined){
     //   return <Redirect to='/login'></Redirect>
     // }
+
+    console.log('merchant state render', this.state.merchantId)
+console.log('is logged in? ',this.state.isLoggedIn)    
     return (
+
       <div className='inital-css' >
 
         <div className='app-nav'>

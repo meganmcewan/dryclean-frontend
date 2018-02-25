@@ -157,6 +157,7 @@ function getUser(snapshot) {
 }
 
 export async function checkPhoneNum(phoneNumber, merchantId) {
+  console.log ('merchant mrechant id that is in the back of checkphone', merchantId)
 
   var snapshot = await database.ref('/Merchants/' + merchantId + '/Users/')
     .orderByChild('phoneNumber')
@@ -168,12 +169,12 @@ export async function checkPhoneNum(phoneNumber, merchantId) {
   if (!user) {
     var newUser = await database.ref('/Merchants/' + merchantId + '/Users/').push();
     await newUser.set({
-      phoneNumber: phoneNumber,
+      phoneNumber: phoneNumber, merchantId: merchantId
     })
 
     return {
       status: 1, msg: "User added!", userId: newUser.key,
-      phoneNumber: phoneNumber
+      phoneNumber: phoneNumber, merchantId: merchantId
     }
   }
   else {
@@ -185,7 +186,8 @@ export async function checkPhoneNum(phoneNumber, merchantId) {
       clientCity: user.value.clientCity,
       clientProvinceState: user.value.clientProvinceState,
       clientPostalZip: user.value.clientPostalZip,
-      phoneNumber: user.value.phoneNumber
+      phoneNumber: user.value.phoneNumber,
+      merchantId: merchantId
     }
   }
 
@@ -204,7 +206,8 @@ export async function addUserDetails(userObj, merchantId) {
     clientCity: userObj.clientCity,
     clientProvinceState: userObj.clientProvinceState,
     clientPostalZip: userObj.clientPostalZip,
-    userId: userObj.userId
+    userId: userObj.userId,
+   
 
   })
 
@@ -223,8 +226,9 @@ export async function addUserDetails(userObj, merchantId) {
 
 export async function createNewOrder(userId, merchantId) {
   console.log('create new order running on back')
+  console.log('merchant id in create new order', merchantId)
 
-  var x = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push(
+  var newOrder = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push(
     {
     orderNum: '10005',
     merchantId: merchantId,
@@ -236,14 +240,16 @@ export async function createNewOrder(userId, merchantId) {
     orderDetails: {pants: +1, shirts: +2}
     }
   )
+  // .once('value')
   
-   
  
   var snapshot = await database.ref('/Merchants/' + merchantId )
     .once('value')
-
-    
-    return {merchantId: snapshot.val(), orderId: x.key }
+   
+    return {merchantId: snapshot.val()
+      // , 
+      // newOrder: newOrder.val()
+     }
   
 }
 
