@@ -224,61 +224,28 @@ export async function addUserDetails(userObj, merchantId) {
 export async function createNewOrder(userId, merchantId) {
   console.log('create new order running on back')
 
-  var x = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push().set({
+  var x = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push(
+    {
     orderNum: '10005',
     merchantId: merchantId,
     userId: userId,
     date: 'currentDate',
     standardReady: 'current date + 3 days',
     expressReady: 'current date +1 day',
-
-    orderStatus: "close",
-    orderDetails: { pants: 1, shirts: 2 },
-
-  })
-
-
-  var snapshot = await database.ref('/Merchants/' + merchantId)
+    orderStatus: "closed", 
+    orderDetails: {pants: +1, shirts: +2}
+    }
+  )
+  
+   
+ 
+  var snapshot = await database.ref('/Merchants/' + merchantId )
     .once('value')
 
-  console.log('this is snapshot', snapshot.val())
-  return { merchantId: snapshot.val() }
-
+    
+    return {merchantId: snapshot.val(), orderId: x.key }
+  
 }
-
-
-
-
-
-//need to map address to current user ID as well as order number
-
-
-
-
-// export function addOrder(orderObj, merchantId, userID){
-
-//   this is to write the data
-// var orderID = 10001
-//   database.ref('/Orders/' + orderID).set({
-//     orderID: orderID,
-//     userID: userID,
-//     info1: "input info1",
-//     info2: "input info2",
-//     orderStatus: "open",
-//     orderConf: Math.floor((Math.random() * 100000) + 1)
-
-//   })
-
-//   database.ref('Merchants/' +userID + '/Orders/').push().set({
-//     allOrders: orderID
-//   })
-
-//   //this is to read the data 
-
-//   database.ref('/Orders/'+ orderID).once('value')
-//   // .then(snapshot => console.log(snapshot.val()))
-// }
-
 
 
 
@@ -286,7 +253,7 @@ export async function createNewOrder(userId, merchantId) {
 ////////////////DASHBOARD FUNCTIONS ///////////////////////
 
 
-///////this function gets all of the orders for the requested merchant//////
+///////this function gets all of the orders for the requested merchant and is called //////
 
 function makeOrdersArr(snapshot) {
   let users = [];
@@ -315,7 +282,7 @@ function makeOrdersArr(snapshot) {
 
 
 }
-
+///// open orders function//////
 
 export async function getOpenOrders(merchantId) {
 
@@ -323,8 +290,9 @@ export async function getOpenOrders(merchantId) {
   var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Users/')
     .once('value')
 
-  let openOrders = [];
-  let merchantOrders = makeOrdersArr(snapshot)
+    let openOrders = [];
+    let merchantOrders =  makeOrdersArr(snapshot)  
+   
 
   merchantOrders.forEach(order => {
     if (order.orderStatus === "open") {
@@ -336,8 +304,8 @@ export async function getOpenOrders(merchantId) {
 
 
 }
-
-export async function getClosedOrders(merchantId) {
+//// closed order function/////
+export async function getClosedOrders (merchantId) {
 
 
   var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Users/')
@@ -357,6 +325,7 @@ export async function getClosedOrders(merchantId) {
 
 }
 
+/////////past due function///////
 
 export async function getPastDueOrders(merchantId) {
 
@@ -378,6 +347,12 @@ export async function getPastDueOrders(merchantId) {
 
 }
 
+
+////////////////CONFIRMATION PAGE FUNCTIONS////////////////////////////////
+
+export async function getConfirmation (){
+
+}
 
 
 

@@ -438,29 +438,30 @@ class orderForm extends Component {
     this.setState(st => ({ orderStatus: 'suspended' }))
     this.dashboard()
   }
-sendSms = () => {
-  var number = '+15147120366';
-  var message = 'SEND NUDES'
-   fetch('/sendSms', {
-     method: "POST",
+// sendSms = () => {
+//   var number = '+15147120366';
+//   var message = 'SEND NUDES'
+//    fetch('/sendSms', {
+//      method: "POST",
      
-     body: JSON.stringify({
-      test: number,
-      message: message
-     })
+//      body: JSON.stringify({
+//       test: number,
+//       message: message
+//      })
  
-   }).then()
-   }
+//    }).then()
+//    }
 
 
   confirmation = (event) => {
     event.preventDefault()
   
-    this.sendSms()
+    // this.sendSms()
    
     var currentMerchant = createNewOrder(this.state.userId,this.state.merchantId,)
     .then(x => console.log('this is current mertchant in then', x))
-
+    
+    this.props.history.push('/confirmation')
     console.log("this is current merchant from back", currentMerchant)
     this.props.history.push('/confirmation',  { merchantId :this.props.location.state.merchantId })
     // this.props.history.push('/orderform', { userId: this.props.location.state })
