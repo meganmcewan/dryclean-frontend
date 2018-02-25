@@ -183,7 +183,7 @@ export async function checkPhoneNum (phoneNumber, merchantId){
          clientCity: user.value.clientCity,
          clientProvinceState: user.value.clientProvinceState,
          clientPostalZip: user.value.clientPostalZip,
-        phoneNumber: user.value.phoneNumber}
+         phoneNumber: user.value.phoneNumber}
       }
 
 
@@ -221,56 +221,28 @@ var newClient = await database.ref('/Merchants/' + merchantId.merchantId +'/User
 export async function createNewOrder (userId, merchantId) {
   console.log('create new order running on back')
 
-  var x = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push().set({
+  var x = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push(
+    {
     orderNum: '10005',
     merchantId: merchantId,
     userId: userId,
     date: 'currentDate',
     standardReady: 'current date + 3 days',
     expressReady: 'current date +1 day',
-    userId: userId,
-    orderStatus: "open",
-    orderDetails: {pants: +1, shirts: +2},
-
-  })
-
-
+    orderStatus: "closed", 
+    orderDetails: {pants: +1, shirts: +2}
+    }
+  )
+  
+   
+ 
   var snapshot = await database.ref('/Merchants/' + merchantId )
     .once('value')
 
-    console.log('this is snapshot', snapshot.val())
-    return {merchantId: snapshot.val()}
+    
+    return {merchantId: snapshot.val(), orderId: x.key }
   
 }
-
-
-
-
-
-// export function addOrder(orderObj, merchantId, userID){
-
-//   this is to write the data
-// var orderID = 10001
-//   database.ref('/Orders/' + orderID).set({
-//     orderID: orderID,
-//     userID: userID,
-//     info1: "input info1",
-//     info2: "input info2",
-//     orderStatus: "open",
-//     orderConf: Math.floor((Math.random() * 100000) + 1)
-
-//   })
-
-//   database.ref('Merchants/' +userID + '/Orders/').push().set({
-//     allOrders: orderID
-//   })
-
-//   //this is to read the data 
-
-//   database.ref('/Orders/'+ orderID).once('value')
-//   // .then(snapshot => console.log(snapshot.val()))
-// }
-
 
 
 
@@ -278,7 +250,7 @@ export async function createNewOrder (userId, merchantId) {
 ////////////////DASHBOARD FUNCTIONS ///////////////////////
 
 
-///////this function gets all of the orders for the requested merchant//////
+///////this function gets all of the orders for the requested merchant and is called //////
 
 function makeOrdersArr (snapshot){
   let users = [];
@@ -304,7 +276,7 @@ function makeOrdersArr (snapshot){
   
   
 }
-
+///// open orders function//////
 
 export async function getOpenOrders (merchantId) {
 
@@ -314,6 +286,7 @@ export async function getOpenOrders (merchantId) {
 
     let openOrders = [];
     let merchantOrders =  makeOrdersArr(snapshot)  
+   
 
     merchantOrders.forEach(order =>{
       if (order.orderStatus ==="open"){
@@ -325,7 +298,7 @@ export async function getOpenOrders (merchantId) {
 
 
 }
-
+//// closed order function/////
 export async function getClosedOrders (merchantId) {
 
 
@@ -346,6 +319,7 @@ export async function getClosedOrders (merchantId) {
 
 }
 
+/////////past due function///////
 
 export async function getPastDueOrders (merchantId) {
 
@@ -367,6 +341,12 @@ export async function getPastDueOrders (merchantId) {
 
 }
 
+
+////////////////CONFIRMATION PAGE FUNCTIONS////////////////////////////////
+
+export async function getConfirmation (){
+
+}
 
 
 

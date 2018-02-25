@@ -102,7 +102,7 @@ class Dashboard extends Component {
   //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
   showOpen = () => {
     
-    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
+    var merchantObj = {merchantId:'ZJMpfNdnzAd4LCwJyVclUI9BuK82'}
     getOpenOrders(merchantObj)
     .then (x => console.log(x))
 
@@ -112,7 +112,7 @@ class Dashboard extends Component {
   }
 
  showPastDue = () => {
-    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
+    var merchantObj = {merchantId:'ZJMpfNdnzAd4LCwJyVclUI9BuK82'}
     var pastOrders = getPastDueOrders(merchantObj)
     .then (x => console.log(x));
 
@@ -124,7 +124,7 @@ class Dashboard extends Component {
   showCompleted = () => {
 
     
-    var merchantObj = {merchantId:'stOzHE8aelahFyvNxhbP9v1sY7G2'}
+    var merchantObj = {merchantId:'ZJMpfNdnzAd4LCwJyVclUI9BuK82'}
     getClosedOrders (merchantObj)
     .then (x => console.log(x));
 

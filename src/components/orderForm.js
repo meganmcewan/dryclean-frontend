@@ -433,12 +433,14 @@ class orderForm extends Component {
 
   confirmation = (event) => {
     event.preventDefault()
-    this.props.history.push('/confirmation')
+    
    
-    var currentMerchant = createNewOrder(this.state.userId,"ZJMpfNdnzAd4LCwJyVclUI9BuK82")
+    var currentMerchant = createNewOrder('-L69J9bqHu7A6hfaBMr4',"ZJMpfNdnzAd4LCwJyVclUI9BuK82")
     .then(x => console.log('this is current mertchant in then', x))
-
+    
+    this.props.history.push('/confirmation')
     console.log("this is current merchant from back", currentMerchant)
+   
     this.props.history.push('/orderform', { userId: this.props.location.state })
   }
 
