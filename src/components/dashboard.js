@@ -19,7 +19,7 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
-    console.log('user id:', this.props.location.state)
+    this.setState({merchantId: this.props.location.state.merchantId})
 
     var merchantObj = { merchantId: 'xq2OkpPed0N5M1Hr42thgq6PJZv1' }
 
@@ -39,7 +39,7 @@ class Dashboard extends Component {
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
-    this.props.history.push('/orderform')
+    this.props.history.push('/orderform', { merchantId :this.props.location.state.merchantId })
     var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", 'stOzHE8aelahFyvNxhbP9v1sY7G2')
       .then(x => console.log('this is current mertchant in then', x))
     console.log("this is current merchant from back", currentMerchant)
