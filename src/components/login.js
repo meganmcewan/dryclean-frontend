@@ -20,10 +20,10 @@ class Login extends Component {
     
     if (uidFromBack !== undefined) {
       this.setState({ merchantId: uidFromBack.merchantId, isLoggedIn: true })
-      // console.log('uid', uidFromBack)
-      // console.log('login id?????', this.state)
+      console.log('uid', uidFromBack)
+      console.log('login id?????', this.state)
       
-      this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
+      // this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
     }
 
   }
