@@ -138,42 +138,44 @@ class orderForm extends Component {
 
   goToOrderPageOne = (event) => {
     event.preventDefault()
-    this.setState({ currentPage: 'orderFormPageOne' })
+    this.setState({ currentPage: 'orderFormPageOne', merchantId: this.props.location.state.merchantId})
     // goToOrderPageOne = () => {
     console.log('going to page 1')
 
     /// here you will pass the phoneNumber from the inputs and Merchant ID from state to this function so that it runs
     var phoneNum = this.phoneNumber.value
-
-    checkPhoneNum(this.phoneNumber.value, this.props.location.state.merchantId.merchantId)
+    console.log('this is state above checkphon',this.props.location.state.merchantId)
+ 
+    checkPhoneNum(this.phoneNumber.value, this.props.location.state.merchantId)
 
       .then(response => {
         console.log('response', response)
         ///this conditional will need to change to 1, is set to zero temporarily to pass the page
         if (response.status === 0) {
-          this.setState(st => ({
+          this.setState({
             currentPage: 'orderFormPageOne',
             userId: response.userId,
             phoneNumber: phoneNum,
-            merchantId: this.props.location.state.merchantId.merchantId,
+            // merchantId: this.props.location.state.merchantId,
             clientName: response.clientName,
             clientAddress: response.clientAddress,
             clientCity: response.clientCity,
             clientProvinceState: response.clientProvinceState,
             clientPostalZip: response.clientPostalZip,
-          }))
-          console.log("user id", this.state.userId)
+          })
+          
+          console.log('merchant respnose', response.merchantId)
         }
         else {
           this.setState(st => ({
             currentPage: 'orderFormPageOne',
             userId: response.userId,
             phoneNumber: phoneNum,
-            merchantId: this.props.location.state.merchantId.merchantId,
+            // merchantId: response.merchantId
           
 
           }))
-          console.log("user id", this.state.userId)
+         
         }
       })
       .catch(err => {
@@ -261,7 +263,7 @@ class orderForm extends Component {
     event.preventDefault()
     console.log('going to page 2')
 
-
+console.log('this is merchant state in go to order form two', this.state.merchantId)
     this.setState({
       clientPostalZip: this.clientPostalZip.value,
       clientProvinceState: this.clientProvinceState.value,
@@ -279,8 +281,6 @@ class orderForm extends Component {
 
 
     // addUserDetails (tempUserObj, tempMerchantId)
-
-
 
     this.setState(st => ({ currentPage: 'orderFormPageTwo' }))
     this.setState(st => ({
@@ -374,6 +374,7 @@ class orderForm extends Component {
   }
 
   goToReview = (event) => {
+    console.log('merchant state in go to review', this.state.merchantId)
     event.preventDefault()
     var UserObj = {
       clientPostalZip: this.state.clientPostalZip,
@@ -457,13 +458,19 @@ class orderForm extends Component {
     event.preventDefault()
   
     // this.sendSms()
-   
-    var currentMerchant = createNewOrder(this.state.userId,this.state.merchantId,)
-    .then(x => console.log('this is current mertchant in then', x))
+    console.log('this is merchant state', this.state.merchantId)
+    var currentMerchant = createNewOrder(this.state.userId, this.state.merchantId,)
+    .then(response => {
+        console.log('this the response.newOrder', response.newOrder)
+        this.setState({newOrder: response.newOrder})
+    })
     
     this.props.history.push('/confirmation')
-    console.log("this is current merchant from back", currentMerchant)
-    this.props.history.push('/confirmation',  { merchantId :this.props.location.state.merchantId })
+   
+    this.props.history.push('/confirmation', 
+     { merchantId :this.props.location.state.merchantId,
+      // newOrder: this.props.location.state.merchantId
+     })
     // this.props.history.push('/orderform', { userId: this.props.location.state })
   }
 

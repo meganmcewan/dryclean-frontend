@@ -11,142 +11,133 @@ class Dashboard extends Component {
     super()
     this.state = {
       dashboardOrders: 'OPEN_ORDERS',
-      isLoggedIn: false
+      isLoggedIn: false,
+      openOrders: [],
+      pastDueOrders: [],
+      completedOrders: []
     }
   }
+
+
+  componentDidMount() {
+  
+    console.log('this is merchant merchant id state on component will mount', this.props.location.state.merchantId)
+    this.setState({merchantId : this.props.location.state.merchantId})
+        var merchantObj = { merchantId: 'xq2OkpPed0N5M1Hr42thgq6PJZv1' }
+
+    getOpenOrders(merchantObj)
+      .then(x => { this.setState({ openOrders: x.openOrders }); })
+
+    getClosedOrders(merchantObj)
+      .then(x => { this.setState({ completedOrders: x.closedOrders }); })
+
+    getPastDueOrders(merchantObj)
+      .then(x => { this.setState({ pastDueOrders: x.pastDueOrders }); })
+
+    // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
+    //   console.log('props state log: ', this.props.location.state)
+  }
+   
+  
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
 
-
-    this.props.history.push('/orderform',  { merchantId :this.props.location.state.merchantId })
-    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb",this.props.location.state.merchantId)
-
-      // .then(x => console.log('this is current mertchant in then', x))
-
+    console.log('this is merchant id state in create new order button', this.state.merchantId)
+    
+    this.props.history.push('/orderform',  { merchantId :this.state.merchantId })
+    
+    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
+    // .then(x => console.log('this is current mertchant in then', x))
+    
     // console.log("this is current merchant from back", currentMerchant)
-    // this.props.history.push('/orderform', {userId: this.props.location.state})
+  // this.props.history.push('/orderform', {userId: this.props.location.state})
+
   }
 
   //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
   openOrders = () => {
-    return (
-      <div>
-        <h3>Open Orders</h3>
-        <div className='flex'>
-          <p>Order</p>
-          <p>Items</p>
-          <p>Ready</p>
-          <p>Total</p>
-        </div>
+    const { openOrders } = this.state;
 
-        <div className='order-listing'>
-          <div className='flex'>
-            <p>#1234</p>
-            <p>5</p>
-            <p>02/13/18 12PM</p>
-            <p>$12.00</p>
+    return openOrders.map((item, idx) => {
+      return (
+        <div key={idx}>
+          <div className='order-listing'>
+            <div className='flex'>
+              <div>#{item.orderNum}</div>
+              <p>5</p>
+              <p>02/13/18 12PM</p>
+              <p>$12.00</p>
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    })
   }
 
   pastDueOrders = () => {
-    return (
-      <div>
-        <h3>Past Due Orders</h3>
-        <div className='flex'>
-          <p>Order</p>
-          <p>Items</p>
-          <p>Ready</p>
-          <p>Total</p>
-        </div>
+    const { pastDueOrders } = this.state;
 
-
-        <div className='order-listing'>
-          <div className='flex'>
-            <p>#24343</p>
-            <p>2</p>
-            <p>01/13/18 12:00PM</p>
-            <p>$8.00</p>
+    return pastDueOrders.map((item, idx) => {
+      return (
+        <div key={idx}>
+          <div className='order-listing'>
+            <div className='flex'>
+              <p>#{item.orderNum}</p>
+              <p>2</p>
+              <p>01/13/18 12:00PM</p>
+              <p>$8.00</p>
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    })
   }
 
   completedOrders = () => {
-    return (<div>
-      <h3>Completed Orders</h3>
-      <div className='flex'>
-        <p>Order</p>
-        <p>Items</p>
-        <p>Ready</p>
-        <p>Total</p>
-      </div>
+    const { completedOrders } = this.state;
 
-
-      <div className='order-listing'>
-        <div className='flex'>
-          <p>#9847</p>
-          <p>4</p>
-          <p>02/08/18 1:00PM</p>
-          <p>$16.00</p>
+    return completedOrders.map((item, idx) => {
+      return (
+        <div key={idx}>
+          <div className='order-listing'>
+            <div className='flex'>
+              <p>#{item.orderNum}</p>
+              <p>4</p>
+              <p>02/08/18 1:00PM</p>
+              <p>$16.00</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    )
+      )
+    })
   }
 
   //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
   showOpen = () => {
-    
-    var merchantObj = {merchantId:'ZJMpfNdnzAd4LCwJyVclUI9BuK82'}
-    getOpenOrders(merchantObj)
-    .then (x => console.log(x))
-
-    ///x contains the object with the array you need to display
-
     this.setState({ dashboardOrders: 'OPEN_ORDERS' })
   }
 
- showPastDue = () => {
-    var merchantObj = {merchantId:'ZJMpfNdnzAd4LCwJyVclUI9BuK82'}
-    var pastOrders = getPastDueOrders(merchantObj)
-    .then (x => console.log(x));
-
-    /// x contains the object with the array you need to display
-
+  showPastDue = () => {
     this.setState({ dashboardOrders: 'PAST_DUE' })
   }
 
   showCompleted = () => {
-
-    
-    var merchantObj = {merchantId:'ZJMpfNdnzAd4LCwJyVclUI9BuK82'}
-    getClosedOrders (merchantObj)
-    .then (x => console.log(x));
-
-    ///x contains the object with the array you need to display
-    
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
-
   }
 
-  componentWillMount() {
-    console.log('user id:', this.props.location.state)
-    //   console.log('props state log: ', this.props.location.state)
-  }
 
-  render() {
-    if (this.props.location.state === undefined) {
-      return <Redirect to='/'></Redirect>
-    }
+   render() {
+    // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
+    // if (this.props.location.state.merchantId == undefined){
+    //   return <Redirect to='/login'></Redirect>
+    // }
     return (
-      <div className='inital-css'>
-        {/* <NavBar/> */}
-        <h3>Order Dashboard</h3>
+      <div className='inital-css' >
+
+        <div className='app-nav'>
+          <h3>Dashboard</h3>
+        </div>
         <input type='text' placeholder='Search' />
         <button>Submit</button>
 
@@ -156,13 +147,20 @@ class Dashboard extends Component {
           <button onClick={this.showCompleted}>Completed</button>
         </div>
 
-        <div>{this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
-          : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
-            : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-              : null}
+        <div className='flex'>
+          <p>Order</p>
+          <p>Items</p>
+          <p>Ready</p>
+          <p>Total</p>
         </div>
 
-        <button onClick={this.createNewOrder}>NEW ORDER</button>
+        <div>{
+          this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
+            : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
+              : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
+                : null}
+        </div>
+        <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
       </div>
     )
   }
