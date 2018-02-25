@@ -23,7 +23,7 @@ class Login extends Component {
       console.log('uid', uidFromBack)
       console.log('login id?????', this.state)
       
-      // this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
+      this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
     }
 
   }

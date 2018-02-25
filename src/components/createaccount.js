@@ -239,6 +239,7 @@ class CreateAccount extends Component {
 
     componentWillMount() {
         console.log(this.state.merchantId)
+        if (this.state.merchantId === undefined) { return <Redirect to='/' /> }
         this.setState({ merchantId: this.props.location.state.merchantId }, () => console.log('user ID', this.state.merchantId))
     }
 

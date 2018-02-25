@@ -148,13 +148,19 @@ class orderForm extends Component {
     checkPhoneNum(this.phoneNumber.value, this.props.location.state.merchantId.merchantId)
 
       .then(response => {
-        console.log('respose', response)
+        console.log('response', response)
         ///this conditional will need to change to 1, is set to zero temporarily to pass the page
         if (response.status === 0) {
           this.setState(st => ({
             currentPage: 'orderFormPageOne',
             userId: response.userId,
-            phoneNumber: phoneNum
+            phoneNumber: phoneNum,
+            merchantId: this.props.location.state.merchantId.merchantId,
+            clientName: response.clientName,
+            clientAddress: response.clientAddress,
+            clientCity: response.clientCity,
+            clientProvinceState: response.clientProvinceState,
+            clientPostalZip: response.clientPostalZip,
           }))
           console.log("user id", this.state.userId)
         }
@@ -162,7 +168,9 @@ class orderForm extends Component {
           this.setState(st => ({
             currentPage: 'orderFormPageOne',
             userId: response.userId,
-            phoneNumber: phoneNum
+            phoneNumber: phoneNum,
+            merchantId: this.props.location.state.merchantId.merchantId,
+          
 
           }))
           console.log("user id", this.state.userId)
@@ -430,16 +438,33 @@ class orderForm extends Component {
     this.setState(st => ({ orderStatus: 'suspended' }))
     this.dashboard()
   }
+// sendSms = () => {
+//   var number = '+15147120366';
+//   var message = 'SEND NUDES'
+//    fetch('/sendSms', {
+//      method: "POST",
+     
+//      body: JSON.stringify({
+//       test: number,
+//       message: message
+//      })
+ 
+//    }).then()
+//    }
+
 
   confirmation = (event) => {
     event.preventDefault()
-    this.props.history.push('/confirmation')
+  
+    // this.sendSms()
    
-    var currentMerchant = createNewOrder(this.state.userId,"ZJMpfNdnzAd4LCwJyVclUI9BuK82")
+    var currentMerchant = createNewOrder(this.state.userId,this.state.merchantId,)
     .then(x => console.log('this is current mertchant in then', x))
-
+    
+    this.props.history.push('/confirmation')
     console.log("this is current merchant from back", currentMerchant)
-    this.props.history.push('/orderform', { userId: this.props.location.state })
+    this.props.history.push('/confirmation',  { merchantId :this.props.location.state.merchantId })
+    // this.props.history.push('/orderform', { userId: this.props.location.state })
   }
 
   dashboard = () => {
