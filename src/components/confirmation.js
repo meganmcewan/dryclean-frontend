@@ -8,11 +8,11 @@ class confirmation extends Component {
   }
 
     dashboard = () => {
-        this.props.history.push('/dashboard')
+        this.props.history.push('/dashboard',  { merchantId :this.props.location.state.merchantId })
     }
 
     newOrder = () => {
-        this.props.history.push('/orderForm')
+        this.props.history.push('/orderForm',  { merchantId :this.props.location.state.merchantId })
     }
 
   render () {
