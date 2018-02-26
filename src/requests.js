@@ -341,17 +341,18 @@ export async function getPastDueOrders (merchantObj) {
 ////////////update status of an existing order by clicking on picked up in dahsboard/////////
 
 export async function markPickedUp (orderObj){
-
-  var updateStatus  = await database.ref('/Merchants/' + orderObj.merchantId + 
+  
+ var updateStatus  = await database.ref('/Merchants/' + orderObj.merchantId + 
   '/Orders/' + orderObj.orderId)
   .update({
       orderStatus: 'closed'
   })
-
+  
   var updatedOrder = await database.ref('/Merchants/' + orderObj.merchantId + 
   '/Orders/' + orderObj.orderId)
   .once('value')
-
+  
+  console.log("this is the updated order from back", updatedOrder.val())
   return {orderDetails: updatedOrder.val()}
 
 
