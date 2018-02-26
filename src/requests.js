@@ -45,7 +45,7 @@ export function registerUser (email, password) {
 
 export function checkLogin () {
   var user = firebase.auth().currentUser
-return {user}
+  return {user}
 }
 
 /// /////LOGIN FUNCTION////////
@@ -223,37 +223,45 @@ export async function getMerchantPrices (merchantObj) {
 // send the merchant ID and details, the current date and generates
 // standard and express delivery dates
 
-export async function createNewOrder (userId, merchantId) {
-  console.log('create new order running on back')
-  console.log('merchant id in create new order', merchantId)
+export async function createNewOrder (orderSummary) {
+  console.log('order summary being passed in back', orderSummary)
 
   let ndate = new Date()  /// // give the curent that in time
   let year = ndate.getFullYear()
   let month = ndate.getMonth()
   let day = ndate.getDate()
   let date = month + ' ' + day + ', ' + year
-
-  var newOrder = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push(
+  console.log('path to add new order', '/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
+  var newOrder = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
+  .push(
     {
-      orderNum: Math.floor((Math.random() * 1000) + 1),
-      merchantId: merchantId,
-      userId: userId,
+
+      merchantId: orderSummary.merchantObj.merchantId,
       date: date,
       standardReady: 'current date + 3 days',
       expressReady: 'current date +1 day',
       orderStatus: 'open',
-      orderDetails: {pants: +1, shirts: +2}
+      clientObj: orderSummary.clientObj,
+      blouse: orderSummary.blouse,
+      dress: orderSummary.dress,
+      jacket: orderSummary.jacket,
+      ladiesSuit: orderSummary.ladiesSuit,
+      overcoat: orderSummary.overcoat,
+      shirt: orderSummary.shirt,
+      skirt: orderSummary.skirt,
+      suit: orderSummary.suit,
+      tie: orderSummary.tie,
+      trousers: orderSummary.trousers,
+      totalPrice: orderSummary.totalPrice,
+      orderNumber: orderSummary.orderNumber
+
     }
   )
-  // .once('value')
 
-  var snapshot = await database.ref('/Merchants/' + merchantId)
-    .once('value')
+  var orderConfirmation = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/' + newOrder.key)
+  .once('value')
 
-  return {merchantId: snapshot.val()
-      // ,
-      // newOrder: newOrder.val()
-  }
+  return {orderConfirmation: orderConfirmation.val()}
 }
 
 /// /////////////DASHBOARD FUNCTIONS ///////////////////////
@@ -261,32 +269,36 @@ export async function createNewOrder (userId, merchantId) {
 /// ////this function gets all of the orders for the requested merchant and is called //////
 
 function makeOrdersArr (snapshot) {
-  let users = []
-  let usersOrders = []
   let allOrders = []
-  let flatOrders = []
+  // let usersOrders = []
+  // let allOrders = []
+  // let flatOrders = []
 
   snapshot.forEach(item => {
-    users.push(item.val())
+    allOrders.push(item.val())
   })
+  return allOrders
 
-  users.forEach(user => {
-    usersOrders.push(user.Orders)
-  })
-  usersOrders.forEach(ordersObj => {
-    allOrders.push(Object.values(ordersObj))
-  })
+  console.log('this is all orders array, ', allOrders)
 
-  allOrders.forEach(item => {
-    item.forEach(e => flatOrders.push(e))
-  })
+  // users.forEach(user => {
+  //   usersOrders.push(user.Orders)
+  // })
 
-  return flatOrders
+  // usersOrders.forEach(ordersObj => {
+  //   allOrders.push(Object.values(ordersObj))
+  // })
+
+  // allOrders.forEach(item => {
+  //   item.forEach(e => flatOrders.push(e))
+  // })
+
+  // return flatOrders
 }
 /// // open orders function//////
 
-export async function getOpenOrders (merchantId) {
-  var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Users/')
+export async function getOpenOrders (merchantObj) {
+  var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
     .once('value')
 
   let openOrders = []
@@ -301,8 +313,8 @@ export async function getOpenOrders (merchantId) {
   return { openOrders: openOrders }
 }
 /// / closed order function/////
-export async function getClosedOrders (merchantId) {
-  var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Users/')
+export async function getClosedOrders (merchantObj) {
+  var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
     .once('value')
 
   let closedOrders = []
@@ -319,8 +331,8 @@ export async function getClosedOrders (merchantId) {
 
 /// //////past due function///////
 
-export async function getPastDueOrders (merchantId) {
-  var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Users/')
+export async function getPastDueOrders (merchantObj) {
+  var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
     .once('value')
 
   let pastDueOrders = []

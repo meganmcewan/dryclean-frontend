@@ -26,6 +26,7 @@ class Dashboard extends Component {
 
     this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
         var merchantObj = { merchantId: this.props.location.state.merchantId }
+    console.log('merchant obj', merchantObj)
 
     getOpenOrders(merchantObj)
       .then(x => { this.setState({ openOrders: x.openOrders }); })
@@ -78,7 +79,7 @@ createNewOrder =() =>{
         <div key={idx}>
           <div className='order-listing'>
             <div className='flex'>
-              <div>#{item.orderNum}</div>
+              <div>#{item.orderNumber}</div>
               <p>5</p>
               <p>02/13/18 12PM</p>
               <p>$12.00</p>
