@@ -21,23 +21,18 @@ class Login extends Component {
 
     if (uidFromBack !== undefined) {
  
-      this.setState({ merchantId: uidFromBack.merchantId, isLoggedIn: true })
-      this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
+      this.setState({ merchantId: uidFromBack.merchantId })
+      this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId })
 
     }
 
   }
 
-  componentDidMount () {
-var uidFromBack = checkLogin()
-if(uidFromBack.user !== null){
-  this.props.history.push('/dashboard', { merchantId: uidFromBack.user.uid, isLoggedIn: true })
-}
-  
+
+   
     
 
 
-  }
   render() {
     
     return (

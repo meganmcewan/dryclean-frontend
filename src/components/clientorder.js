@@ -25,7 +25,11 @@ class ClientOrder extends Component {
     }
 
     componentWillMount(){
-        this.setState({merchantObj: {merchantId: this.props.location.state.merchantId, merchantPrices: this.props.location.state.merchantPrices.Regular}})
+        
+        if(!this.props.location.state.merchantId){
+            this.props.history.push('/dashboard')
+        }
+        else {this.setState({merchantObj: {merchantId: this.props.location.state.merchantId, merchantPrices: this.props.location.state.merchantPrices.Regular}})}
     }
 
     // STEP 1/3  CLIENT PERSONAL INFO  ---------------------
