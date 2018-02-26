@@ -5,6 +5,7 @@ import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMe
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
 // import NavBar from './nav.js'
+import ViewOrder from './vieworder.js'
 
 class Dashboard extends Component {
   constructor() {
@@ -40,6 +41,8 @@ class Dashboard extends Component {
     componentDidMount() {
 
       var uidFromBack = checkLogin()
+
+      // var orderObject = checkOrder()
 
       this.setState({merchantId : uidFromBack.user.uid})
           var merchantObj = { merchantId: uidFromBack.user.uid }
@@ -77,6 +80,11 @@ class Dashboard extends Component {
 
     }
 
+     viewOrder = () => {
+      this.props.history.push('/vieworder/'+this.state.merchantId)
+    }
+
+
 //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
     openOrders = () => {
       const { openOrders } = this.state;
@@ -94,6 +102,7 @@ class Dashboard extends Component {
         item.orderStatus = 'closed'
       }
 
+   
       return (
         <div key={idx}>
           <div className='order-listing'>
@@ -102,6 +111,7 @@ class Dashboard extends Component {
               <p>Items: {sumItems}</p>
               <p>{item.date}</p>
               <p>${item.totalPrice}</p>
+              <button onClick={this.viewOrder}>View Order</button>
               <button onClick={pickedUp}>Picked Up</button>
             </div>
           </div>
@@ -183,7 +193,6 @@ class Dashboard extends Component {
             <button onClick={this.showOpen}>Open</button>
             <button onClick={this.showPastDue}>Past Due</button>
             <button onClick={this.showCompleted}>Completed</button>
-
           </div>
 
           <div className='flex'>

@@ -2,7 +2,6 @@
 import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
 
-
 var database = firebase.database()
 
 /// //////login, sign up and singout functions//////////
