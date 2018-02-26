@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices, signout, checkLogin } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices, signout, checkLogin, markPickedUp } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
+
 // import NavBar from './nav.js'
 import ViewOrder from './vieworder.js'
 
@@ -53,32 +54,47 @@ class Dashboard extends Component {
       getClosedOrders(merchantObj)
         .then(x => { this.setState({ completedOrders: x.closedOrders }); })
 
-      getPastDueOrders(merchantObj)
-        .then(x => { this.setState({ pastDueOrders: x.pastDueOrders }); })
-
       getMerchantPrices(merchantObj)
-        .then(x => {
-          this.setState({ merchantPrices: x.prices })
-        })
+        .then(x => {this.setState({ merchantPrices: x.prices })
+       })
 
-  //     if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
-      //   console.log('props state log: ', this.props.location.state)
-    }
+    // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
+    //   console.log('props state log: ', this.props.location.state)
+  }
+ moveToClosed =(item) =>{
+   console.log('this is the item being passed', item) 
+   console.log('this is the item.orderid bieng passed', item.orderDetails.orderId) 
+   console.log('this is the open ordres in state', this.state.openOrders)
 
-//------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
-    createNewOrder = () => {
+   
+   var updatedOpenOrders = this.state.openOrders.filter(order =>
+     {
+      console.log('this is order.orderid,',order.orderId )
+      console.log('this is item.orderdetails,',item.orderDetails.orderId)
+      return order.orderId !== item.orderDetails.orderId
+  })
+ 
+  console.log('this is the updated array' , updatedOpenOrders)
+  return updatedOpenOrders
+
+ }
+
+
+  //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
+createNewOrder =() =>{
+    // console.log('this is merchant id state in create new order button', this.state.merchantId)
 
       console.log('this is merchant id state in create new order button', this.state.merchantId)
-
+      console.log('this is merchant pricescreate new order button',this.state.merchantPrices)
       this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
       // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
       // .then(x => console.log('this is current mertchant in then', x))
 
-      // console.log("this is current merchant from back", currentMerchant)
-      // this.props.history.push('/orderform', {userId: this.props.location.state})
-
-    }
+     
+  
+      }
+    
 
      viewOrder = () => {
       this.props.history.push('/vieworder/'+this.state.merchantId)
@@ -88,19 +104,27 @@ class Dashboard extends Component {
 //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
     openOrders = () => {
       const { openOrders } = this.state;
-
-      return openOrders.map((item, idx) => {
-        console.log(item)
+  
+          
+   
+    return openOrders.map((item, idx) => {
 
 //------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
       let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
       let filteredItems = totalItems.filter(function (x){return x})
       let sumItems = filteredItems.reduce(function(a, b){return a + b})
+      
+      
+      var that = this;
+      function pickedUp(item)  {
+        var itemClosed = markPickedUp(item)
+        .then (closedOrder=> {
 
-      function pickedUp()  {
-        console.log('this item has been picked up')
-        item.orderStatus = 'closed'
-      }
+        that.moveToClosed(closedOrder)})}
+
+       
+
+      
 
    
       return (
