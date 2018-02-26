@@ -188,3 +188,143 @@ Link{
 input[type=radio]{
   width: 20px;
 }
+
+/* ------------------------------------------------------------*/
+/* CONFIRMATION PAGE ------------------------------------------*/
+
+.confirmation-wrapper{
+  max-width: 500px;
+  color: rgb(49, 49, 223);
+  background-color: #f7e4ec;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+#order-num{
+  color: red;
+  font-size: 35px;
+  font-weight: 800;
+  text-align: right;
+}
+
+.item-list{
+  display: flex;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  /* border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  padding: 5px; */
+}
+
+.item-type{
+  text-transform: uppercase;
+  font-weight: 800;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(49, 49, 223);
+  border-bottom: none;
+  padding: 5px;
+  padding-left: 20px;
+  width: 70%;
+  text-align: left;
+}
+
+.item-amount{
+  font-weight: 800;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(49, 49, 223);
+  border-left: none;
+  border-bottom: none;
+  padding: 5px;
+  width: 30%
+  
+}
+
+#last-item{
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(49, 49, 223);
+}
+
+.client-info-fields{
+  display: flex;
+}
+
+.line{
+  width: 100%;
+  border-bottom-color: rgb(49, 49, 223);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  margin-bottom: 15px;
+  margin-top: 6px;
+}
+
+.merchant-adress-info{
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.store-name{
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+#form-header{
+  background-color: rgb(49, 49, 223);
+  color: #f7e4ec;
+}
+
+.confirmation-header{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.order-status{
+  text-align: left;
+}
+
+.confirmation-field-title{
+  text-align: left;
+  width: 60px;
+  font-size: 14px;
+}
+
+.client-info{
+  font-weight: 800;
+  font-size: 16px;
+  text-align: left;
+}
+
+.ready-date-wrapper{
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.ready-date{
+  width: 20%;
+  border-color: rgb(17, 28, 179);
+  border-style: solid;
+  border-width: 1px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(200, 200, 255);
+}
+
+.client-phone{
+  width: 50%;
+}
+
+.date{
+  width: 50%;
+}

@@ -21,10 +21,9 @@ class Dashboard extends Component {
 
 
   componentDidMount() {
-    
-    console.log('this is merchant merchant id state on component will mount', this.props.location.state.merchantId)
+    // console.log('this is merchant merchant id state on component will mount', this.props.location.state.merchantId)
+
     this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
-    console.log('merchant state', this.state.merchantId)
         var merchantObj = { merchantId: this.props.location.state.merchantId }
 
     getOpenOrders(merchantObj)
@@ -36,32 +35,42 @@ class Dashboard extends Component {
     getPastDueOrders(merchantObj)
       .then(x => { this.setState({ pastDueOrders: x.pastDueOrders }); })
 
+      setTimeout(() => console.log('merchant state', this.state.merchantId), 2000)
+
+
     // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
     //   console.log('props state log: ', this.props.location.state)
   }
-   
-  
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
 
     console.log('this is merchant id state in create new order button', this.state.merchantId)
-    
+
     this.props.history.push('/orderform',  { merchantId :this.state.merchantId })
-    
+
     // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
     // .then(x => console.log('this is current mertchant in then', x))
-    
+
     // console.log("this is current merchant from back", currentMerchant)
   // this.props.history.push('/orderform', {userId: this.props.location.state})
 
   }
+
+
 
   //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
   openOrders = () => {
     const { openOrders } = this.state;
 
     return openOrders.map((item, idx) => {
+      console.log(item)
+
+      function pickedUp()  {
+        console.log('this item has been picked up')
+        item.orderStatus = 'closed'
+      }
+
       return (
         <div key={idx}>
           <div className='order-listing'>
@@ -70,6 +79,7 @@ class Dashboard extends Component {
               <p>5</p>
               <p>02/13/18 12PM</p>
               <p>$12.00</p>
+              <button onClick={pickedUp}>Picked Up</button>
             </div>
           </div>
         </div>
@@ -135,8 +145,6 @@ class Dashboard extends Component {
     //   return <Redirect to='/login'></Redirect>
     // }
 
-    console.log('merchant state render', this.state.merchantId)
-console.log('is logged in? ',this.state.isLoggedIn)    
     return (
 
       <div className='inital-css' >
