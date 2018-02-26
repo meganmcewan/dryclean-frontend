@@ -32,6 +32,9 @@ class Dashboard extends Component {
     
 
   //   }
+    // this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
+    //     var merchantObj = { merchantId: this.props.location.state.merchantId }
+    // console.log('merchant obj', merchantObj)
 
     // else {
       
