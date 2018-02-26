@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices , markPickedUp } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
@@ -70,9 +70,14 @@ createNewOrder =() =>{
     return openOrders.map((item, idx) => {
       console.log(item)
 
-      function pickedUp()  {
+        function pickedUp()  {
+            var itemClosed = markPickedUp(item)
+            .then (x => console.log(x))
+            
+            /// then we will need to cause a re-render so that the lists update
+          
         console.log('this item has been picked up')
-        item.orderStatus = 'closed'
+        // item.orderStatus = 'closed'
       }
 
       return (
