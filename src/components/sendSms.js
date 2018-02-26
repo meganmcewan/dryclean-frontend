@@ -9,7 +9,7 @@ app.use(bodyParser.raw({ type: '*/*', limit: '50mb' }))
 
 app.post('/sendSms',(req,res) => {
   
-console.log(JSON.parse(req.body))
+
 var phoneNumber = JSON.parse(req.body);
 var number = phoneNumber.test
 var message = phoneNumber.message
@@ -24,7 +24,7 @@ var message = phoneNumber.message
       body: message,
     })
 
-    .then(message => console.log(message.sid))
+    
     .then(res.send(JSON.stringify("SENDING")))
 })
 
