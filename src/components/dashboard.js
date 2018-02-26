@@ -68,6 +68,11 @@ class Dashboard extends Component {
     return openOrders.map((item, idx) => {
       console.log(item)
 
+//------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
+      let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
+      let filteredItems = totalItems.filter(function (x){return x})
+      let sumItems = filteredItems.reduce(function(a, b){return a + b})
+
       function pickedUp()  {
         console.log('this item has been picked up')
         item.orderStatus = 'closed'
@@ -78,9 +83,9 @@ class Dashboard extends Component {
           <div className='order-listing'>
             <div className='flex'>
               <div>#{item.orderNumber}</div>
-              <p>5</p>
-              <p>02/13/18 12PM</p>
-              <p>$12.00</p>
+              <p>Items: {sumItems}</p>
+              <p>{item.date}</p>
+              <p>${item.totalPrice}</p>
               <button onClick={pickedUp}>Picked Up</button>
             </div>
           </div>

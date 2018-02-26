@@ -228,9 +228,9 @@ export async function createNewOrder (orderSummary) {
 
   let ndate = new Date()  /// // give the curent that in time
   let year = ndate.getFullYear()
-  let month = ndate.getMonth()
+  let month = ndate.getMonth() + 1
   let day = ndate.getDate()
-  let date = month + ' ' + day + ', ' + year
+  let date = month + '/' + day + '/' + year
   console.log('path to add new order', '/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
   var newOrder = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
   .push(
