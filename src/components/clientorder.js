@@ -8,7 +8,7 @@ class ClientOrder extends Component {
         this.state = {
             clientObj: {},
             merchantObj: {},
-            orderNumber: 2434,
+            orderNumber: Math.floor((Math.random() * 10000) + 1),
             clientOrderForm: 'PERSONAL_INFO',
             trousers: null,
             suit: null,

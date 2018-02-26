@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { createNewOrder } from '../requests.js'
 
 class Confirmation extends Component {
   constructor() {
@@ -10,8 +11,10 @@ componentWillMount(){
   this.setState({orderSummary: this.props.location.state.orderSummary})
 }
 
-  dashboard = () => {
-    this.props.history.push('/dashboard', this.state.orderSummary.merchantObj.merchantId)
+  confirmOrder = () => {
+    createNewOrder(this.state.orderSummary)
+    .then(x => console.log(x))
+    // this.props.history.push('/dashboard', this.state.orderSummary.merchantObj.merchantId)
   }
 
   render() {
@@ -29,7 +32,7 @@ componentWillMount(){
               <div>PAID</div>
             </div>
 
-            <div id='order-num'>10273</div>
+            <div id='order-num'>{this.state.orderSummary.orderNumber}</div>
           </div>
 
           <div className='merchant-adress-info'>
@@ -157,7 +160,7 @@ componentWillMount(){
 
         </div>
         <div>
-          <button onClick={this.dashboard}>Dashboard</button>
+          <button onClick={this.confirmOrder}>Confirm Order</button>
           {/* <button onClick={this.newOrder}>New Order</button> */}
         </div>
       </div>
