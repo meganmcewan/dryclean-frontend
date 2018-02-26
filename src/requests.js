@@ -1,16 +1,7 @@
-import * as firebase from 'firebase'
 
+import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
 
-var config = {
-  apiKey: 'AIzaSyAtYDJn0gbF88ReFYIAi_F1EBTcl3rAGTE',
-  authDomain: 'washr-data.firebaseapp.com',
-  databaseURL: 'https://washr-data.firebaseio.com',
-  projectId: 'washr-data',
-  storageBucket: 'washr-data.appspot.com',
-  messagingSenderId: '700840172175'
-}
-const app = firebase.initializeApp(config)
 
 var database = firebase.database()
 
@@ -223,10 +214,10 @@ export async function createNewOrder (orderSummary) {
 
   let ndate = new Date()  /// // give the curent that in time
   let year = ndate.getFullYear()
-  let month = ndate.getMonth()
+  let month = ndate.getMonth() + 1
   let day = ndate.getDate()
-  let date = month + ' ' + day + ', ' + year
-  
+  let date = month + '/' + day + '/' + year
+  console.log('path to add new order', '/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
   var newOrder = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
   .push(
     {

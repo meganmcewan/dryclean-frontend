@@ -25,7 +25,11 @@ class ClientOrder extends Component {
     }
 
     componentWillMount(){
-        this.setState({merchantObj: {merchantId: this.props.location.state.merchantId, merchantPrices: this.props.location.state.merchantPrices.Regular}})
+        
+        if(!this.props.location.state.merchantId){
+            this.props.history.push('/dashboard')
+        }
+        else {this.setState({merchantObj: {merchantId: this.props.location.state.merchantId, merchantPrices: this.props.location.state.merchantPrices.Regular}})}
     }
 
     // STEP 1/3  CLIENT PERSONAL INFO  ---------------------
@@ -130,98 +134,9 @@ updatePrice = (inp, productName) => {
         )
     }
 
-    //     // STEP 2/3  MERCHANT BUSINESS INFO  ---------------------
-    //     submitBusinessInfoForm = () => {
-    //         this.setState({
-    //             accountSetupForm: 'PRICE_INFO',
-    //             merchantSubmittedInformation: {
-    //                 merchantId: this.props.location.state.merchantId,
-    //                 merchantFullName: this.state.merchantSubmittedInformation.merchantFullName,
-    //                 merchantPersonalNumber: this.state.merchantSubmittedInformation.merchantPersonalNumber,
-    //                 businessName: this.businessName.value,
-    //                 businessPhoneNum: this.businessPhoneNum.value,
-    //                 businessAddress: this.businessAddress.value,
-    //                 city: this.city.value,
-    //                 province: this.province.value,
-    //                 postalCode: this.postalCode.value,
-    //             }
-    //         })
-    //     }
-
-    //     businessInfoForm = () => {
-    //         return (
-    //             <div className='inital-css'>
-    //                 <div className='app-nav'>
-    //                     <h3>Account Setup:</h3>
-    //                 </div>
-    //                 <div>
-    //                     <p>2/3 - Business Account Info:</p>
-    //                     <input ref={r => this.businessName = r} placeholder='Business Name' />
-    //                     <input ref={r => this.businessPhoneNum = r} placeholder='Business Phone #' />
-    //                     <input ref={r => this.businessAddress = r} placeholder='Business Address' />
-    //                     <input ref={r => this.city = r} placeholder='City' />
-    //                     <input ref={r => this.province = r} placeholder='Province / State' />
-    //                     <input ref={r => this.postalCode = r} placeholder='Postal / Zip Code' />
-    //                     <button onClick={this.submitBusinessInfoForm}>Next</button>
-    //                 </div>
-    //             </div>
-    //         )
-    //     }
-
-
-    // // SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
-    //     createNewAccount = () => {
-    //         var prices = {
-    //             regular: {
-    //                 trousers: + this.trousersRegular.value,
-    //                 suit: + this.suitRegular.value,
-    //                 overcoat: + this.overcoatRegular.value,
-    //                 ladiesSuit: + this.ladiesSuitRegular.value,
-    //                 dress: + this.dressRegular.value,
-    //                 skirt: + this.skirtRegular.value,
-    //                 jacket: + this.jacketRegular.value,
-    //                 blouse: + this.blouseRegular.value,
-    //                 tie: + this.tieRegular.value
-    //             },
-    //             express: {
-    //                 trousers: + this.trousersExpress.value,
-    //                 suit: + this.suitExpress.value,
-    //                 overcoat: + this.overcoatExpress.value,
-    //                 ladiesSuit: + this.ladiesSuitExpress.value,
-    //                 dress: + this.dressExpress.value,
-    //                 skirt: + this.skirtExpress.value,
-    //                 jacket: + this.jacketExpress.value,
-    //                 blouse: + this.blouseExpress.value,
-    //                 tie: + this.tieExpress.value
-    //             }
-    //         }
-
-    //         this.setState({ prices: prices },
-    //             () => this.props.history.push('/dashboard', {
-    //                 merchantId: this.props.location.state.merchantId,
-    //                 merchantSubmittedInformation: this.state.merchantSubmittedInformation,
-    //                 prices: this.state.prices
-    //             })
-    //         )
-    //         registerMerchant(this.state.merchantSubmittedInformation, prices)
-    //     }
-
-    // componentWillMount() {
-    //     console.log(this.state.merchantId)
-    //     if (this.state.merchantId === undefined) { return <Redirect to='/' /> }
-    //     this.setState({ merchantId: this.props.location.state.merchantId }, () => console.log('user ID', this.state.merchantId))
-    // }
-
     render() {
-
        if (this.state.clientOrderForm === 'PERSONAL_INFO') return this.clientPersonalInfoForm()
        if (this.state.clientOrderForm === 'ORDER_INFO') return this.clientOrderDetails()
-       
-
-        // if (this.state.merchantId === undefined) { return <Redirect to='/signup' /> }
-        // if (this.state.accountSetupForm === 'PERSONAL_INFO') { return this.personalInfoForm() }
-        // if (this.state.accountSetupForm === 'BUSINESS_INFO') { return this.businessInfoForm() }
-        // if (this.state.accountSetupForm === 'PRICE_INFO') { return this.priceListForm() }
     }
 }
 
