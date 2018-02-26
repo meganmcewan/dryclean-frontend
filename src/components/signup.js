@@ -18,7 +18,7 @@ class Signup extends Component {
             this.setState({ formError: 'Passwords must match' })
         } else {
             var uidFromBack = await registerUser(this.user.value, this.pass.value)
-           
+
             if (uidFromBack !== undefined) {
                 this.setState({ merchantId: uidFromBack.merchantId })
                 this.props.history.push('/createaccount', {merchantId: uidFromBack.merchantId})
@@ -28,13 +28,13 @@ class Signup extends Component {
 
 //CHECKS THE 'RADIO' SELECT BUTTONS IF MERCHANT OR CUSTOMER ACCOUNT IS SELECTED
     handleOnChange = (event) => {
-        console.log('merchant type selected:', event.target.value)
         this.setState({userType: event.target.value})
     }
 
     render() {
         return (
             <div className='inital-css'>
+            <div className='loginWrapper'>
                 <form>
                     <h3>Sign Up:</h3>
 
@@ -49,8 +49,9 @@ class Signup extends Component {
 
                     <div>{this.state.formError}</div>
                     <button onClick={this.submitSignup}>Submit</button>
-                    <div>or <Link to='/login'>Log In</Link></div>
+                    <p className='footnote'>Already have an account? <Link to='/login'>Log In</Link></p>
                 </form>
+            </div>
             </div>
         )
     }

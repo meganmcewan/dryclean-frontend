@@ -27,6 +27,37 @@
   to { transform: rotate(360deg); }
 }
 
+body{
+  background-color: #f9f9f9;
+}
+
+input{
+  height: 30px;
+  width: 160px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border: none;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: rgb(0, 0, 0);
+  /* display: block; */
+  /* border-radius: 5px; */
+}
+
+
+button{
+  background-color: rgb(0, 0, 0);
+  color: white;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+}
+
+Link{
+  text-decoration: none;
+}
 
 .inital-css{
   margin-left: auto;
@@ -43,7 +74,8 @@
 .flex{
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  text-align: left;
 }
 
 .order-listing{
@@ -57,14 +89,242 @@
   margin-bottom: 10px;
 }
 
-/* .loginWrapper{
+.loginWrapper{
   padding: 20px;
-  margin-left: auto;
-  margin-right: auto;
   margin-top: 20px;
-  background-color: rgb(223, 223, 223);
   width: 80vw;
   max-width: 400px;
-  height: 40vh;
+  height: 350px;
+  margin-right: auto;
+  margin-left: auto;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  border-radius: 5px;
+}
+
+.form{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.formInput{
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
-} */
+  justify-content: center;
+}
+
+.footnote{
+  font-size: 12px;
+  color: rgb(153, 153, 153);
+}
+
+.app-nav{
+  background-color: rgb(63, 63, 63);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.app-nav h3{
+  margin: 0;
+}
+
+#clnr-logo{
+  width: 30%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#newOrderButton{
+  font-size: 18px;
+  background-color: rgb(8, 4, 4);
+  /* width: 50px;
+  height: 50px; */
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
+.home-btns-wrapper{
+  display: flex;
+  justify-content: space-around;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
+
+
+/* CREATE ACCOUNT FORM STYLES  -----------------  */
+
+.item-name{
+  margin-left: 10%;
+}
+
+.price-wrapper{
+  margin-right: 10%;
+}
+
+.price-input{
+  width: 60px;
+  margin-left: 5px;
+}
+
+.item-wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+.settings-wrapper{
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+
+input[type=radio]{
+  width: 20px;
+}
+
+/* ------------------------------------------------------------*/
+/* CONFIRMATION PAGE ------------------------------------------*/
+
+.confirmation-wrapper{
+  max-width: 500px;
+  color: rgb(49, 49, 223);
+  background-color: #f7e4ec;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+#order-num{
+  color: red;
+  font-size: 35px;
+  font-weight: 800;
+  text-align: right;
+}
+
+.item-list{
+  display: flex;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  /* border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  padding: 5px; */
+}
+
+.item-type{
+  text-transform: uppercase;
+  font-weight: 800;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(49, 49, 223);
+  border-bottom: none;
+  padding: 5px;
+  padding-left: 20px;
+  width: 70%;
+  text-align: left;
+}
+
+.item-amount{
+  font-weight: 800;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(49, 49, 223);
+  border-left: none;
+  border-bottom: none;
+  padding: 5px;
+  width: 30%
+  
+}
+
+#last-item{
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(49, 49, 223);
+}
+
+.client-info-fields{
+  display: flex;
+}
+
+.line{
+  width: 100%;
+  border-bottom-color: rgb(49, 49, 223);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  margin-bottom: 15px;
+  margin-top: 6px;
+}
+
+.merchant-adress-info{
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.store-name{
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+#form-header{
+  background-color: rgb(49, 49, 223);
+  color: #f7e4ec;
+}
+
+.confirmation-header{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.order-status{
+  text-align: left;
+}
+
+.confirmation-field-title{
+  text-align: left;
+  width: 60px;
+  font-size: 14px;
+}
+
+.client-info{
+  font-weight: 800;
+  font-size: 16px;
+  text-align: left;
+}
+
+.ready-date-wrapper{
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.ready-date{
+  width: 20%;
+  border-color: rgb(17, 28, 179);
+  border-style: solid;
+  border-width: 1px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(200, 200, 255);
+}
+
+.client-phone{
+  width: 50%;
+}
+
+.date{
+  width: 50%;
+}

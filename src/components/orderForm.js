@@ -354,20 +354,26 @@ class orderForm extends Component {
     this.dashboard()
   }
 
- 
-// sendSms = () => {
-//   var number = '+15147120366';
-//   var message = 'SEND NUDES'
-//    fetch('/sendSms', {
-//      method: "POST",
-     
-//      body: JSON.stringify({
-//       test: number,
-//       message: message
-//      })
- 
-//    }).then()
-//    }
+  suspendOrder = () => {
+    alert('order suspended')
+    this.setState(st => ({ orderStatus: 'suspended' }))
+    this.dashboard()
+  }
+  // sendSms = () => {
+  //   console.log(this.state.phoneNumber)
+  //   var number = '+1'+this.state.phoneNumber;
+  //   var message = 'SEND NUDES!'
+  //    fetch('/sendSms', {
+  //      method: "POST",
+       
+  //      body: JSON.stringify({
+  //       test: number,
+  //       message: message
+  //      })
+   
+  //    }).then()
+   
+  //   }
 
 
   confirmation = (event) => {

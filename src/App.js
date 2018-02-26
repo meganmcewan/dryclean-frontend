@@ -6,14 +6,14 @@ import Login from './components/login.js'
 import Signup from './components/signup.js'
 import CreateAccount from './components/createaccount'
 import orderForm from './components/orderForm.js'
-import dashboard from './components/dashboard.js'
-import Confirmation from './components/Confirmation.js'
+import Dashboard from './components/dashboard.js'
+import confirmation from './components/confirmation.js'
+import ClientOrder from './components/clientorder.js'
 
 import { signUp, getUsers, login} from './requests'
 
 // these are the imported functions to talk to the backend
 // import './requests';
-
 
 class App extends Component {
   // signUp = () => {
@@ -29,8 +29,9 @@ class App extends Component {
         <Route path='/signup' component={Signup} />
         <Route path='/createaccount' component={CreateAccount} />
         <Route path='/orderform' component={orderForm} />
-        <Route path='/dashboard' component={dashboard} />
-        <Route path='/Confirmation' component={Confirmation} />
+        <Route path='/clientorder' component={ClientOrder} />
+        <Route path='/dashboard' component={Dashboard} />
+        <Route path='/confirmation' component={confirmation} />
       </Switch>
     )
   }

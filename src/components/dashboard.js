@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getPricingInfo } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
@@ -12,6 +12,7 @@ class Dashboard extends Component {
     super()
     this.state = {
       dashboardOrders: 'OPEN_ORDERS',
+      merchantId: undefined,
       isLoggedIn: false,
       openOrders: [],
       pastDueOrders: [],
@@ -21,12 +22,10 @@ class Dashboard extends Component {
 
 
   componentDidMount() {
-  
-    
-   
-    this.setState({merchantId : this.props.location.state.merchantId})
+    // console.log('this is merchant merchant id state on component will mount', this.props.location.state.merchantId)
+
+    this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
         var merchantObj = { merchantId: this.props.location.state.merchantId }
-  
 
     getOpenOrders(merchantObj)
       .then(x => { this.setState({ openOrders: x.openOrders }); })
@@ -37,43 +36,44 @@ class Dashboard extends Component {
     getPastDueOrders(merchantObj)
       .then(x => { this.setState({ pastDueOrders: x.pastDueOrders }); })
 
-   
+    getMerchantPrices (merchantObj)
+      .then(x =>{
+        this.setState({merchantPrices: x.prices})})
 
     // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
     //   console.log('props state log: ', this.props.location.state)
   }
 
-  // componentWillMount (){
-  //   console.log('this is state.merchantid', this.state.merchantId)
-  //   getPricingInfo (this.state.merchantId)
-  //   .then (x => {console.log('this is hte x response to prices', x)
-  //      {this.setState({prices: x.prices})
-  //     } })  
-
-  // }
-   
-  
-
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
+createNewOrder =() =>{
+    // console.log('this is merchant id state in create new order button', this.state.merchantId)
 
+    this.props.history.push('/clientorder',  { merchantId :this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
-  createNewOrder = () => {
-    
-    console.log('this is the state when you go to start a new order', this.state)
-    this.props.history.push('/orderform', 
+    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
+    // .then(x => console.log('this is current mertchant in then', x))
 
-      { merchantId :this.state.merchantId , 
-            currentPage: 'EnterClientPhone',
-            prices: this.state.prices
-        })
+    // console.log("this is current merchant from back", currentMerchant)
+  // this.props.history.push('/orderform', {userId: this.props.location.state})
+
+     
   
-    }
+      }
+    
+
 
   //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
   openOrders = () => {
     const { openOrders } = this.state;
 
     return openOrders.map((item, idx) => {
+      console.log(item)
+
+      function pickedUp()  {
+        console.log('this item has been picked up')
+        item.orderStatus = 'closed'
+      }
+
       return (
         <div key={idx}>
           <div className='order-listing'>
@@ -82,6 +82,7 @@ class Dashboard extends Component {
               <p>5</p>
               <p>02/13/18 12PM</p>
               <p>$12.00</p>
+              <button onClick={pickedUp}>Picked Up</button>
             </div>
           </div>
         </div>
@@ -146,7 +147,9 @@ class Dashboard extends Component {
     // if (this.props.location.state.merchantId == undefined){
     //   return <Redirect to='/login'></Redirect>
     // }
+
     return (
+
       <div className='inital-css' >
 
         <div className='app-nav'>
@@ -179,6 +182,5 @@ class Dashboard extends Component {
     )
   }
 }
-
 
 export default Dashboard

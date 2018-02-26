@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { login } from '../requests';
+import { login, checkLogin } from '../requests';
 
 class Login extends Component {
   constructor() {
@@ -12,23 +12,37 @@ class Login extends Component {
 
   // SUBMITS & CHECKS LOGIN INFORMATION WITH BACKEND  ---------------------
   submitLogin = async (e) => {
+   
+    
     e.preventDefault()
+    
 
     var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
-    
+
     if (uidFromBack !== undefined) {
-      console.log("uidFromBack.merchantId",uidFromBack.merchantId)
+ 
       this.setState({ merchantId: uidFromBack.merchantId, isLoggedIn: true })
       this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId, isLoggedIn: true })
-      
+
     }
-   
+
   }
 
+  componentDidMount () {
+var uidFromBack = checkLogin()
+if(uidFromBack.user !== null){
+  this.props.history.push('/dashboard', { merchantId: uidFromBack.user.uid, isLoggedIn: true })
+}
+  
+    
+
+
+  }
   render() {
+    
     return (
-      <div className='loginWrapper'>      
-      <div className='inital-css'>
+      <div className='loginWrapper'>
+        <div className='inital-css'>
           <h3>Log In:</h3>
           <form>
             <div>
@@ -45,5 +59,4 @@ class Login extends Component {
     )
   }
 }
-
 export default Login
