@@ -157,7 +157,7 @@ function getUser(snapshot) {
 }
 
 export async function checkPhoneNum(phoneNumber, merchantId) {
-  console.log ('merchant mrechant id that is in the back of checkphone', merchantId)
+  
 
   var snapshot = await database.ref('/Merchants/' + merchantId + '/Users/')
     .orderByChild('phoneNumber')
@@ -179,7 +179,8 @@ export async function checkPhoneNum(phoneNumber, merchantId) {
   }
   else {
     return {
-      status: 0, msg: "User found!",
+      status: 0, 
+      msg: "User found!",
       userId: user.userId,
       clientName: user.value.clientName,
       clientAddress: user.value.clientAddress,
@@ -211,13 +212,22 @@ export async function addUserDetails(userObj, merchantId) {
 
   })
 
-  var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Prices/')
-    .once('value')
+  // var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Prices/')
+  //   .once('value')
 
 
-  return { merchantId: merchantId.merchantId, prices: snapshot.val() }
+  // return { merchantId: merchantId.merchantId, prices: snapshot.val() }
 }
+// sends merchant pricing information to the front so they can do the Math
+// for the form 
 
+export async function getPricingInfo (merchantId){
+  console.log('this is the path','/Merchants/' + merchantId +'/Prices/' )
+  var prices = await database.ref('/Merchants/' + merchantId +'/Prices/')
+  .once('value')
+  console.log('this is prices.val in the back', prices.val())
+  return { merchantId: merchantId, prices: prices.val() }
+}
 
 
 // this order creates a new orderID, generates a readable order number
@@ -225,8 +235,8 @@ export async function addUserDetails(userObj, merchantId) {
 // standard and express delivery dates
 
 export async function createNewOrder(userId, merchantId) {
-  console.log('create new order running on back')
-  console.log('merchant id in create new order', merchantId)
+  console.log("this is merchant id being passed to create new order in back", merchantId)
+  
 
   var newOrder = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push(
     {
@@ -275,7 +285,6 @@ function makeOrdersArr(snapshot) {
   users.forEach(user => {
     usersOrders.push(user.Orders);
   })
-
   usersOrders.forEach(ordersObj => {
     allOrders.push(Object.values(ordersObj))
   })
@@ -292,7 +301,7 @@ function makeOrdersArr(snapshot) {
 
 export async function getOpenOrders(merchantId) {
 
-
+console.log('this is mechant id in back', merchantId)
   var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Users/')
     .once('value')
 

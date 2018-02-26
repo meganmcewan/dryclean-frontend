@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-class confirmation extends Component {
+class Confirmation extends Component {
   constructor () {
     super()
     this.state = {}
@@ -33,4 +33,4 @@ class confirmation extends Component {
   }
 }
 
-export default confirmation
+export default Confirmation

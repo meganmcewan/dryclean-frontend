@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getPricingInfo } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
+
 // import NavBar from './nav.js'
 
 class Dashboard extends Component {
@@ -21,9 +22,11 @@ class Dashboard extends Component {
 
   componentDidMount() {
   
-    console.log('this is merchant merchant id state on component will mount', this.props.location.state.merchantId)
+    
+   
     this.setState({merchantId : this.props.location.state.merchantId})
-        var merchantObj = { merchantId: 'xq2OkpPed0N5M1Hr42thgq6PJZv1' }
+        var merchantObj = { merchantId: this.props.location.state.merchantId }
+  
 
     getOpenOrders(merchantObj)
       .then(x => { this.setState({ openOrders: x.openOrders }); })
@@ -34,26 +37,37 @@ class Dashboard extends Component {
     getPastDueOrders(merchantObj)
       .then(x => { this.setState({ pastDueOrders: x.pastDueOrders }); })
 
+   
+
     // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
     //   console.log('props state log: ', this.props.location.state)
   }
+
+  // componentWillMount (){
+  //   console.log('this is state.merchantid', this.state.merchantId)
+  //   getPricingInfo (this.state.merchantId)
+  //   .then (x => {console.log('this is hte x response to prices', x)
+  //      {this.setState({prices: x.prices})
+  //     } })  
+
+  // }
    
   
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
+
+
   createNewOrder = () => {
+    
+    console.log('this is the state when you go to start a new order', this.state)
+    this.props.history.push('/orderform', 
 
-    console.log('this is merchant id state in create new order button', this.state.merchantId)
-    
-    this.props.history.push('/orderform',  { merchantId :this.state.merchantId })
-    
-    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
-    // .then(x => console.log('this is current mertchant in then', x))
-    
-    // console.log("this is current merchant from back", currentMerchant)
-  // this.props.history.push('/orderform', {userId: this.props.location.state})
-
-  }
+      { merchantId :this.state.merchantId , 
+            currentPage: 'EnterClientPhone',
+            prices: this.state.prices
+        })
+  
+    }
 
   //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
   openOrders = () => {
