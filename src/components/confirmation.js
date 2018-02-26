@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 
 class Confirmation extends Component {
   constructor() {
@@ -12,18 +11,14 @@ componentWillMount(){
 }
 
   dashboard = () => {
-    this.props.history.push('/dashboard')
-  }
-
-  newOrder = () => {
-    this.props.history.push('/orderForm', { merchantId: this.props.location.state.merchantId })
+    this.props.history.push('/dashboard', this.state.orderSummary.merchantObj.merchantId)
   }
 
   render() {
     return (
       <div className='inital-css'>
         <div className='app-nav'>
-          <h3>Confirmation</h3>
+          <h3>Review Order</h3>
         </div>
 
         <div className='confirmation-wrapper'>
@@ -47,7 +42,7 @@ componentWillMount(){
             <div className='client-info-fields'>
               <div className='client-phone'>
                 <div className='confirmation-field-title'>Phone</div>
-                <div className='client-info'>514-261-5816</div>
+                <div className='client-info'>{this.state.orderSummary.clientObj.clientPersonalNumber}</div>
               </div>
 
               <div className='date'>
@@ -61,7 +56,7 @@ componentWillMount(){
           <div>
             <div className='client-info-fields'>
               <div className='confirmation-field-title'>Name</div>
-              <div className='client-info'>Wesley Yendrys</div>
+              <div className='client-info'>{this.state.orderSummary.clientObj.clientFullName}</div>
             </div>
             <div className='line'></div>
           </div>

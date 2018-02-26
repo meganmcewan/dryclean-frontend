@@ -122,10 +122,10 @@ updatePrice = (inp, productName) => {
                   </div>
                 </div>
                 <div>
-            <div>This is the sub-total:</div>
+            <div>Sub-Total:</div>
             <div>${this.totalPrice()}</div>
           </div>
-                <button onClick={this.goToReview}>Review</button>
+                <button onClick={this.goToReview}>Review Order</button>
             </div>
         )
     }
