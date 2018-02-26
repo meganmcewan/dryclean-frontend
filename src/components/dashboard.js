@@ -44,6 +44,24 @@ class Dashboard extends Component {
     // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
     //   console.log('props state log: ', this.props.location.state)
   }
+ moveToClosed =(item) =>{
+   console.log('this is the item being passed', item) 
+   console.log('this is the item.orderid bieng passed', item.orderDetails.orderId) 
+   console.log('this is the open ordres in state', this.state.openOrders)
+
+   
+   var updatedOpenOrders = this.state.openOrders.filter(order =>
+     {
+      console.log('this is order.orderid,',order.orderId )
+      console.log('this is item.orderdetails,',item.orderDetails.orderId)
+      return order.orderId !== item.orderDetails.orderId
+  })
+ 
+  console.log('this is the updated array' , updatedOpenOrders)
+  return updatedOpenOrders
+
+ }
+
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
 createNewOrder =() =>{
@@ -67,17 +85,15 @@ createNewOrder =() =>{
   openOrders = () => {
     const { openOrders } = this.state;
 
+    var that = this;
     return openOrders.map((item, idx) => {
-      console.log(item)
 
         function pickedUp()  {
             var itemClosed = markPickedUp(item)
-            .then (x => console.log(x))
-            
-            /// then we will need to cause a re-render so that the lists update
-          
-        console.log('this item has been picked up')
-        // item.orderStatus = 'closed'
+            .then (closedOrder=> {
+              
+              that.moveToClosed(closedOrder)})
+
       }
 
       return (
