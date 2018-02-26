@@ -29,7 +29,10 @@ class ClientOrder extends Component {
         if(!this.props.location.state.merchantId){
             this.props.history.push('/dashboard')
         }
-        else {this.setState({merchantObj: {merchantId: this.props.location.state.merchantId, merchantPrices: this.props.location.state.merchantPrices.Regular}})}
+        // console.log('this is in the else merchant id', this.props.location.state.merchantId)
+        // console.log('this is in the else merchant prices',this.props.location.state.merchantPrices.Regular )
+        
+        else {this.setState({merchantObj: {merchantId: this.props.location.state.merchantId,merchantPrices: this.props.location.state.merchantPrices.Regular}})}
     }
 
     // STEP 1/3  CLIENT PERSONAL INFO  ---------------------
