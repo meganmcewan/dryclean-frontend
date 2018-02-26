@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
@@ -35,8 +35,9 @@ class Dashboard extends Component {
     getPastDueOrders(merchantObj)
       .then(x => { this.setState({ pastDueOrders: x.pastDueOrders }); })
 
-      setTimeout(() => console.log('merchant state', this.state.merchantId), 2000)
-
+    getMerchantPrices (merchantObj)
+      .then(x =>{
+        this.setState({merchantPrices: x.prices})})
 
     // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
     //   console.log('props state log: ', this.props.location.state)
@@ -47,7 +48,7 @@ class Dashboard extends Component {
 
     console.log('this is merchant id state in create new order button', this.state.merchantId)
 
-    this.props.history.push('/orderform',  { merchantId :this.state.merchantId })
+    this.props.history.push('/clientorder',  { merchantId :this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
     // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
     // .then(x => console.log('this is current mertchant in then', x))

@@ -176,6 +176,16 @@ class CreateAccount extends Component {
 
                     <div>
                         <div className='item-wrapper'>
+                            <div className='item-name'>Shirt </div>
+                            <div className='price-wrapper'>
+                                <input className='price-input' type='number' ref={r => this.shirtRegular = r} placeholder='Regular' />
+                                <input className='price-input' type='number' ref={r => this.shirtExpress = r} placeholder='Express' />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className='item-wrapper'>
                             <div className='item-name'>Blouse </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='Regular' />
@@ -212,6 +222,7 @@ class CreateAccount extends Component {
                 skirt: + this.skirtRegular.value,
                 jacket: + this.jacketRegular.value,
                 blouse: + this.blouseRegular.value,
+                shirt: + this.shirtRegular.value,
                 tie: + this.tieRegular.value
             },
             express: {
@@ -223,6 +234,7 @@ class CreateAccount extends Component {
                 skirt: + this.skirtExpress.value,
                 jacket: + this.jacketExpress.value,
                 blouse: + this.blouseExpress.value,
+                shirt: + this.shirtExpress.value,
                 tie: + this.tieExpress.value
             }
         }

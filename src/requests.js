@@ -107,6 +107,7 @@ export async function registerMerchant (merchantObj, priceObj) {
     skirt: priceObj.regular.skirt,
     jacket: priceObj.regular.jacket,
     blouse: priceObj.regular.blouse,
+    shirt: priceObj.regular.shirt,
     tie: priceObj.regular.tie
 
   })
@@ -122,6 +123,7 @@ export async function registerMerchant (merchantObj, priceObj) {
     skirt: priceObj.express.skirt,
     jacket: priceObj.express.jacket,
     blouse: priceObj.express.blouse,
+    shirt: priceObj.express.shirt,
     tie: priceObj.express.tie
 
   })
@@ -162,15 +164,15 @@ export async function checkPhoneNum (phoneNumber, merchantId) {
 
     return {
       status: 1,
-msg: 'User added!',
-userId: newUser.key,
+      msg: 'User added!',
+      userId: newUser.key,
       phoneNumber: phoneNumber,
-merchantId: merchantId
+      merchantId: merchantId
     }
-  }  else {
+  } else {
     return {
       status: 0,
-msg: 'User found!',
+      msg: 'User found!',
       userId: user.userId,
       clientName: user.value.clientName,
       clientAddress: user.value.clientAddress,
@@ -195,13 +197,21 @@ export async function addUserDetails (userObj, merchantId) {
     clientPostalZip: userObj.clientPostalZip,
     userId: userObj.userId
 
-
   })
 
   var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Prices/')
     .once('value')
 
   return { merchantId: merchantId.merchantId, prices: snapshot.val() }
+}
+
+/// ///a function to get prices of  merchants when you open a new order form/////
+
+export async function getMerchantPrices (merchantObj) {
+  var prices = await database.ref('Merchants/' + merchantObj.merchantId + '/Prices')
+    .once('value')
+
+  return {merchantId: merchantObj.merchantId, prices: prices.val()}
 }
 
 // this order creates a new orderID, generates a readable order number
@@ -226,14 +236,13 @@ export async function createNewOrder (userId, merchantId) {
   )
   // .once('value')
 
-
   var snapshot = await database.ref('/Merchants/' + merchantId)
     .once('value')
 
   return {merchantId: snapshot.val()
       // ,
       // newOrder: newOrder.val()
-    }
+  }
 }
 
 /// /////////////DASHBOARD FUNCTIONS ///////////////////////
@@ -245,7 +254,6 @@ function makeOrdersArr (snapshot) {
   let usersOrders = []
   let allOrders = []
   let flatOrders = []
-
 
   snapshot.forEach(item => {
     users.push(item.val())
@@ -272,8 +280,7 @@ export async function getOpenOrders (merchantId) {
     .once('value')
 
   let openOrders = []
-    let merchantOrders = makeOrdersArr(snapshot)
-
+  let merchantOrders = makeOrdersArr(snapshot)
 
   merchantOrders.forEach(order => {
     if (order.orderStatus === 'open') {

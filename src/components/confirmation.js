@@ -7,6 +7,10 @@ class Confirmation extends Component {
     this.state = {}
   }
 
+componentWillMount(){
+  this.setState({orderSummary: this.props.location.state.orderSummary})
+}
+
   dashboard = () => {
     this.props.history.push('/dashboard')
   }
@@ -89,68 +93,68 @@ class Confirmation extends Component {
 
             <div className='item-list'>
               <div className='item-type'>Trousers</div>
-              <div className='item-amount'>1</div>
+              <div className='item-amount'>{this.state.orderSummary.trousers}</div>
               <div className='item-amount'>$12.50</div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Suit</div>
-              <div className='item-amount'></div>
+              <div className='item-amount'>{this.state.orderSummary.suit}</div>
               <div className='item-amount'></div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Overcoat</div>
-              <div className='item-amount'>3</div>
+              <div className='item-amount'>{this.state.orderSummary.overcoat}</div>
               <div className='item-amount'>$35.99</div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Ladies Suit</div>
-              <div className='item-amount'></div>
+              <div className='item-amount'>{this.state.orderSummary.ladiesSuit}</div>
               <div className='item-amount'></div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Dress</div>
-              <div className='item-amount'></div>
+              <div className='item-amount'>{this.state.orderSummary.dress}</div>
               <div className='item-amount'></div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Skirt</div>
-              <div className='item-amount'></div>
+              <div className='item-amount'>{this.state.orderSummary.skirt}</div>
               <div className='item-amount'></div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Jacket</div>
-              <div className='item-amount'>2</div>
+              <div className='item-amount'>{this.state.orderSummary.jacket}</div>
               <div className='item-amount'>$20.00</div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Blouse</div>
-              <div className='item-amount'></div>
+              <div className='item-amount'>{this.state.orderSummary.blouse}</div>
               <div className='item-amount'></div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Shirt</div>
-              <div className='item-amount'></div>
+              <div className='item-amount'>{this.state.orderSummary.shirt}</div>
               <div className='item-amount'></div>
             </div>
 
             <div className='item-list'>
               <div className='item-type'>Tie</div>
-              <div className='item-amount'></div>
+              <div className='item-amount'>{this.state.orderSummary.tie}</div>
               <div className='item-amount'></div>
             </div>
 
             <div className='item-list'>
               <div id='last-item' className='item-type'></div>
               <div id='last-item' className='item-amount'>TOTAL</div>
-              <div id='last-item' className='item-amount'>$68.49</div>
+              <div id='last-item' className='item-amount'>${this.state.orderSummary.totalPrice}</div>
             </div>
           </div>
 
