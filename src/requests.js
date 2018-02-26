@@ -44,12 +44,22 @@ export function registerUser(email, password) {
     })
 }
 
+
+
+
+export function checkLogin(){
+  var user = firebase.auth().currentUser;
+return{user}
+
+
+}
+
 ////////LOGIN FUNCTION////////
 
 export function login(email, password) {
   return firebase.auth().signInWithEmailAndPassword(email, password)
     .then(firebaseuser => {
-      return { merchantId: firebaseuser.uid }
+      return { merchantId: firebaseuser.uid, firebaseuser }
     })
 
     // Handle Errors here.
@@ -228,15 +238,22 @@ export async function createNewOrder(userId, merchantId) {
   console.log('create new order running on back')
   console.log('merchant id in create new order', merchantId)
 
+let ndate = new Date()  ///// give the curent that in time
+let year = ndate.getFullYear()
+let month = ndate.getMonth()
+let day = ndate.getDate()
+let date = month + ' ' + day + ', ' + year
+
+
   var newOrder = await database.ref('/Merchants/' + merchantId + '/Users/' + userId + '/Orders/').push(
     {
-    orderNum: '10005',
+    orderNum: Math.floor((Math.random() * 1000) + 1),
     merchantId: merchantId,
     userId: userId,
-    date: 'currentDate',
+    date: date,
     standardReady: 'current date + 3 days',
     expressReady: 'current date +1 day',
-    orderStatus: "closed", 
+    orderStatus: "open", 
     orderDetails: {pants: +1, shirts: +2}
     }
   )

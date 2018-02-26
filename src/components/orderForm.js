@@ -439,19 +439,21 @@ console.log('this is merchant state in go to order form two', this.state.merchan
     this.setState(st => ({ orderStatus: 'suspended' }))
     this.dashboard()
   }
-// sendSms = () => {
-//   var number = '+15147120366';
-//   var message = 'SEND NUDES'
-//    fetch('/sendSms', {
-//      method: "POST",
-     
-//      body: JSON.stringify({
-//       test: number,
-//       message: message
-//      })
- 
-//    }).then()
-//    }
+  // sendSms = () => {
+  //   console.log(this.state.phoneNumber)
+  //   var number = '+1'+this.state.phoneNumber;
+  //   var message = 'SEND NUDES!'
+  //    fetch('/sendSms', {
+  //      method: "POST",
+       
+  //      body: JSON.stringify({
+  //       test: number,
+  //       message: message
+  //      })
+   
+  //    }).then()
+   
+  //   }
 
 
   confirmation = (event) => {
