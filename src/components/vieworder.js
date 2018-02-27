@@ -19,7 +19,6 @@ class ViewOrder extends Component {
   }
 
   render () {
-    console.log('state log', this.state.orderSummary)
     if (!this.state.orderSummary) {
       return (
         <div>
@@ -90,6 +89,65 @@ class ViewOrder extends Component {
                 <div id='form-header' className='item-type'>Article</div>
                 <div id='form-header' className='item-amount'>QTY</div>
                 <div id='form-header' className='item-amount'>AMOUNT</div>
+              </div>
+              <div className='item-list'>
+                <div className='item-type'>Trousers</div>
+                <div className='item-amount'>{this.state.orderSummary.trousers}</div>
+                <div className='item-amount'>{this.state.orderSummary.trousers > 0 && <div>${this.state.orderSummary.trousers * this.state.orderSummary.merchantObj.merchantPrices.trousers}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Suit</div>
+                <div className='item-amount'>{this.state.orderSummary.suit}</div>
+                <div className='item-amount'>{this.state.orderSummary.suit > 0 && <div>${this.state.orderSummary.suit * this.state.orderSummary.merchantObj.merchantPrices.suit}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Overcoat</div>
+                <div className='item-amount'>{this.state.orderSummary.overcoat}</div>
+                <div className='item-amount'>{this.state.orderSummary.overcoat > 0 && <div>${this.state.orderSummary.overcoat * this.state.orderSummary.merchantObj.merchantPrices.overcoat}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Ladies Suit</div>
+                <div className='item-amount'>{this.state.orderSummary.ladiesSuit}</div>
+                <div className='item-amount'>{this.state.orderSummary.ladiesSuit > 0 && <div>${this.state.orderSummary.ladiesSuit * this.state.orderSummary.merchantObj.merchantPrices.ladiesSuit}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Dress</div>
+                <div className='item-amount'>{this.state.orderSummary.dress}</div>
+                <div className='item-amount'>{this.state.orderSummary.dress > 0 && <div>${this.state.orderSummary.dress * this.state.orderSummary.merchantObj.merchantPrices.dress}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Skirt</div>
+                <div className='item-amount'>{this.state.orderSummary.skirt}</div>
+                <div className='item-amount'>{this.state.orderSummary.skirt > 0 && <div>${this.state.orderSummary.skirt * this.state.orderSummary.merchantObj.merchantPrices.skirt}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Jacket</div>
+                <div className='item-amount'>{this.state.orderSummary.jacket}</div>
+                <div className='item-amount'>{this.state.orderSummary.jacket > 0 && <div>${this.state.orderSummary.jacket * this.state.orderSummary.merchantObj.merchantPrices.jacket}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Blouse</div>
+                <div className='item-amount'>{this.state.orderSummary.blouse}</div>
+                <div className='item-amount'>{this.state.orderSummary.blouse > 0 && <div>${this.state.orderSummary.blouse * this.state.orderSummary.merchantObj.merchantPrices.blouse}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Shirt</div>
+                <div className='item-amount'>{this.state.orderSummary.shirt}</div>
+                <div className='item-amount'>{this.state.orderSummary.shirt > 0 && <div>${this.state.orderSummary.shirt * this.state.orderSummary.merchantObj.merchantPrices.shirt}</div>}</div>
+              </div>
+
+              <div className='item-list'>
+                <div className='item-type'>Tie</div>
+                <div className='item-amount'>{this.state.orderSummary.tie}</div>
+                <div className='item-amount'>{this.state.orderSummary.tie > 0 && <div>${this.state.orderSummary.tie * this.state.orderSummary.merchantObj.merchantPrices.tie}</div>}</div>
               </div>
 
               <div className='item-list'>

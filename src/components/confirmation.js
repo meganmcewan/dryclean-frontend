@@ -20,6 +20,7 @@ class Confirmation extends Component {
   }
 
   render() {
+
     return (
       <div className='inital-css'>
         <div className='app-nav'>

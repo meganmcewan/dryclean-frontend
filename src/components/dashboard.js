@@ -23,7 +23,7 @@ class Dashboard extends Component {
 
   logout = () => {
     signout()
-    this.props.history.push('/login')
+    this.props.history.push('/')
   }
   // componentWillMount() {
   //   var uidFromBack = checkLogin()
@@ -43,12 +43,15 @@ class Dashboard extends Component {
 
     var uidFromBack = checkLogin()
 
-    this.setState({ merchantId: uidFromBack.user.uid })
-    var merchantObj = { merchantId: uidFromBack.user.uid }
+      // var orderObject = checkOrder()
+
+    this.setState({merchantId : uidFromBack.user.uid})
+          var merchantObj = { merchantId: uidFromBack.user.uid }
 
     getOpenOrders(merchantObj)
-      .then(x => { this.setState({ openOrders: x.openOrders }); })
+        .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
+   
     getClosedOrders(merchantObj)
       .then(x => { this.setState({ completedOrders: x.closedOrders }); })
 
@@ -90,27 +93,18 @@ class Dashboard extends Component {
     console.log('this is merchant pricescreate new order button', this.state.merchantPrices)
     this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
-    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
-    // .then(x => console.log('this is current mertchant in then', x))  
-  }
+      // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
+      // .then(x => console.log('this is current mertchant in then', x))
 
-  viewOrder = (item) => {
-    console.log(item)
-    this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
-  }
-
-  pickedUp = (item) => {
-    item.event.stopPropagation();
-    var itemClosed = markPickedUp(item)
-      .then(closedOrder => {
-        this.moveToClosed(closedOrder)
       }
-      )
-  }
 
-  //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
-  openOrders = () => {
+    viewOrder = (item) => {
+      console.log(item)
+      this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
+    }
 
+//------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
+    openOrders = () => {
     const { openOrders } = this.state;
 
     return openOrders.map((item, idx) => {
@@ -129,7 +123,7 @@ class Dashboard extends Component {
             </div>
             <div>
               <h2>{item.clientObj.clientFullName}</h2>
-              <p><span id='highlight'>{sumItems} items</span> — <span id='highlight'>{item.date}</span></p>
+              <p><span id='highlight'>{sumItems} items</span> on <span id='highlight'>{item.date}</span></p>
             </div>
 
             <div className='flex-between'>
@@ -149,14 +143,15 @@ class Dashboard extends Component {
     const { pastDueOrders } = this.state;
 
     return pastDueOrders.map((item, idx) => {
+
       return (
         <div key={idx}>
           <div className='order-listing'>
             <div className='flex'>
               <p>#{item.orderNum}</p>
-              <p>2</p>
-              <p>01/13/18 12:00PM</p>
-              <p>$8.00</p>
+              <p>4</p>
+              <p>02/08/18 1:00PM</p>
+              <p>$16.00</p>
             </div>
           </div>
         </div>
@@ -227,14 +222,14 @@ class Dashboard extends Component {
             <button className='tab-btns' onClick={this.showCompleted}>Completed</button>
           </div>
 
-          <div>{
-            this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
-              : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
-                : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-                  : null}
-          </div>
-          <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
+        <div>{
+          this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
+            : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
+              : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
+                : null}
         </div>
+        <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
+      </div>
       </div>
     )
   }

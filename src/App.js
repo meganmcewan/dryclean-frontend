@@ -40,6 +40,7 @@ class App extends Component {
 
   render () {
     console.log(this.state.loggedIn)
+   
     return (
       <Switch>
         {!this.state.loggedIn && <Route exact path='/' component={Home} />}
