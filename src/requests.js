@@ -210,9 +210,36 @@ export async function findOrder (merchantId, orderId) {
   var orderObject = await database.ref('Merchants/' + merchantId + '/Orders/' + orderId)
     .once('value')
 
+  var merchant = await database.ref('/Merchants/' + merchantId)  
+    .once('value')
 
-  return {orderObject: orderObject.val()}
+  var merchantAddress = merchant.val()
+  console.log('this is the return from view order funciton ',{orderObject: orderObject.val(), merchantAddress: merchantAddress}) 
+  
+  return { 
+    orderObject: orderObject.val(),
+    merchantAddress: { 
+
+    merchantFullName: merchantAddress.merchantFullName,
+    merchantPersonalNumber: merchantAddress.merchantPersonalNumber,
+    businessName: merchantAddress.businessName,
+    businessAddress: merchantAddress.businessAddress,
+    city: merchantAddress.city,
+    province: merchantAddress.province,
+    postalCode: merchantAddress.postalCode,
+    businessPhoneNum: merchantAddress.businessPhoneNum
+     } 
+  }
+ 
 }
+
+
+
+
+
+
+  
+
 
 //////////get the address of the merchant so it can be displayed in the confirmation ///////
 

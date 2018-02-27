@@ -14,11 +14,13 @@ class ViewOrder extends Component {
     console.log(orderId)
     console.log(merchantId)
     
-    this.setState({merchantAddress: this.props.location.state.merchantAddress})
+
 
     var orderObject = findOrder(merchantId, orderId)
-    .then(x => this.setState({orderSummary: x.orderObject
-                            }))
+    .then(x =>{console.log(x)
+      this.setState({
+      orderSummary: x.orderObject, merchantAddress: x.merchantAddress })}
+    )
   }
 
   render () {
