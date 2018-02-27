@@ -23,7 +23,7 @@ class Dashboard extends Component {
 
   logout = () => {
     signout()
-    this.props.history.push('/login')
+    this.props.history.push('/')
   }
   // componentWillMount() {
   //   var uidFromBack = checkLogin()
@@ -32,63 +32,66 @@ class Dashboard extends Component {
   //     this.props.history.push('/login')
 
   //   }
-    // this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
-    //     var merchantObj = { merchantId: this.props.location.state.merchantId }
-    // console.log('merchant obj', merchantObj)
+  // this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
+  //     var merchantObj = { merchantId: this.props.location.state.merchantId }
+  // console.log('merchant obj', merchantObj)
 
-    // else {
+  // else {
   //   // }
   // }
-    componentDidMount() {
+  componentDidMount() {
 
-      var uidFromBack = checkLogin()
+    var uidFromBack = checkLogin()
 
       // var orderObject = checkOrder()
 
-      this.setState({merchantId : uidFromBack.user.uid})
+    this.setState({merchantId : uidFromBack.user.uid})
           var merchantObj = { merchantId: uidFromBack.user.uid }
 
-      getOpenOrders(merchantObj)
+    getOpenOrders(merchantObj)
         .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
-      getClosedOrders(merchantObj)
-        .then(x => { this.setState({ completedOrders: x.closedOrders }); })
+   
+    getClosedOrders(merchantObj)
+      .then(x => { this.setState({ completedOrders: x.closedOrders }); })
 
-      getMerchantPrices(merchantObj)
-        .then(x => {this.setState({ merchantPrices: x.prices })
-       })
+    getMerchantPrices(merchantObj)
+      .then(x => {
+        this.setState({ merchantPrices: x.prices })
+      })
 
     // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
     //   console.log('props state log: ', this.props.location.state)
   }
- moveToClosed =(item) =>{
-   
-   var updatedOpenOrders = this.state.openOrders.filter(order =>
-     {
+  moveToClosed = (item) => {
+
+    var updatedOpenOrders = this.state.openOrders.filter(order => {
       return order.orderId !== item.orderDetails.orderId
-  })
-   var updatedPastDueOrders = this.state.pastDueOrders.filter(order => { 
-     return order.orderId !== item.orderDetails.orderId
     })
-    this.setState({openOrders: updatedOpenOrders, closedOrders:updatedPastDueOrders, closedOrder: this.state.completedOrders.push(item)}) 
+    var updatedPastDueOrders = this.state.pastDueOrders.filter(order => {
+      return order.orderId !== item.orderDetails.orderId
+    })
+    this.setState({ openOrders: updatedOpenOrders, closedOrders: updatedPastDueOrders, closedOrder: this.state.completedOrders.push(item) })
 
- }
+  }
 
-     
- pickedUp = (item)=> {
-  var itemClosed = markPickedUp(item)
-  .then (closedOrder=> {
-  this.moveToClosed(closedOrder)}
-)}
+
+  pickedUp = (item) => {
+    var itemClosed = markPickedUp(item)
+      .then(closedOrder => {
+        this.moveToClosed(closedOrder)
+      }
+      )
+  }
 
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
-createNewOrder =() =>{
+  createNewOrder = () => {
     // console.log('this is merchant id state in create new order button', this.state.merchantId)
 
-      console.log('this is merchant id state in create new order button', this.state.merchantId)
-      console.log('this is merchant pricescreate new order button',this.state.merchantPrices)
-      this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
+    console.log('this is merchant id state in create new order button', this.state.merchantId)
+    console.log('this is merchant pricescreate new order button', this.state.merchantPrices)
+    this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
       // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
       // .then(x => console.log('this is current mertchant in then', x))
@@ -97,12 +100,11 @@ createNewOrder =() =>{
   
       }
       
-
-
-     viewOrder = () => {
-      this.props.history.push('/vieworder/'+this.state.merchantId)
+    viewOrder = (item) => {
+      console.log(item)
+      this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
     }
-
+  
 
 //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
     openOrders = () => {
@@ -111,7 +113,8 @@ createNewOrder =() =>{
      
     return openOrders.map((item, idx) => {
 
-//------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
+      //------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
+      
       let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
       let filteredItems = totalItems.filter(function (x){return x})
       let sumItems = filteredItems.reduce(function(a, b){return a + b})
@@ -122,110 +125,109 @@ createNewOrder =() =>{
           <div className='order-listing'>
             <div className='flex'>
               <div>#{item.orderNumber}</div>
-              <p>Items: {sumItems}</p>
+              {/* <p>Items: {sumItems}</p> */}
               <p>{item.date}</p>
               <p>${item.totalPrice}</p>
               <button onClick={()=>this.pickedUp(item)}>Picked Up</button>
               <button onClick={this.viewOrder}>View Order</button>
             </div>
           </div>
-          </div>
-        )
-      })
-    }
-
-    pastDueOrders = () => {
-      const { pastDueOrders } = this.state;
-
-      return pastDueOrders.map((item, idx) => {
-        return (
-          <div key={idx}>
-            <div className='order-listing'>
-              <div className='flex'>
-                <p>#{item.orderNum}</p>
-                <p>2</p>
-                <p>01/13/18 12:00PM</p>
-                <p>$8.00</p>
-              </div>
-            </div>
-          </div>
-        )
-      })
-    }
-
-    completedOrders = () => {
-      const { completedOrders } = this.state;
-
-      return completedOrders.map((item, idx) => {
-        return (
-          <div key={idx}>
-            <div className='order-listing'>
-              <div className='flex'>
-                <p>#{item.orderNum}</p>
-                <p>4</p>
-                <p>02/08/18 1:00PM</p>
-                <p>$16.00</p>
-              </div>
-            </div>
-          </div>
-        )
-      })
-    }
-
-//------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
-    showOpen = () => {
-      this.setState({ dashboardOrders: 'OPEN_ORDERS' })
-    }
-
-    showPastDue = () => {
-      this.setState({ dashboardOrders: 'PAST_DUE' })
-    }
-
-    showCompleted = () => {
-      this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
-    }
-
-
-    render() {
-      // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
-      // if (this.props.location.state.merchantId == undefined){
-      //   return <Redirect to='/login'></Redirect>
-      // }
-
-      return (
-
-        <div className='inital-css' >
-
-          <div className='app-nav'>
-            <h3>Dashboard</h3>
-            <button onClick={this.logout}>logout</button>
-          </div>
-          <input type='text' placeholder='Search' />
-          <button>Submit</button>
-
-          <div>
-            <button onClick={this.showOpen}>Open</button>
-            <button onClick={this.showPastDue}>Past Due</button>
-            <button onClick={this.showCompleted}>Completed</button>
-          </div>
-
-          <div className='flex'>
-            <p>Order</p>
-            <p>Items</p>
-            <p>Ready</p>
-            <p>Total</p>
-          </div>
-
-          <div>{
-            this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
-              : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
-                : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-                  : null}
-          </div>
-          <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
         </div>
       )
-    }
+    })
   }
 
-  export default Dashboard
+  pastDueOrders = () => {
+    const { pastDueOrders } = this.state;
+
+    return pastDueOrders.map((item, idx) => {
+      return (
+        <div key={idx}>
+          <div className='order-listing'>
+            <div className='flex'>
+              <p>#{item.orderNum}</p>
+              <p>2</p>
+              <p>01/13/18 12:00PM</p>
+              <p>$8.00</p>
+            </div>
+          </div>
+        </div>
+      )
+    })
+  }
+
+  completedOrders = () => {
+    const { completedOrders } = this.state;
+
+    return completedOrders.map((item, idx) => {
+      return (
+        <div key={idx}>
+          <div className='order-listing'>
+            <div className='flex'>
+              <p>#{item.orderNum}</p>
+              <p>4</p>
+              <p>02/08/18 1:00PM</p>
+              <p>$16.00</p>
+            </div>
+          </div>
+        </div>
+      )
+    })
+  }
+
+  //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
+  showOpen = () => {
+    this.setState({ dashboardOrders: 'OPEN_ORDERS' })
+  }
+
+  showPastDue = () => {
+    this.setState({ dashboardOrders: 'PAST_DUE' })
+  }
+
+  showCompleted = () => {
+    this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
+  }
+
+
+  render() {
+    // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
+    // if (this.props.location.state.merchantId == undefined){
+    //   return <Redirect to='/login'></Redirect>
+    // }
+
+    return (
+      <div className='inital-css' >
+
+        <div className='app-nav'>
+          <h3>Dashboard</h3>
+          <button onClick={this.logout}>logout</button>
+        </div>
+        <input type='text' placeholder='Search' />
+        <button>Submit</button>
+
+        <div>
+          <button onClick={this.showOpen}>Open</button>
+          <button onClick={this.showPastDue}>Past Due</button>
+          <button onClick={this.showCompleted}>Completed</button>
+        </div>
+
+        <div className='flex'>
+          <p>Order</p>
+          <p>Items</p>
+          <p>Ready</p>
+          <p>Total</p>
+        </div>
+
+        <div>{
+          this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
+            : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
+              : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
+                : null}
+        </div>
+        <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
+      </div>
+    )
+  }
+}
+
+export default Dashboard
