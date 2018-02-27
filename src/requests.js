@@ -3,7 +3,6 @@ import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
 var schedule = require('node-schedule');
 
-
 var database = firebase.database()
 
 /// //////login, sign up and singout functions//////////
@@ -195,20 +194,29 @@ export async function addUserDetails (userObj, merchantId) {
     userId: userObj.userId
 
   })
-
-
 }
 
 /// ///a function to get prices of  merchants when you open a new order form/////
 
 export async function getMerchantPrices (merchantObj) {
-  var prices = await database.ref('Merchants/' + merchantObj.merchantId + '/Prices')
+  var prices = await database.ref('Merchants/' + merchantObj.merchantId + '/Prices/')
     .once('value')
 
   return {merchantId: merchantObj.merchantId, prices: prices.val()}
 }
 
-////////create new order function stores the order summary object in firebase///////////
+export async function findOrder (merchantId, orderId) {
+  console.log('merch id', merchantId)
+  console.log('order id', orderId)
+  console.log('Merchants/' + merchantId + orderId)
+  var orderObject = await database.ref('Merchants/' + merchantId + '/Orders/' + orderId)
+    .once('value')
+
+  console.log(orderObject.val())
+  return {orderObject: orderObject.val()}
+}
+
+/// /////create new order function stores the order summary object in firebase///////////
 
 export async function createNewOrder (orderSummary) {
   console.log('order summary being passed in back', orderSummary)
@@ -241,7 +249,6 @@ export async function createNewOrder (orderSummary) {
       trousers: orderSummary.trousers,
       totalPrice: orderSummary.totalPrice,
       orderNumber: orderSummary.orderNumber
-      
 
     }
   )
@@ -257,9 +264,9 @@ export async function createNewOrder (orderSummary) {
   return {orderConfirmation: orderConfirmation.val()}
 }
 
-/////////////////DASHBOARD FUNCTIONS ///////////////////////
+/// //////////////DASHBOARD FUNCTIONS ///////////////////////
 
-///////this function gets all of the orders for the requested merchant and is called //////
+/// ////this function gets all of the orders for the requested merchant and is called //////
 
 function makeOrdersArr (snapshot) {
   let allOrders = []
@@ -304,7 +311,6 @@ export async function getOpenOrders (merchantObj) {
 }
 /// / closed order function/////
 
-
 export async function getClosedOrders (merchantObj) {
   var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
     .once('value')
@@ -321,7 +327,7 @@ export async function getClosedOrders (merchantObj) {
   return { closedOrders: closedOrders }
 }
 
-////////past due function///////
+/// /////past due function///////
 
 export async function getPastDueOrders (merchantObj) {
   var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
@@ -339,24 +345,21 @@ export async function getPastDueOrders (merchantObj) {
   return { pastDueOrders: pastDueOrders }
 }
 
-////////////update status of an existing order by clicking on picked up in dahsboard/////////
+/// /////////update status of an existing order by clicking on picked up in dahsboard/////////
 
-export async function markPickedUp (orderObj){
-  
- var updateStatus  = await database.ref('/Merchants/' + orderObj.merchantId + 
+export async function markPickedUp (orderObj) {
+  var updateStatus = await database.ref('/Merchants/' + orderObj.merchantId +
   '/Orders/' + orderObj.orderId)
   .update({
-      orderStatus: 'closed'
+    orderStatus: 'closed'
   })
-   
-  var updatedOrder = await database.ref('/Merchants/' + orderObj.merchantId + 
+
+  var updatedOrder = await database.ref('/Merchants/' + orderObj.merchantId +
   '/Orders/' + orderObj.orderId)
   .once('value')
-  
-  console.log("this is the updated order from back", updatedOrder.val())
+
+  console.log('this is the updated order from back', updatedOrder.val())
   return {orderDetails: updatedOrder.val()}
-
-
 }
 
 
