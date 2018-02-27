@@ -102,6 +102,7 @@ class Dashboard extends Component {
       
     viewOrder = (item) => {
       console.log(item)
+      console.log('this is item.orderID in dashboard', item.orderId)
       this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
     }
   
@@ -129,7 +130,7 @@ class Dashboard extends Component {
               <p>{item.date}</p>
               <p>${item.totalPrice}</p>
               <button onClick={()=>this.pickedUp(item)}>Picked Up</button>
-              <button onClick={this.viewOrder}>View Order</button>
+              <button onClick={()=>this.viewOrder(item)}>View Order</button>
             </div>
           </div>
         </div>

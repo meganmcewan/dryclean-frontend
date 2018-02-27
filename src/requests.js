@@ -1,7 +1,7 @@
 
 import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
-var schedule = require('node-schedule');
+// var schedule = require('node-schedule');
 
 var database = firebase.database()
 
@@ -232,6 +232,7 @@ export async function createNewOrder (orderSummary) {
 
       merchantId: orderSummary.merchantObj.merchantId,
       timestamp: timestamp,
+      date: date,
       standardReady: 'current date + 3 days',
       expressReady: 'current date +1 day',
       orderStatus: 'open',
@@ -248,7 +249,9 @@ export async function createNewOrder (orderSummary) {
       tie: orderSummary.tie,
       trousers: orderSummary.trousers,
       totalPrice: orderSummary.totalPrice,
-      orderNumber: orderSummary.orderNumber
+      orderNumber: orderSummary.orderNumber,
+      merchantObj: orderSummary.merchantObj,
+
 
     }
   )
