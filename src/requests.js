@@ -2,7 +2,6 @@
 import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
 
-
 var database = firebase.database()
 
 /// //////login, sign up and singout functions//////////
@@ -112,21 +111,21 @@ export async function registerMerchant (merchantObj, priceObj) {
 
   console.log('regular prices are registered for user:', merchantId)
 
-  database.ref('/Merchants/' + merchantId + '/Prices/' + '/Express/').set({
-    trousers: priceObj.express.trousers,
-    suit: priceObj.express.suit,
-    overcoat: priceObj.express.overcoat,
-    ladiesSuit: priceObj.express.ladiesSuit,
-    dress: priceObj.express.dress,
-    skirt: priceObj.express.skirt,
-    jacket: priceObj.express.jacket,
-    blouse: priceObj.express.blouse,
-    shirt: priceObj.express.shirt,
-    tie: priceObj.express.tie
+  // database.ref('/Merchants/' + merchantId + '/Prices/' + '/Express/').set({
+  //   trousers: priceObj.express.trousers,
+  //   suit: priceObj.express.suit,
+  //   overcoat: priceObj.express.overcoat,
+  //   ladiesSuit: priceObj.express.ladiesSuit,
+  //   dress: priceObj.express.dress,
+  //   skirt: priceObj.express.skirt,
+  //   jacket: priceObj.express.jacket,
+  //   blouse: priceObj.express.blouse,
+  //   shirt: priceObj.express.shirt,
+  //   tie: priceObj.express.tie
 
-  })
+  // })
 
-  console.log('express prices are registered for user:', merchantId)
+  // console.log('express prices are registered for user:', merchantId)
 }
 
 /// ////// order related functions ///////
@@ -196,25 +195,29 @@ export async function addUserDetails (userObj, merchantId) {
     userId: userObj.userId
 
   })
-
-  var snapshot = await database.ref('/Merchants/' + merchantId.merchantId + '/Prices/')
-    .once('value')
-
-  return { merchantId: merchantId.merchantId, prices: snapshot.val() }
 }
 
 /// ///a function to get prices of  merchants when you open a new order form/////
 
 export async function getMerchantPrices (merchantObj) {
-  var prices = await database.ref('Merchants/' + merchantObj.merchantId + '/Prices')
+  var prices = await database.ref('Merchants/' + merchantObj.merchantId + '/Prices/')
     .once('value')
 
   return {merchantId: merchantObj.merchantId, prices: prices.val()}
 }
 
-// this order creates a new orderID, generates a readable order number
-// send the merchant ID and details, the current date and generates
-// standard and express delivery dates
+export async function findOrder (merchantId, orderId) {
+  console.log('merch id', merchantId)
+  console.log('order id', orderId)
+  console.log('Merchants/' + merchantId + orderId)
+  var orderObject = await database.ref('Merchants/' + merchantId + '/Orders/' + orderId)
+    .once('value')
+
+  console.log(orderObject.val())
+  return {orderObject: orderObject.val()}
+}
+
+/// /////create new order function stores the order summary object in firebase///////////
 
 export async function createNewOrder (orderSummary) {
   console.log('order summary being passed in back', orderSummary)
@@ -251,13 +254,18 @@ export async function createNewOrder (orderSummary) {
     }
   )
 
+  var getKey = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/' + newOrder.key)
+  .update({
+    orderId: newOrder.key
+  })
+
   var orderConfirmation = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/' + newOrder.key)
   .once('value')
 
   return {orderConfirmation: orderConfirmation.val()}
 }
 
-/// /////////////DASHBOARD FUNCTIONS ///////////////////////
+/// //////////////DASHBOARD FUNCTIONS ///////////////////////
 
 /// ////this function gets all of the orders for the requested merchant and is called //////
 
@@ -271,8 +279,6 @@ function makeOrdersArr (snapshot) {
     allOrders.push(item.val())
   })
   return allOrders
-
-  console.log('this is all orders array, ', allOrders)
 
   // users.forEach(user => {
   //   usersOrders.push(user.Orders)
@@ -302,10 +308,10 @@ export async function getOpenOrders (merchantObj) {
       openOrders.push(order)
     }
   })
-
   return { openOrders: openOrders }
 }
 /// / closed order function/////
+
 export async function getClosedOrders (merchantObj) {
   var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
     .once('value')
@@ -322,7 +328,7 @@ export async function getClosedOrders (merchantObj) {
   return { closedOrders: closedOrders }
 }
 
-/// //////past due function///////
+/// /////past due function///////
 
 export async function getPastDueOrders (merchantObj) {
   var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
@@ -340,8 +346,19 @@ export async function getPastDueOrders (merchantObj) {
   return { pastDueOrders: pastDueOrders }
 }
 
-/// /////////////CONFIRMATION PAGE FUNCTIONS////////////////////////////////
+/// /////////update status of an existing order by clicking on picked up in dahsboard/////////
 
-export async function getConfirmation () {
+export async function markPickedUp (orderObj) {
+  var updateStatus = await database.ref('/Merchants/' + orderObj.merchantId +
+  '/Orders/' + orderObj.orderId)
+  .update({
+    orderStatus: 'closed'
+  })
 
+  var updatedOrder = await database.ref('/Merchants/' + orderObj.merchantId +
+  '/Orders/' + orderObj.orderId)
+  .once('value')
+
+  console.log('this is the updated order from back', updatedOrder.val())
+  return {orderDetails: updatedOrder.val()}
 }

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices, signout, checkLogin } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices, signout, checkLogin, markPickedUp } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
+
 // import NavBar from './nav.js'
+import ViewOrder from './vieworder.js'
 
 class Dashboard extends Component {
   constructor() {
@@ -51,49 +53,68 @@ class Dashboard extends Component {
       getClosedOrders(merchantObj)
         .then(x => { this.setState({ completedOrders: x.closedOrders }); })
 
-      getPastDueOrders(merchantObj)
-        .then(x => { this.setState({ pastDueOrders: x.pastDueOrders }); })
-
       getMerchantPrices(merchantObj)
-        .then(x => {
-          this.setState({ merchantPrices: x.prices })
-        })
+        .then(x => {this.setState({ merchantPrices: x.prices })
+       })
 
-  //     if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
-      //   console.log('props state log: ', this.props.location.state)
-    }
+    // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
+    //   console.log('props state log: ', this.props.location.state)
+  }
+ moveToClosed =(item) =>{
+   
+   var updatedOpenOrders = this.state.openOrders.filter(order =>
+     {
+      return order.orderId !== item.orderDetails.orderId
+  })
+   var updatedPastDueOrders = this.state.pastDueOrders.filter(order => { 
+     return order.orderId !== item.orderDetails.orderId
+    })
+    this.setState({openOrders: updatedOpenOrders, closedOrders:updatedPastDueOrders, closedOrder: this.state.completedOrders.push(item)}) 
 
-//------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
-    createNewOrder = () => {
+ }
+
+     
+ pickedUp = (item)=> {
+  var itemClosed = markPickedUp(item)
+  .then (closedOrder=> {
+  this.moveToClosed(closedOrder)}
+)}
+
+
+  //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
+createNewOrder =() =>{
+    // console.log('this is merchant id state in create new order button', this.state.merchantId)
 
       console.log('this is merchant id state in create new order button', this.state.merchantId)
-
+      console.log('this is merchant pricescreate new order button',this.state.merchantPrices)
       this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
       // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
-      // .then(x => console.log('this is current mertchant in then', x))
+      // .then(x => console.log('this is current mertchant in then', x))  
+      }
+ 
+       viewOrder = (item) => {
+         console.log(item)
+        this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
+      }
 
-      // console.log("this is current merchant from back", currentMerchant)
-      // this.props.history.push('/orderform', {userId: this.props.location.state})
-
-    }
+       pickedUp = (item) => {
+        var itemClosed = markPickedUp(item)
+        .then (closedOrder=> {
+        this.moveToClosed(closedOrder)}
+      )}
 
 //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
     openOrders = () => {
-      const { openOrders } = this.state;
 
-      return openOrders.map((item, idx) => {
-        console.log(item)
+    const { openOrders } = this.state;
+
+    return openOrders.map((item, idx) => {
 
 //------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
       let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
       let filteredItems = totalItems.filter(function (x){return x})
       let sumItems = filteredItems.reduce(function(a, b){return a + b})
-
-      function pickedUp()  {
-        console.log('this item has been picked up')
-        item.orderStatus = 'closed'
-      }
 
       return (
         <div key={idx}>
@@ -103,7 +124,8 @@ class Dashboard extends Component {
               <p>Items: {sumItems}</p>
               <p>{item.date}</p>
               <p>${item.totalPrice}</p>
-              <button onClick={pickedUp}>Picked Up</button>
+              <button onClick={() => this.viewOrder(item)}>View Order</button>
+              <button onClick={() => this.pickedUp(item)}>Picked Up</button>
             </div>
           </div>
           </div>
@@ -170,7 +192,6 @@ class Dashboard extends Component {
       // }
 
       return (
-
         <div className='inital-css' >
 
           <div className='app-nav'>
@@ -184,7 +205,6 @@ class Dashboard extends Component {
             <button onClick={this.showOpen}>Open</button>
             <button onClick={this.showPastDue}>Past Due</button>
             <button onClick={this.showCompleted}>Completed</button>
-
           </div>
 
           <div className='flex'>

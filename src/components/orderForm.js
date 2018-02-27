@@ -6,23 +6,13 @@ class orderForm extends Component {
   constructor() {
     super()
     this.state = {
-      orderNumber: 12345,
-      uniqueOrderNo: '',
-      businessName: 'Dry cleaner & Tailor St-Viateur',
-      businessAddress: '150 Rue Saint Viateur O',
-      businessAddress2: 'Montréal, QC H2T 2L3',
-      businessPhoneNumber: '(514) 276-3106',
-      currentDate: 'Jan, 01, 2018',
-      currentTime: '10:00am',
-      regServPickup: '1pm, Jan 04, 2018',
-      expServPickup: '1pm, Jan 03, 2018',
-      orderStatus: 'open',
+    
       currentPage: '',
       isPickup: true,
       isDelivery: false,
       clientName: '',
       clientAddress: '',
-      clientCity: '',
+      clientCity: '', 
       clientProvinceState: '',
       clientPostalZip: '',
       trousers: null,
@@ -39,8 +29,6 @@ class orderForm extends Component {
       custom1: null,
       custom2: null,
       phoneNumber: '',
-      isPickup: true,
-      isDelivery: false,
       totalPrice: null,
       prices: {
         trousers: 3.50,
@@ -61,54 +49,26 @@ class orderForm extends Component {
     }
   }
 
-  goToOrderHome = (event) => {
-    ``
+  goToPhonePage = (event) => {
+    
     event.preventDefault()
     console.log(this.state.phoneNumber)
     this.setState({ currentPage: '' })
 
   }
 
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  pickupClicked = () => {
-    this.setState({ isDelivery: false, isPickup: true })
-  }
-
-  deliveryClicked = () => {
-    this.setState({ isDelivery: true, isPickup: false })
-    alert('confirm the delivery address with the client: ')
-  }
-
-  businessAddress = () => {
-    return (
-      <div>
-        <div>{this.state.businessName}</div>
-        <div>{this.state.businessAddress}</div>
-        <div>{this.state.businessAddress2}</div>
-        <div>{this.state.businessPhoneNumber}</div>
-      </div>
-    )
-  }
 
   orderDate = () => {
     return (
       <div>
-        <div>{this.state.currentDate}</div>
-        <div>{this.state.currentTime}</div>
+        <div>current date</div>
+        <div>current time</div>
       </div>
     )
   }
 
-  orderFormHome = () => {
+  enterClientPhonePage = () => {
+   
     return (
       <div className='inital-css'>
         <div>
@@ -116,18 +76,18 @@ class orderForm extends Component {
         </div>
         <div>
           <h3>{this.state.orderNumber}</h3>
-          <div>{this.businessAddress()}</div>
+          {/* <div>{this.businessAddress()}</div> */}
           <br />
           <div>{this.orderDate()}</div>
         </div>
         <br />
-        <form onSubmit={this.goToOrderPageOne}>
+        <form onSubmit={this.goToClientInfoPage}>
           <label for="telNo">Enter a telephone number:</label>
           <input name="phoneNumber"
             ref={r => this.phoneNumber = r}
             type="text"
             // value={this.state.phoneNumber} 
-            onChange={this.handleInputChange}
+            // onChange={this.handleInputChange}
             placeholder="(111)-222-3333"
             required pattern="[0-9]{3}[0-9]{3}[0-9]{4}" />
           <button type="submit" placeholder="submit">Next</button>
@@ -136,27 +96,22 @@ class orderForm extends Component {
     )
   }
 
-  goToOrderPageOne = (event) => {
-    event.preventDefault()
-    this.setState({ currentPage: 'orderFormPageOne', merchantId: this.props.location.state.merchantId})
-    // goToOrderPageOne = () => {
-    console.log('going to page 1')
+  goToClientInfoPage = (event) => {
 
-    /// here you will pass the phoneNumber from the inputs and Merchant ID from state to this function so that it runs
+    
+    event.preventDefault()
+  
     var phoneNum = this.phoneNumber.value
-    console.log('this is state above checkphon',this.props.location.state.merchantId)
- 
+  
     checkPhoneNum(this.phoneNumber.value, this.props.location.state.merchantId)
 
       .then(response => {
-        console.log('response', response)
-        ///this conditional will need to change to 1, is set to zero temporarily to pass the page
+    
         if (response.status === 0) {
           this.setState({
-            currentPage: 'orderFormPageOne',
+            currentPage: 'enterClientInfoPage',
             userId: response.userId,
             phoneNumber: phoneNum,
-            // merchantId: this.props.location.state.merchantId,
             clientName: response.clientName,
             clientAddress: response.clientAddress,
             clientCity: response.clientCity,
@@ -164,18 +119,16 @@ class orderForm extends Component {
             clientPostalZip: response.clientPostalZip,
           })
           
-          console.log('merchant respnose', response.merchantId)
+          console.log('merchant respnose', response )
         }
         else {
           this.setState(st => ({
-            currentPage: 'orderFormPageOne',
+            currentPage: 'enterClientInfoPage',
             userId: response.userId,
-            phoneNumber: phoneNum,
-            // merchantId: response.merchantId
-          
+            phoneNumber: phoneNum,       
 
           }))
-         
+          console.log('merchant respnose', response )
         }
       })
       .catch(err => {
@@ -183,7 +136,7 @@ class orderForm extends Component {
       })
   }
 
-  orderFormOne = () => {
+  enterClientInfoPage = () => {
     return (
       <div className='inital-css'>
         <div>
@@ -192,27 +145,14 @@ class orderForm extends Component {
         <div>
           <h3>Client Information</h3>
         </div>
-        <form onSubmit={this.goToOrderPageTwo}>
-          <div>
-            <input
-              type="radio"
-              id="pickup"
-              name="deliveryMethod"
-              onClick={this.pickupClicked} />
-            <label for="pickup">Pickup</label>
-            <input
-              type="radio"
-              id="delivery"
-              name="deliveryMethod"
-              onClick={this.deliveryClicked} />
-            <label for="delivery">Delivery</label>
-          </div>
+        <form onSubmit={this.goToOrderDetailsPage}>
+      
           <div>
             <input
               ref={r => this.clientName = r}
               name="clientName"
               value={this.state.clientName}
-              onChange={this.handleInputChange}
+              // onChange={this.handleInputChange}
               type="text"
               placeholder="Client Name" />
           </div>
@@ -221,7 +161,7 @@ class orderForm extends Component {
               ref={r => this.clientAddress = r}
               name="clientAddress"
               value={this.state.clientAddress}
-              onChange={this.handleInputChange}
+              // onChange={this.handleInputChange}
               type="text" placeholder="Client Address (optional)" />
           </div>
           <div>
@@ -229,7 +169,7 @@ class orderForm extends Component {
               ref={r => this.clientCity = r}
               name="clientCity"
               value={this.state.clientCity}
-              onChange={this.handleInputChange}
+              // onChange={this.handleInputChange}
               type="text" placeholder="City (optional)" />
           </div>
           <div>
@@ -237,7 +177,7 @@ class orderForm extends Component {
               ref={r => this.clientProvinceState = r}
               name="clientProvinceState"
               value={this.state.clientProvinceState}
-              onChange={this.handleInputChange}
+              // onChange={this.handleInputChange}
               type="text" placeholder="Province/State (optional)" />
           </div>
           <div>
@@ -245,13 +185,11 @@ class orderForm extends Component {
               ref={r => this.clientPostalZip = r}
               name="clientPostalZip"
               value={this.state.clientPostalZip}
-              onChange={this.handleInputChange}
+              // onChange={this.handleInputChange}
               type="text" placeholder="Postal Code/Zip (optional)" />
           </div>
-          {/* Here it would be really great to display the status of any outstanding orders that are past due
-          OR/ALSO the last time the client came to the shop */}
           <div>
-            <button onClick={this.goToOrderHome}>Edit/Back</button>
+            <button onClick={this.goToPhonePage}>Edit/Back</button> 
             <button type="submit">Next</button>
           </div>
         </form>
@@ -259,11 +197,11 @@ class orderForm extends Component {
     )
   }
 
-  goToOrderPageTwo = (event) => {
+  goToOrderDetailsPage = (event) => {
     event.preventDefault()
     console.log('going to page 2')
 
-console.log('this is merchant state in go to order form two', this.state.merchantId)
+
     this.setState({
       clientPostalZip: this.clientPostalZip.value,
       clientProvinceState: this.clientProvinceState.value,
@@ -282,9 +220,9 @@ console.log('this is merchant state in go to order form two', this.state.merchan
 
     // addUserDetails (tempUserObj, tempMerchantId)
 
-    this.setState(st => ({ currentPage: 'orderFormPageTwo' }))
+  
     this.setState(st => ({
-      currentPage: 'orderFormPageTwo',
+      currentPage: 'enterOrderDetailsPage',
 
     }))
 
@@ -303,6 +241,7 @@ console.log('this is merchant state in go to order form two', this.state.merchan
       let newState = {};
       newState[productName] = newProductQty
       return newState;
+      console.log('this is new state in update order details, ' ,newState)
     })
   }
 
@@ -311,7 +250,7 @@ console.log('this is merchant state in go to order form two', this.state.merchan
     console.log(ret)
     return (ret)
   }
-  orderFormTwo = () => {
+  enterOrderDetailsPage = () => {
     return (
       <div className='inital-css'>
         <div>
@@ -342,30 +281,18 @@ console.log('this is merchant state in go to order form two', this.state.merchan
               <button type="button" onClick={() => this.updateOrderDetails('shirt')}>Shirt {this.state.shirt} </button>
               <button type="button" onClick={() => this.updateOrderDetails('tie')}>Tie {this.state.tie} </button>
             </div>
-            <div>
+            {/* <div>
               <button type="button" onClick={() => this.updateOrderDetails('custom1')}>Custom Item {this.state.custom1} </button>
               <button type="button" onClick={() => this.updateOrderDetails('custom2')}>Custom Item {this.state.custom2} </button>
-            </div>
+            </div> */}
           </div>
           <div>
             <div>This is the sub-total:</div>
             <div>${this.totalPrice()}</div>
           </div>
+  
           <div>
-            <input ref={inp => this.isRegService = inp} type="radio" id="RegService" name="serviceType" value="text" />
-            <label for="pickup">Regular Service</label>
-            <input ref={inp => this.isExpressService = inp} type="radio" id="ExpressService" name="serviceType" value="text" />
-            <label for="delivery">Express Service</label>
-            <input ref={inp => this.isCustomService = inp} type="radio" id="isCustomService" name="serviceType" value="text" />
-            <label for="delivery">Custom Service</label>
-          </div>
-          <div>
-            <div>{this.state.regServPickup}</div>
-            <div>{this.state.expServPickup}</div>
-            <div>Custom Date!?</div>
-          </div>
-          <div>
-            <button onClick={this.goToOrderPageOne}>Back/Edit</button>
+            <button onClick={this.goToClientInfoPage}>Back/Edit</button>
             <button onClick={this.goToReview}>Review</button>
           </div>
         </form>
@@ -374,7 +301,7 @@ console.log('this is merchant state in go to order form two', this.state.merchan
   }
 
   goToReview = (event) => {
-    console.log('merchant state in go to review', this.state.merchantId)
+  
     event.preventDefault()
     var UserObj = {
       clientPostalZip: this.state.clientPostalZip,
@@ -388,13 +315,9 @@ console.log('this is merchant state in go to order form two', this.state.merchan
 
 
 
-    console.log(this.props.location.state.merchantId)
-    console.log(UserObj)
+  
     addUserDetails(UserObj, this.props.location.state.merchantId)
 
-
-    console.log(this.state)
-    console.log('going to Review')
     this.setState(st => ({ currentPage: 'orderFormReview' }))
 
   }
@@ -406,23 +329,20 @@ console.log('this is merchant state in go to order form two', this.state.merchan
           <h1>Review Form</h1>
         </div>
         <div>
-          <h3>{this.state.value}</h3>
+          <li>{}
+            </li>
+          
         </div>
         <form >
-          <div>
-            <input ref={inp => this.isPaid = inp} type="radio" id="Paid" name="Payment" value="Paid" />
-            <label for="pickup">Pay Now</label>
-            <input ref={inp => this.isPickupPay = inp} type="radio" id="pickupPay" name="Payment" value="pickupPay" />
-            <label for="pickupPay">Pay on Pick-up</label>
-          </div>
+        
           <div>
             <button type="submit" onClick={this.confirmation}>Submit Form</button>
           </div>
         </form>
         <div>
-          <button onClick={this.goToOrderPageTwo}>Edit/Back</button>
+        
           <button onClick={this.cancelOrder}>Cancel</button>
-          <button onClick={this.suspendOrder}>Suspend Order</button>
+          
         </div>
       </div>
     )
@@ -460,20 +380,20 @@ console.log('this is merchant state in go to order form two', this.state.merchan
     event.preventDefault()
   
     // this.sendSms()
-    console.log('this is merchant state', this.state.merchantId)
+   console.log('this is merchant id', this.state.merchantId)
     var currentMerchant = createNewOrder(this.state.userId, this.state.merchantId,)
     .then(response => {
-        console.log('this the response.newOrder', response.newOrder)
+        
         this.setState({newOrder: response.newOrder})
     })
     
-    this.props.history.push('/confirmation')
-   
+  
+    console.log('this state in confirmation change', this.state)
     this.props.history.push('/confirmation', 
      { merchantId :this.props.location.state.merchantId,
-      // newOrder: this.props.location.state.merchantId
+       orderNum: this.props.location.state.merchantId
      })
-    // this.props.history.push('/orderform', { userId: this.props.location.state })
+
   }
 
   dashboard = () => {
@@ -482,9 +402,9 @@ console.log('this is merchant state in go to order form two', this.state.merchan
 
   render() {
 
-    if (this.state.currentPage === '') return (this.orderFormHome())
-    if (this.state.currentPage === 'orderFormPageOne') return (this.orderFormOne())
-    if (this.state.currentPage === 'orderFormPageTwo') return (this.orderFormTwo())
+    if (this.state.currentPage === '') return (this.enterClientPhonePage())
+    if (this.state.currentPage === 'enterClientInfoPage') return (this.enterClientInfoPage())
+    if (this.state.currentPage === 'enterOrderDetailsPage') return (this.enterOrderDetailsPage())
     if (this.state.currentPage === 'orderFormReview') return (this.orderFormReview())
   }
 }

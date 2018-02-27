@@ -109,7 +109,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Trousers </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' ref={r => this.trousersRegular = r} placeholder='Regular' />
-                                <input className='price-input' ref={r => this.trousersExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' ref={r => this.trousersExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -119,7 +119,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Suit </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.suitRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.suitExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.suitExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -129,7 +129,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Overcoat </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.overcoatExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.overcoatExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Ladies Suit </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.ladiesSuitExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.ladiesSuitExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Dress </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.dressRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.dressExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.dressExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -159,7 +159,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Skirt </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.skirtRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.skirtExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.skirtExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -169,7 +169,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Jacket </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.jacketRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.jacketExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.jacketExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Shirt </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.shirtRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.shirtExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.shirtExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -189,7 +189,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Blouse </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.blouseExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.blouseExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@ class CreateAccount extends Component {
                             <div className='item-name'>Tie </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.tieRegular = r} placeholder='Regular' />
-                                <input className='price-input' type='number' ref={r => this.tieExpress = r} placeholder='Express' />
+                                {/* <input className='price-input' type='number' ref={r => this.tieExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
@@ -225,18 +225,18 @@ class CreateAccount extends Component {
                 shirt: + this.shirtRegular.value,
                 tie: + this.tieRegular.value
             },
-            express: {
-                trousers: + this.trousersExpress.value,
-                suit: + this.suitExpress.value,
-                overcoat: + this.overcoatExpress.value,
-                ladiesSuit: + this.ladiesSuitExpress.value,
-                dress: + this.dressExpress.value,
-                skirt: + this.skirtExpress.value,
-                jacket: + this.jacketExpress.value,
-                blouse: + this.blouseExpress.value,
-                shirt: + this.shirtExpress.value,
-                tie: + this.tieExpress.value
-            }
+            // express: {
+            //     trousers: + this.trousersExpress.value,
+            //     suit: + this.suitExpress.value,
+            //     overcoat: + this.overcoatExpress.value,
+            //     ladiesSuit: + this.ladiesSuitExpress.value,
+            //     dress: + this.dressExpress.value,
+            //     skirt: + this.skirtExpress.value,
+            //     jacket: + this.jacketExpress.value,
+            //     blouse: + this.blouseExpress.value,
+            //     shirt: + this.shirtExpress.value,
+            //     tie: + this.tieExpress.value
+            // }
         }
 
         this.setState({ prices: prices },
