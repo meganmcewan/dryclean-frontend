@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { registerMerchant, signout } from '../requests.js'
 import { Redirect } from 'react-router'
-
 class ClientOrder extends Component {
     constructor() {
         super()
@@ -128,10 +127,19 @@ class ClientOrder extends Component {
                             <div>Reset</div>
                         </div>
 
+                        <div className='line'></div>
+
                 <div className='client-order-wrapper'>
                     <div>
                         <div className='order-buttons-wrapper'>
+                        {[['trousers', 'suit'], ['overcoat', 'ladiesSuit'], ['dress', 'skirt'], ['jacket', 'blouse'], ['shirt', 'tie']].map(container => (
                             <div className='flex'>
+                            {container.map(item => (
+                                <div className={`order-button ${this.state[item] ? 'order-button-selected' : ''}`} onClick={() => this.updateOrderDetails(item)}>{item.split(/(?=[A-Z])/).join(' ')} <p>{this.state[item]}</p> </div>
+                            ))}
+                            </div>
+                        ))}
+                            {/* <div className='flex'>
                                 <div className='order-button' onClick={() => this.updateOrderDetails('trousers')}>Trousers {this.state.trousers} </div>
                                 <div className='order-button' onClick={() => this.updateOrderDetails('suit')}>Suit {this.state.suit} </div>
                             </div>
@@ -154,7 +162,7 @@ class ClientOrder extends Component {
                             <div className='flex'>
                                 <div className='order-button' onClick={() => this.updateOrderDetails('shirt')}>Shirt {this.state.shirt} </div>
                                 <div className='order-button' onClick={() => this.updateOrderDetails('tie')}>Tie {this.state.tie} </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
@@ -165,7 +173,7 @@ class ClientOrder extends Component {
                 </div>
 
                 <div className='footer-btn-wrapper'>
-                    <button className='large-footer-btn' onClick={this.goToReview}>Review Order</button>
+                    <button className='large-footer-btn' onClick={this.goToReview}>Review</button>
                 </div>
             </div>
         )

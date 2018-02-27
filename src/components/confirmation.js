@@ -162,7 +162,7 @@ class Confirmation extends Component {
           </div>
           <div>
             <div className='footer-btn-wrapper'>
-              <button className='large-footer-btn' onClick={this.confirmOrder}>Confirm Order</button>
+              <button className='large-footer-btn' onClick={this.confirmOrder}>Submit</button>
             </div>
         </div>
       </div>

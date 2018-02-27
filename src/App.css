@@ -129,6 +129,7 @@ Link{
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
+  z-index: 5;
 }
 
 .app-nav img{
@@ -137,6 +138,9 @@ Link{
 
 .app-nav h3{
   margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #clnr-logo{
@@ -320,6 +324,7 @@ border-radius: 10px;
   margin-left: auto;
   margin-bottom: 20px;
   padding: 20px;
+  height: 80vh;
 }
 
 #order-num{
@@ -473,6 +478,40 @@ border-radius: 10px;
   border-radius: 10px;
   font-size: 18px;
   border: 1px solid #e4e4e4;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.order-button-selected{
+  background-color: #ececec;
+  font-weight: 800;
+  
+}
+
+.order-button-selected p{
+  background-color: #050506;
+  width: 40px;
+  height: 30px;
+  border-radius: 100px;
+  color: white;
+  position: relative;
+  bottom: 59px;
+  left: 101px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.items-selected{
+  background-color: #ff0907;
+  position: relative;
+  bottom: 55px;
+  left: 105px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
 }
 
 .logout{
@@ -484,6 +523,9 @@ border-radius: 10px;
   text-transform: uppercase;
 }
 
+#back-arrow{
+  font-size: 25px;
+}
 .circles{
   background-color: black;
   width: 10px;
@@ -508,4 +550,7 @@ border-radius: 10px;
   justify-content: space-between;
   margin-top: 15px;
   margin-bottom: 10px;
+  width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
 }

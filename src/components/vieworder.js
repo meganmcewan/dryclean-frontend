@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Confirmation from './confirmation.js'
 import { findOrder } from '../requests.js'
+
 class ViewOrder extends Component {
   constructor () {
     super()
@@ -13,13 +14,13 @@ class ViewOrder extends Component {
     var merchantId = this.props.match.params.merchantId
     console.log(orderId)
     console.log(merchantId)
-    
-
 
     var orderObject = findOrder(merchantId, orderId)
-    .then(x =>{console.log(x)
+    .then(x => {
+      console.log(x)
       this.setState({
-      orderSummary: x.orderObject, merchantAddress: x.merchantAddress })}
+        orderSummary: x.orderObject, merchantAddress: x.merchantAddress })
+    }
     )
   }
 
@@ -34,6 +35,7 @@ class ViewOrder extends Component {
       return (
         <div className='inital-css'>
           <div className='app-nav'>
+            <p id='back-arrow' onClick={this.props.history.goBack}>←</p>
             <h3>Order Summary</h3>
           </div>
 
