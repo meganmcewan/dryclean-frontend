@@ -45,7 +45,7 @@ class Login extends Component {
             </div>
             <button className='ctaButton' onClick={this.submitLogin}>Submit</button>
           </form>
-          <p>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
+          <p className='footnote'>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
         </div>
       </div>
     )

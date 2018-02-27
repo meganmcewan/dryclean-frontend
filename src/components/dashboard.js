@@ -43,15 +43,15 @@ class Dashboard extends Component {
 
     var uidFromBack = checkLogin()
 
-      // var orderObject = checkOrder()
+    // var orderObject = checkOrder()
 
-    this.setState({merchantId : uidFromBack.user.uid})
-          var merchantObj = { merchantId: uidFromBack.user.uid }
+    this.setState({ merchantId: uidFromBack.user.uid })
+    var merchantObj = { merchantId: uidFromBack.user.uid }
 
     getOpenOrders(merchantObj)
-        .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
+      .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
-   
+
     getClosedOrders(merchantObj)
       .then(x => { this.setState({ completedOrders: x.closedOrders }); })
 
@@ -76,7 +76,10 @@ class Dashboard extends Component {
   }
 
 
-  pickedUp = (item) => {
+  pickedUp = (item, event) => {
+
+    console.log('in pickedUp', event)
+    event.stopPropagation();
     var itemClosed = markPickedUp(item)
       .then(closedOrder => {
         this.moveToClosed(closedOrder)
@@ -93,18 +96,19 @@ class Dashboard extends Component {
     console.log('this is merchant pricescreate new order button', this.state.merchantPrices)
     this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
-      // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
-      // .then(x => console.log('this is current mertchant in then', x))
+    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
+    // .then(x => console.log('this is current mertchant in then', x))
 
-      }
+  }
 
-    viewOrder = (item) => {
-      console.log(item)
-      this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
-    }
+  viewOrder = (item, event) => {
+    console.log('in viewOrder', event)
+    console.log(item)
+    this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
+  }
 
-//------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
-    openOrders = () => {
+  //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
+  openOrders = () => {
     const { openOrders } = this.state;
 
     return openOrders.map((item, idx) => {
@@ -116,21 +120,20 @@ class Dashboard extends Component {
 
       return (
         <div key={idx}>
-          <div onClick={() => this.viewOrder(item)} className='order-listing'>
+          <div onClick={(event) => this.viewOrder(item, event)} className='order-listing'>
             <div className='dash-order-header'>
               <div className='dash-order-number'>#{item.orderNumber}</div>
               <div className='dash-order-status'>Cleaning</div>
             </div>
             <div>
               <h2>{item.clientObj.clientFullName}</h2>
-              <p><span id='highlight'>{sumItems} items</span> on <span id='highlight'>{item.date}</span></p>
+              <p><span id='highlight'>{sumItems} Items</span> on <span id='highlight'>{item.date}</span></p>
             </div>
 
             <div className='flex-between'>
-              <p>Total ${item.totalPrice.toFixed(2)}</p>
+              <p>Total <span id='highlight'>${item.totalPrice.toFixed(2)}</span></p>
               <div>
-                <button onClick={() => this.viewOrder(item)}>View Order</button>
-                <button onClick={() => this.pickedUp(item)}>Mark Done</button>
+                <button onClick={(event) => this.pickedUp(item, event)}>Mark Done</button>
               </div>
             </div>
           </div>
@@ -144,20 +147,33 @@ class Dashboard extends Component {
 
     return pastDueOrders.map((item, idx) => {
 
+      let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
+      let filteredItems = totalItems.filter(function (x) { return x })
+      let sumItems = filteredItems.reduce(function (a, b) { return a + b })
+
       return (
         <div key={idx}>
-          <div className='order-listing'>
-            <div className='flex'>
-              <p>#{item.orderNum}</p>
-              <p>4</p>
-              <p>02/08/18 1:00PM</p>
-              <p>$16.00</p>
+          <div onClick={(event) => this.viewOrder(item, event)} className='order-listing'>
+            <div className='dash-order-header'>
+              <div className='dash-order-number'>#{item.orderNumber}</div>
+              <div id='past-due' className='dash-order-status'>Past Due</div>
+            </div>
+            <div>
+              <h2>{item.clientObj.clientFullName}</h2>
+              <p><span id='highlight'>{sumItems} Items</span> on <span id='highlight'>{item.date}</span></p>
+            </div>
+            <div className='flex-between'>
+              <p>Total <span id='highlight'>${item.totalPrice.toFixed(2)}</span></p>
+              <div>
+                <button onClick={(event) => this.pickedUp(item, event)}>Mark Done</button>
+              </div>
             </div>
           </div>
         </div>
       )
     })
   }
+
 
   completedOrders = () => {
     const { completedOrders } = this.state;
@@ -172,8 +188,8 @@ class Dashboard extends Component {
         <div key={idx}>
           <div onClick={() => this.viewOrder(item)} className='order-listing'>
             <div className='flex'>
-            <div className='dash-order-number'>#{item.orderNumber}</div>
-            <p><span id='highlight'>{sumItems} items</span></p>
+              <div className='dash-order-number'>#{item.orderNumber}</div>
+              <p><span id='highlight'>{sumItems} Items</span></p>
               <p><span id='highlight'>{item.date}</span></p>
               <p>${item.totalPrice.toFixed(2)}</p>
             </div>
@@ -207,9 +223,9 @@ class Dashboard extends Component {
       <div className='inital-css' >
 
         <div className='app-nav'>
+          <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
           <h3>Dashboard</h3>
-          {/* <i onClick={this.logout} class="fas fa-power-off"></i> */}
-          <button onClick={this.logout}>logout</button>
+          <div className='logout' onClick={this.logout}>Logout</div>
         </div>
         <div className='dashboard-wrapper'>
           <form>
@@ -222,14 +238,17 @@ class Dashboard extends Component {
             <button className='tab-btns' onClick={this.showCompleted}>Completed</button>
           </div>
 
-        <div>{
-          this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
-            : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
-              : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-                : null}
+          <div>{
+            this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
+              : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
+                : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
+                  : null}
+          </div>
+
         </div>
-        <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
-      </div>
+        <div className='footer-btn-wrapper'>
+          <button className='large-footer-btn' onClick={this.createNewOrder}>New Order</button>
+        </div>
       </div>
     )
   }

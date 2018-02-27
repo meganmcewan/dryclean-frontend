@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { registerMerchant } from '../requests.js'
+import { registerMerchant, signout } from '../requests.js'
 import { Redirect } from 'react-router'
 
 class ClientOrder extends Component {
@@ -51,7 +51,9 @@ class ClientOrder extends Component {
         return (
             <div className='inital-css'>
                 <div className='app-nav'>
+                    <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
                     <h3>New Order</h3>
+                    <div className='logout' onClick={this.logout}>Logout</div>
                 </div>
                 <div>
                     <p> 1/2 - Client Personal Info:</p>
@@ -62,7 +64,14 @@ class ClientOrder extends Component {
                         <div>
                             <input ref={r => this.clientPersonalNumber = r} placeholder='Phone Number' />
                         </div>
-                        <button onClick={this.submitPersonalInfoForm}>Next</button>
+                        <div className='page-circles'>
+                            <div className='circles'></div>
+                            <div id='unselected' className='circles'></div>
+                        </div>
+
+                        <div className='footer-btn-wrapper'>
+                            <button className='large-footer-btn' onClick={this.submitPersonalInfoForm}>Next</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -97,48 +106,64 @@ class ClientOrder extends Component {
         return (ret)
     }
 
+    logout = () => {
+        signout()
+        this.props.history.push('/')
+    }
+
     clientOrderDetails = () => {
         return (
             <div className='inital-css'>
                 <div className='app-nav'>
+                    <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
                     <h3>New Order</h3>
-                </div>
-                <div>
-                    <p> 2/2 - Order Details</p>
-                    <div className='flex'>
-                        <div>Sub-Total:</div>
-                        <div>${this.totalPrice()}</div>
-                    </div>
-
-                    <div className='order-buttons-wrapper'>
-                        <div className='flex'>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('trousers')}>Trousers <div>{this.state.trousers}</div> </div>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('suit')}>Suit {this.state.suit} </div>
-                        </div>
-
-                        <div className='flex'>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('overcoat')}>Overcoat {this.state.overcoat} </div>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('ladiesSuit')}>Ladies Suit {this.state.ladiesSuit} </div>
-                        </div>
-
-                        <div className='flex'>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('dress')}>Dress {this.state.dress} </div>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('skirt')}>Skirt {this.state.skirt} </div>
-                        </div>
-
-                        <div className='flex'>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('jacket')}>Jacket {this.state.jacket} </div>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('blouse')}>Blouse {this.state.blouse} </div>
-                        </div>
-
-                        <div className='flex'>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('shirt')}>Shirt {this.state.shirt} </div>
-                            <div className='order-button' onClick={() => this.updateOrderDetails('tie')}>Tie {this.state.tie} </div>
-                        </div>
-                    </div>
+                    <div className='logout' onClick={this.logout}>Logout</div>
                 </div>
 
-                <button onClick={this.goToReview}>Review Order</button>
+                <div className='order-subtotal'>
+                            <div>Subtotal: <b>${this.totalPrice()}</b></div>
+                            <div>Reset</div>
+                        </div>
+
+                <div className='client-order-wrapper'>
+                    <div>
+                        <div className='order-buttons-wrapper'>
+                            <div className='flex'>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('trousers')}>Trousers {this.state.trousers} </div>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('suit')}>Suit {this.state.suit} </div>
+                            </div>
+
+                            <div className='flex'>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('overcoat')}>Overcoat {this.state.overcoat} </div>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('ladiesSuit')}>Ladies Suit {this.state.ladiesSuit} </div>
+                            </div>
+
+                            <div className='flex'>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('dress')}>Dress {this.state.dress} </div>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('skirt')}>Skirt {this.state.skirt} </div>
+                            </div>
+
+                            <div className='flex'>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('jacket')}>Jacket {this.state.jacket} </div>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('blouse')}>Blouse {this.state.blouse} </div>
+                            </div>
+
+                            <div className='flex'>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('shirt')}>Shirt {this.state.shirt} </div>
+                                <div className='order-button' onClick={() => this.updateOrderDetails('tie')}>Tie {this.state.tie} </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='page-circles'>
+                        <div id='unselected' className='circles'></div>
+                        <div className='circles'></div>
+                    </div>
+                </div>
+
+                <div className='footer-btn-wrapper'>
+                    <button className='large-footer-btn' onClick={this.goToReview}>Review Order</button>
+                </div>
             </div>
         )
     }
