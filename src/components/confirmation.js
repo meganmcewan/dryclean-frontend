@@ -12,6 +12,7 @@ class Confirmation extends Component {
   }
 
   confirmOrder = () => {
+   console.log("orderSummary",this.state.orderSummary)
     createNewOrder(this.state.orderSummary)
     .then(x => this.props.history.push('/dashboard', {merchantId: x.merchantId}))
 

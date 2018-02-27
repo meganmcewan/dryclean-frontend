@@ -41,6 +41,7 @@ class App extends Component {
   render () {
     console.log(this.state.loggedIn)
    
+ 
     return (
       <Switch>
         {!this.state.loggedIn && <Route exact path='/' component={Home} />}
@@ -52,6 +53,11 @@ class App extends Component {
         {this.state.loggedIn && <Route path='/dashboard' component={Dashboard} />}
         {this.state.loggedIn && <Route path='/confirmation' component={Confirmation} />}
         <Route path='/vieworder/:merchantId/:orderId' component={ViewOrder} />
+        {this.state.loggedIn && <Route path='/signup' component={Dashboard} />}
+        {this.state.loggedIn && <Route path='/login' component={Dashboard} />}
+        {this.state.loggedIn && <Route exact path='/' component={Dashboard} />}
+        
+        
       </Switch>
     )
   }
