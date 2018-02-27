@@ -239,6 +239,8 @@ class CreateAccount extends Component {
             // }
         }
 
+        registerMerchant(this.state.merchantSubmittedInformation, prices)
+        
         this.setState({ prices: prices },
             () => this.props.history.push('/dashboard', {
                 merchantId: this.props.location.state.merchantId,
@@ -246,7 +248,6 @@ class CreateAccount extends Component {
                 prices: this.state.prices
             })
         )
-        registerMerchant(this.state.merchantSubmittedInformation, prices)
     }
 
     componentWillMount() {

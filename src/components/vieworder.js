@@ -30,7 +30,7 @@ class ViewOrder extends Component {
       return (
         <div className='inital-css'>
           <div className='app-nav'>
-            <h3>Review Order</h3>
+            <h3>Order Summary</h3>
           </div>
 
           <div className='confirmation-wrapper'>
@@ -61,15 +61,15 @@ class ViewOrder extends Component {
 
                   <div>
                     <div className='date'>
-                    <div className='confirmation-field-title'>Name</div>
-                    <div className='client-info'>{this.state.orderSummary.clientObj.clientFullName}</div>
+                      <div className='confirmation-field-title'>Name</div>
+                      <div className='client-info'>{this.state.orderSummary.clientObj.clientFullName}</div>
 
-                    <div className='date'>
-                      <div className='confirmation-field-title'>Date</div>
-                      <div className='client-info'>02/25/2018</div>
+                      <div className='date'>
+                        <div className='confirmation-field-title'>Date</div>
+                        <div className='client-info'>02/25/2018</div>
+                      </div>
+
                     </div>
-
-                  </div>
                   </div>
                 </div>
 
@@ -103,7 +103,6 @@ class ViewOrder extends Component {
 
           </div>
           <div>
-            <button onClick={this.confirmOrder}>Confirm Order</button>
             {/* <button onClick={this.newOrder}>New Order</button> */}
           </div>
         </div >
