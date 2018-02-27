@@ -13,9 +13,14 @@ class ViewOrder extends Component {
     var merchantId = this.props.match.params.merchantId
     console.log(orderId)
     console.log(merchantId)
+    
+
 
     var orderObject = findOrder(merchantId, orderId)
-    .then(x => this.setState({orderSummary: x.orderObject}))
+    .then(x =>{console.log(x)
+      this.setState({
+      orderSummary: x.orderObject, merchantAddress: x.merchantAddress })}
+    )
   }
 
   render () {
@@ -44,9 +49,12 @@ class ViewOrder extends Component {
             </div>
 
             <div className='merchant-adress-info'>
-              <div className='store-name'>Dry Cleaner and Tailor St-Viateur</div>
-              <div>150 rue Saint Viateur Montreal, QC, H2T 2L3</div>
-              <div>Phone: 514-276-3106</div>
+              <div className='store-name'>{this.state.merchantAddress.businessName}</div>
+              <div>{this.state.merchantAddress.businessAddress}</div>
+              <div>{this.state.merchantAddress.city}</div>
+              <div>{this.state.merchantAddress.province}</div>
+              <div>{this.state.merchantAddress.postalCode}</div>
+              <div>{this.state.merchantAddress.businessPhoneNum}</div>
             </div>
 
             <div>

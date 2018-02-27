@@ -12,6 +12,7 @@ class Confirmation extends Component {
   }
 
   confirmOrder = () => {
+   console.log("orderSummary",this.state.orderSummary)
     createNewOrder(this.state.orderSummary)
       .then(x => this.props.history.push('/dashboard', { merchantId: x.merchantId }))
 
@@ -41,9 +42,12 @@ class Confirmation extends Component {
           </div>
 
           <div className='merchant-adress-info'>
-            <div className='store-name'>Dry Cleaner and Tailor St-Viateur</div>
-            <div>150 rue Saint Viateur Montreal, QC, H2T 2L3</div>
-            <div>Phone: 514-276-3106</div>
+              <div className='store-name'>{this.state.orderSummary.merchantObj.merchantAddress.businessName}</div>
+              <div>{this.state.orderSummary.merchantObj.merchantAddress.businessAddress}</div>
+              <div>{this.state.orderSummary.merchantObj.merchantAddress.city}</div>
+              <div>{this.state.orderSummary.merchantObj.merchantAddress.province}</div>
+              <div>{this.state.orderSummary.merchantObj.merchantAddress.postalCode}</div>
+              <div>{this.state.orderSummary.merchantObj.merchantAddress.businessPhoneNum}</div>
           </div>
 
           <div>
