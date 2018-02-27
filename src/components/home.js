@@ -3,8 +3,14 @@ import Login from './login'
 import { withRouter } from 'react-router-dom'
 import {  checkLogin } from '../requests';
 
-// var LoginWithRouter = withRouter(Login)
-class Home extends Component {
+
+
+
+
+
+
+
+class NakedHome extends Component {
 
   goToLogin = () => {
     this.props.history.push('/login')
@@ -15,15 +21,9 @@ class Home extends Component {
     this.props.history.push('/signup')
   }  
  
-  // componentWillMount () {
-    
-  //   var uidFromBack = checkLogin()
-  //   console.log("1",uidFromBack)
-  //   if(uidFromBack.user !== null){
-  //     this.props.history.push('/dashboard', { merchantId: uidFromBack.user.uid, isLoggedIn: true })
-  //   }
-  // }
+
   render () {
+   
     return (
       <div className='inital-css'>
         <h3>Welcome to CLNR!</h3>
@@ -37,5 +37,7 @@ class Home extends Component {
     )
   }
 }
+
+var Home = withRouter(NakedHome)
 
 export default Home
