@@ -73,14 +73,6 @@ class Confirmation extends Component {
             <div className='line'></div>
           </div>
 
-          <div className='ready-date-wrapper'>
-            <div className='ready-date'>Mon</div>
-            <div className='ready-date'>Feb</div>
-            <div className='ready-date'>28</div>
-            <div className='ready-date'>2018</div>
-            <div className='ready-date'>12 PM</div>
-          </div>
-
           <div className='item-list-wrapper'>
             <div className='item-list'>
               <div id='form-header' className='item-type'>Article</div>
@@ -151,7 +143,7 @@ class Confirmation extends Component {
             <div className='item-list'>
               <div id='last-item' className='item-type'></div>
               <div id='last-item' className='item-amount'>TOTAL</div>
-              <div id='last-item' className='item-amount'>${this.state.orderSummary.totalPrice}</div>
+              <div id='last-item' className='item-amount'>${this.state.orderSummary.totalPrice.toFixed(2)}</div>
             </div>
           </div>
 
