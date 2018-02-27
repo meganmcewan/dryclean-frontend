@@ -76,7 +76,7 @@ class Dashboard extends Component {
     var updatedPastDueOrders = this.state.pastDueOrders.filter(order => {
       return order.orderId !== item.orderDetails.orderId
     })
-    this.setState({ openOrders: updatedOpenOrders, closedOrders: updatedPastDueOrders, closedOrder: this.state.completedOrders.push(item) })
+    this.setState({ openOrders: updatedOpenOrders, pastDueOrders: updatedPastDueOrders, completedOrder: this.state.completedOrders.push(item) })
 
   }
 
@@ -89,24 +89,18 @@ class Dashboard extends Component {
       .then(closedOrder => {
         this.moveToClosed(closedOrder)
       }
-      )
+    )
   }
 
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
-    // console.log('this is merchant id state in create new order button', this.state.merchantId)
-
-    console.log('this is merchant id state in create new order button', this.state.merchantId)
-    console.log('this is merchant pricescreate new order button', this.state.merchantPrices)
-    console.log("this is merchant address in new order button,", this.state.merchantAddress)
+    
     this.props.history.push('/clientorder', { merchantId: this.state.merchantId, 
                                               merchantPrices: this.state.merchantPrices,
                                               merchantAddress: this.state.merchantAddress})
 
-    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
-    // .then(x => console.log('this is current mertchant in then', x))
-
+  
   }
 
   viewOrder = (item, event) => {
