@@ -49,7 +49,7 @@ class Dashboard extends Component {
           var merchantObj = { merchantId: uidFromBack.user.uid }
 
       getOpenOrders(merchantObj)
-        .then(x => { this.setState({ openOrders: x.openOrders }); })
+        .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
       getClosedOrders(merchantObj)
         .then(x => { this.setState({ completedOrders: x.closedOrders }); })
