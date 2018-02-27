@@ -43,13 +43,15 @@ class Dashboard extends Component {
 
     var uidFromBack = checkLogin()
 
+      // var orderObject = checkOrder()
 
-    this.setState({ merchantId: uidFromBack.user.uid })
-    var merchantObj = { merchantId: uidFromBack.user.uid }
+    this.setState({merchantId : uidFromBack.user.uid})
+          var merchantObj = { merchantId: uidFromBack.user.uid }
 
     getOpenOrders(merchantObj)
-      .then(x => { this.setState({ openOrders: x.openOrders }); })
+        .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
+   
     getClosedOrders(merchantObj)
       .then(x => { this.setState({ completedOrders: x.closedOrders }); })
 
@@ -91,46 +93,45 @@ class Dashboard extends Component {
     console.log('this is merchant pricescreate new order button', this.state.merchantPrices)
     this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
-    // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
-    // .then(x => console.log('this is current mertchant in then', x))  
-  }
+      // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
+      // .then(x => console.log('this is current mertchant in then', x))
 
-  viewOrder = (item) => {
-    console.log(item)
-    this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
-  }
-
-  pickedUp = (item) => {
-    var itemClosed = markPickedUp(item)
-      .then(closedOrder => {
-        this.moveToClosed(closedOrder)
       }
-      )
-  }
 
-  //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
-  openOrders = () => {
+    viewOrder = (item) => {
+      console.log(item)
+      this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
+    }
 
+//------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
+    openOrders = () => {
     const { openOrders } = this.state;
 
     return openOrders.map((item, idx) => {
 
       //------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
-      
       let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
       let filteredItems = totalItems.filter(function (x) { return x })
-      // let sumItems = filteredItems.reduce(function (a, b) { return a + b })
+      let sumItems = filteredItems.reduce(function (a, b) { return a + b })
 
       return (
         <div key={idx}>
-          <div className='order-listing'>
-            <div className='flex'>
-              <div>#{item.orderNumber}</div>
-              {/* <p>Items: {sumItems}</p> */}
-              <p>{item.date}</p>
-              <p>${item.totalPrice}</p>
-              <button onClick={() => this.viewOrder(item)}>View Order</button>
-              <button onClick={() => this.pickedUp(item)}>Picked Up</button>
+          <div onClick={() => this.viewOrder(item)} className='order-listing'>
+            <div className='dash-order-header'>
+              <div className='dash-order-number'>#{item.orderNumber}</div>
+              <div className='dash-order-status'>Cleaning</div>
+            </div>
+            <div>
+              <h2>{item.clientObj.clientFullName}</h2>
+              <p><span id='highlight'>{sumItems} items</span> on <span id='highlight'>{item.date}</span></p>
+            </div>
+
+            <div className='flex-between'>
+              <p>Total ${item.totalPrice.toFixed(2)}</p>
+              <div>
+                <button onClick={() => this.viewOrder(item)}>View Order</button>
+                <button onClick={() => this.pickedUp(item)}>Mark Done</button>
+              </div>
             </div>
           </div>
         </div>
@@ -142,14 +143,15 @@ class Dashboard extends Component {
     const { pastDueOrders } = this.state;
 
     return pastDueOrders.map((item, idx) => {
+
       return (
         <div key={idx}>
           <div className='order-listing'>
             <div className='flex'>
               <p>#{item.orderNum}</p>
-              <p>2</p>
-              <p>01/13/18 12:00PM</p>
-              <p>$8.00</p>
+              <p>4</p>
+              <p>02/08/18 1:00PM</p>
+              <p>$16.00</p>
             </div>
           </div>
         </div>
@@ -161,14 +163,19 @@ class Dashboard extends Component {
     const { completedOrders } = this.state;
 
     return completedOrders.map((item, idx) => {
+
+      let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
+      let filteredItems = totalItems.filter(function (x) { return x })
+      let sumItems = filteredItems.reduce(function (a, b) { return a + b })
+
       return (
         <div key={idx}>
-          <div className='order-listing'>
+          <div onClick={() => this.viewOrder(item)} className='order-listing'>
             <div className='flex'>
-              <p>#{item.orderNum}</p>
-              <p>4</p>
-              <p>02/08/18 1:00PM</p>
-              <p>$16.00</p>
+            <div className='dash-order-number'>#{item.orderNumber}</div>
+            <p><span id='highlight'>{sumItems} items</span></p>
+              <p><span id='highlight'>{item.date}</span></p>
+              <p>${item.totalPrice.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -201,23 +208,19 @@ class Dashboard extends Component {
 
         <div className='app-nav'>
           <h3>Dashboard</h3>
+          {/* <i onClick={this.logout} class="fas fa-power-off"></i> */}
           <button onClick={this.logout}>logout</button>
         </div>
-        <input type='text' placeholder='Search' />
-        <button>Submit</button>
+        <div className='dashboard-wrapper'>
+          <form>
+            <input className='search-bar' type='text' placeholder='Search' />
+          </form>
 
-        <div>
-          <button onClick={this.showOpen}>Open</button>
-          <button onClick={this.showPastDue}>Past Due</button>
-          <button onClick={this.showCompleted}>Completed</button>
-        </div>
-
-        <div className='flex'>
-          <p>Order</p>
-          <p>Items</p>
-          <p>Ready</p>
-          <p>Total</p>
-        </div>
+          <div className='tab-btns-wrapper'>
+            <button className='tab-btns' onClick={this.showOpen}>Open</button>
+            <button className='tab-btns' onClick={this.showPastDue}>Past Due</button>
+            <button className='tab-btns' onClick={this.showCompleted}>Completed</button>
+          </div>
 
         <div>{
           this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
@@ -226,6 +229,7 @@ class Dashboard extends Component {
                 : null}
         </div>
         <button id='newOrderButton' onClick={this.createNewOrder}>New Order</button>
+      </div>
       </div>
     )
   }

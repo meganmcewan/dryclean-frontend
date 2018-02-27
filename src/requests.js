@@ -1,6 +1,7 @@
 
 import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
+// var schedule = require('node-schedule');
 
 var database = firebase.database()
 
@@ -37,8 +38,6 @@ export function checkLogin () {
   var user = firebase.auth().currentUser
   return {user}
 }
-
-
 
 /// /////LOGIN FUNCTION////////
 
@@ -218,25 +217,25 @@ export async function findOrder (merchantId, orderId) {
 }
 
 /// /////create new order function stores the order summary object in firebase///////////
+let ndate = new Date()  /// // give the curent that in time
+let year = ndate.getFullYear()
+let month = ndate.getMonth() + 1
+let day = ndate.getDate()
+let date = month + '/' + day + '/' + year
+let timestamp = ndate.getTime()
 
 export async function createNewOrder (orderSummary) {
-  console.log('order summary being passed in back', orderSummary)
-
-  let ndate = new Date()  /// // give the curent that in time
-  let year = ndate.getFullYear()
-  let month = ndate.getMonth() + 1
-  let day = ndate.getDate()
-  let date = month + '/' + day + '/' + year
-  console.log('path to add new order', '/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
   var newOrder = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
   .push(
     {
 
       merchantId: orderSummary.merchantObj.merchantId,
       date: date,
+      timestamp: timestamp,
       standardReady: 'current date + 3 days',
       expressReady: 'current date +1 day',
       orderStatus: 'open',
+      inProgress: true,
       clientObj: orderSummary.clientObj,
       blouse: orderSummary.blouse,
       dress: orderSummary.dress,
@@ -251,8 +250,6 @@ export async function createNewOrder (orderSummary) {
       totalPrice: orderSummary.totalPrice,
       orderNumber: orderSummary.orderNumber,
       merchantObj: orderSummary.merchantObj
-
-
     }
   )
 
@@ -298,20 +295,68 @@ function makeOrdersArr (snapshot) {
 }
 /// // open orders function//////
 
+// export async function getOpenOrders (merchantObj) {
+//   var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
+//     .once('value')
+
+//   let openOrders = []
+//   let merchantOrders = makeOrdersArr(snapshot)
+
+//   merchantOrders.forEach(order => {
+//     if (order.orderStatus === 'open') {
+//       openOrders.push(order)
+//     }
+//   })
+
+//   return { openOrders: openOrders }
+// }
+
+/// ////////
+
+/// /////check and mark past due orders /////////////
+
 export async function getOpenOrders (merchantObj) {
   var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
-    .once('value')
+      .once('value')
 
   let openOrders = []
   let merchantOrders = makeOrdersArr(snapshot)
+  let onlyOpenOrders = []
+  let pastDueOrders = []
 
-  merchantOrders.forEach(order => {
+  var getOpenOrders = await merchantOrders.forEach(order => {
     if (order.orderStatus === 'open') {
       openOrders.push(order)
     }
   })
-  return { openOrders: openOrders }
+
+  var checkTimeStamp = await openOrders.forEach(order => {
+    console.log('this is the math', ndate.getTime() - order.timestamp)
+    if ((ndate.getTime() - order.timestamp) > 600000) {
+      var updateStatus = database.ref('/Merchants/' + order.merchantId +
+            '/Orders/' + order.orderId)
+            .update({
+              orderStatus: 'past due'
+            })
+    }
+  })
+
+  var newSnapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
+      .once('value')
+
+  let newMerchantOrders = makeOrdersArr(newSnapshot)
+
+  newMerchantOrders.forEach(order => {
+    if (order.orderStatus === 'open') {
+      onlyOpenOrders.push(order)
+    } else if (order.orderStatus === 'past due') { pastDueOrders.push(order) }
+  })
+
+  console.log('this is the return ', { openOrders: onlyOpenOrders, pastDueOrders: pastDueOrders })
+
+  return { openOrders: onlyOpenOrders, pastDueOrders: pastDueOrders }
 }
+
 /// / closed order function/////
 
 export async function getClosedOrders (merchantObj) {
@@ -364,3 +409,16 @@ export async function markPickedUp (orderObj) {
   console.log('this is the updated order from back', updatedOrder.val())
   return {orderDetails: updatedOrder.val()}
 }
+
+/// /////////TIMER FUNCTIONS//////////////
+// function timeToMins (time){
+//     time.pop
+
+// // }
+// var j = schedule.scheduleJob('*/1 * * * *', function(merchantObj){
+//     console.log('this is date in mins, ',  dateInMins)
+//     if (dateInMins - merchantObj.dateInMins > 1){
+//       console.log ('this object is past due', merchantObj)
+//     }
+
+//   })
