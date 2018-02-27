@@ -206,15 +206,39 @@ export async function getMerchantPrices (merchantObj) {
 }
 
 export async function findOrder (merchantId, orderId) {
-  console.log('merch id', merchantId)
-  console.log('order id', orderId)
-  console.log('Merchants/' + merchantId + orderId)
+
   var orderObject = await database.ref('Merchants/' + merchantId + '/Orders/' + orderId)
     .once('value')
 
-  console.log(orderObject.val())
+
   return {orderObject: orderObject.val()}
 }
+
+//////////get the address of the merchant so it can be displayed in the confirmation ///////
+
+
+export async function getMerchantAddress (merchantObj) {
+  
+  var address = await database.ref('Merchants/' + merchantObj.merchantId )
+    .once('value')
+  var merchantAddress = address.val()
+   
+  return { 
+    
+    merchantAddress: { 
+
+    merchantFullName: merchantAddress.merchantFullName,
+    merchantPersonalNumber: merchantAddress.merchantPersonalNumber,
+    businessName: merchantAddress.businessName,
+    businessAddress: merchantAddress.businessAddress,
+    city: merchantAddress.city,
+    province: merchantAddress.province,
+    postalCode: merchantAddress.postalCode,
+    businessPhoneNum: merchantAddress.businessPhoneNum
+     } 
+  }
+}
+
 
 /// /////create new order function stores the order summary object in firebase///////////
 let ndate = new Date()  /// // give the curent that in time
