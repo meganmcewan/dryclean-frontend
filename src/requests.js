@@ -1,6 +1,7 @@
 
 import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
+var schedule = require('node-schedule');
 
 
 var database = firebase.database()
@@ -359,5 +360,9 @@ export async function markPickedUp (orderObj){
 }
 
 
+////////////TIMER FUNCTIONS//////////////
 
+var j = schedule.scheduleJob('*/1 * * * *', function(){
+  console.log('the time is', new Date().toLocaleTimeString());
+});
 

@@ -116,14 +116,7 @@ createNewOrder =() =>{
       let filteredItems = totalItems.filter(function (x){return x})
       let sumItems = filteredItems.reduce(function(a, b){return a + b})
       
-      
-      
-
-       
-
-      
-
-   
+        
       return (
         <div key={idx}>
           <div className='order-listing'>
