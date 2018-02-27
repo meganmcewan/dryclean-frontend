@@ -249,7 +249,9 @@ export async function createNewOrder (orderSummary) {
       tie: orderSummary.tie,
       trousers: orderSummary.trousers,
       totalPrice: orderSummary.totalPrice,
-      orderNumber: orderSummary.orderNumber
+      orderNumber: orderSummary.orderNumber,
+      merchantObj: orderSummary.merchantObj
+
 
     }
   )
