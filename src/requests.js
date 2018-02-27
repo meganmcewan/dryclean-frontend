@@ -39,6 +39,8 @@ export function checkLogin () {
   return {user}
 }
 
+
+
 /// /////LOGIN FUNCTION////////
 
 export function login (email, password) {

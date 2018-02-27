@@ -41,6 +41,7 @@ class Dashboard extends Component {
 
       var uidFromBack = checkLogin()
 
+    
       this.setState({merchantId : uidFromBack.user.uid})
           var merchantObj = { merchantId: uidFromBack.user.uid }
 
