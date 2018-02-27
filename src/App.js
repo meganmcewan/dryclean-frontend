@@ -44,13 +44,13 @@ class App extends Component {
       <Switch>
         {!this.state.loggedIn && <Route exact path='/' component={Home} />}
         {!this.state.loggedIn && <Route path='/login' component={Login} />}
-        {!this.state.loggedIn && <Route path='/signup' component={Signup} /> }
+        {!this.state.loggedIn && <Route path='/signup' component={Signup} />}
         {this.state.loggedIn && <Route path='/createaccount' component={CreateAccount} />}
         {this.state.loggedIn && <Route path='/orderform' component={orderForm} />}
         {this.state.loggedIn && <Route path='/clientorder' component={ClientOrder} />}
         {this.state.loggedIn && <Route path='/dashboard' component={Dashboard} />}
         {this.state.loggedIn && <Route path='/confirmation' component={Confirmation} />}
-        <Route path='/vieworder/:orderID' component={ViewOrder} />
+        <Route path='/vieworder/:merchantId/:orderId' component={ViewOrder} />
       </Switch>
     )
   }

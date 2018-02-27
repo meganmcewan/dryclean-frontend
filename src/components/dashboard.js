@@ -43,8 +43,6 @@ class Dashboard extends Component {
 
       var uidFromBack = checkLogin()
 
-      // var orderObject = checkOrder()
-
       this.setState({merchantId : uidFromBack.user.uid})
           var merchantObj = { merchantId: uidFromBack.user.uid }
 
@@ -89,44 +87,32 @@ createNewOrder =() =>{
       this.props.history.push('/clientorder', { merchantId: this.state.merchantId, merchantPrices: this.state.merchantPrices })
 
       // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
-      // .then(x => console.log('this is current mertchant in then', x))
-
-     
-  
+      // .then(x => console.log('this is current mertchant in then', x))  
       }
-    
 
-     viewOrder = () => {
-      this.props.history.push('/vieworder/'+this.state.merchantId)
-    }
 
+       viewOrder = (item) => {
+         console.log(item)
+        this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
+      }
+
+       pickedUp = (item) => {
+        var itemClosed = markPickedUp(item)
+        .then (closedOrder=> {
+        this.moveToClosed(closedOrder)}
+      )}
 
 //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
     openOrders = () => {
       const { openOrders } = this.state;
-  
-          
-   
+
     return openOrders.map((item, idx) => {
 
 //------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
       let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
       let filteredItems = totalItems.filter(function (x){return x})
       let sumItems = filteredItems.reduce(function(a, b){return a + b})
-      
-      
-      var that = this;
-      function pickedUp(item)  {
-        var itemClosed = markPickedUp(item)
-        .then (closedOrder=> {
 
-        that.moveToClosed(closedOrder)})}
-
-       
-
-      
-
-   
       return (
         <div key={idx}>
           <div className='order-listing'>
@@ -135,8 +121,8 @@ createNewOrder =() =>{
               <p>Items: {sumItems}</p>
               <p>{item.date}</p>
               <p>${item.totalPrice}</p>
-              <button onClick={this.viewOrder}>View Order</button>
-              <button onClick={pickedUp}>Picked Up</button>
+              <button onClick={() => this.viewOrder(item)}>View Order</button>
+              <button onClick={() => this.pickedUp(item)}>Picked Up</button>
             </div>
           </div>
           </div>
@@ -203,7 +189,6 @@ createNewOrder =() =>{
       // }
 
       return (
-
         <div className='inital-css' >
 
           <div className='app-nav'>
