@@ -109,7 +109,8 @@ class Dashboard extends Component {
     viewOrder = (item) => {
       console.log(item)
       console.log('this is item.orderID in dashboard', item.orderId)
-      this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
+      this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/',
+       { merchantAddress: this.state.merchantAddress })
     }
 
 //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
