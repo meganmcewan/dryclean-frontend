@@ -109,21 +109,21 @@ export async function registerMerchant (merchantObj, priceObj) {
 
   console.log('regular prices are registered for user:', merchantId)
 
-  database.ref('/Merchants/' + merchantId + '/Prices/' + '/Express/').set({
-    trousers: priceObj.express.trousers,
-    suit: priceObj.express.suit,
-    overcoat: priceObj.express.overcoat,
-    ladiesSuit: priceObj.express.ladiesSuit,
-    dress: priceObj.express.dress,
-    skirt: priceObj.express.skirt,
-    jacket: priceObj.express.jacket,
-    blouse: priceObj.express.blouse,
-    shirt: priceObj.express.shirt,
-    tie: priceObj.express.tie
+  // database.ref('/Merchants/' + merchantId + '/Prices/' + '/Express/').set({
+  //   trousers: priceObj.express.trousers,
+  //   suit: priceObj.express.suit,
+  //   overcoat: priceObj.express.overcoat,
+  //   ladiesSuit: priceObj.express.ladiesSuit,
+  //   dress: priceObj.express.dress,
+  //   skirt: priceObj.express.skirt,
+  //   jacket: priceObj.express.jacket,
+  //   blouse: priceObj.express.blouse,
+  //   shirt: priceObj.express.shirt,
+  //   tie: priceObj.express.tie
 
-  })
+  // })
 
-  console.log('express prices are registered for user:', merchantId)
+  // console.log('express prices are registered for user:', merchantId)
 }
 
 /// ////// order related functions ///////
@@ -357,5 +357,6 @@ export async function markPickedUp (orderObj) {
   '/Orders/' + orderObj.orderId)
   .once('value')
 
+  console.log('this is the updated order from back', updatedOrder.val())
   return {orderDetails: updatedOrder.val()}
 }

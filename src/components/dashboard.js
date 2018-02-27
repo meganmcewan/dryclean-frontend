@@ -60,22 +60,24 @@ class Dashboard extends Component {
     //   console.log('props state log: ', this.props.location.state)
   }
  moveToClosed =(item) =>{
-   console.log('this is the item being passed', item) 
-   console.log('this is the item.orderid bieng passed', item.orderDetails.orderId) 
-   console.log('this is the open ordres in state', this.state.openOrders)
-
    
    var updatedOpenOrders = this.state.openOrders.filter(order =>
      {
-      console.log('this is order.orderid,',order.orderId )
-      console.log('this is item.orderdetails,',item.orderDetails.orderId)
       return order.orderId !== item.orderDetails.orderId
   })
- 
-  console.log('this is the updated array' , updatedOpenOrders)
-  return updatedOpenOrders
+   var updatedPastDueOrders = this.state.pastDueOrders.filter(order => { 
+     return order.orderId !== item.orderDetails.orderId
+    })
+    this.setState({openOrders: updatedOpenOrders, closedOrders:updatedPastDueOrders, closedOrder: this.state.completedOrders.push(item)}) 
 
  }
+
+     
+ pickedUp = (item)=> {
+  var itemClosed = markPickedUp(item)
+  .then (closedOrder=> {
+  this.moveToClosed(closedOrder)}
+)}
 
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
@@ -89,8 +91,7 @@ createNewOrder =() =>{
       // var currentMerchant = createNewOrder("-L63lbV5gsOoVOHV6dcb", this.state.merchantId)
       // .then(x => console.log('this is current mertchant in then', x))  
       }
-
-
+ 
        viewOrder = (item) => {
          console.log(item)
         this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/')
@@ -104,7 +105,8 @@ createNewOrder =() =>{
 
 //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
     openOrders = () => {
-      const { openOrders } = this.state;
+
+    const { openOrders } = this.state;
 
     return openOrders.map((item, idx) => {
 
