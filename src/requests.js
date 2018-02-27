@@ -393,7 +393,14 @@ export async function getOpenOrders (merchantObj){
 
    var checkTimeStamp = await openOrders.forEach(order =>{
         console.log('this is the math', ndate.getTime() - order.timestamp) 
-        if((ndate.getTime() - order.timestamp) > 600000){
+        if ((ndate.getTime() - order.timestamp) > 30000 && (ndate.getTime() - order.timestamp) < 300000){
+          var updateProgress =  database.ref('/Merchants/' + order.merchantId +
+          '/Orders/' + order.orderId)
+          .update({
+            inProgress:false,
+          })
+        }
+       else if((ndate.getTime() - order.timestamp) > 600000){
 
           var updateStatus =  database.ref('/Merchants/' + order.merchantId +
             '/Orders/' + order.orderId)
