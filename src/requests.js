@@ -7,7 +7,7 @@ var database = firebase.database()
 
 /// //////login, sign up and singout functions//////////
 
-/// //////SIGN UP FUNCITON //////////
+/// ///////SIGN UP FUNCITON /////////////
 
 export function registerUser (email, password) {
   return firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -39,7 +39,7 @@ export function checkLogin () {
   return {user}
 }
 
-/// /////LOGIN FUNCTION////////
+/// //////LOGIN FUNCTION////////
 
 export function login (email, password) {
   return firebase.auth().signInWithEmailAndPassword(email, password)
@@ -377,9 +377,7 @@ export async function getOpenOrders (merchantObj) {
           .update({
             inProgress: false
           })
-          // PUT SMS FUNCTION HERE (this is ready for pickup)
       sendReminderSms(order)
-      console.log('reminder SMS sent')
     } else if ((ndate.getTime() - order.timestamp) > 600000) {
       var updateStatus = database.ref('/Merchants/' + order.merchantId +
             '/Orders/' + order.orderId)
@@ -388,8 +386,6 @@ export async function getOpenOrders (merchantObj) {
             })
     }
     sendPastDueSms(order)
-    console.log('overdue SMS sent')
-    // THIS IS WHERE WE WILL PUT SMS PAST DUE FUNCTION!!!!!!!!!!!!!!!!!!!!~!!!!!!!!!!!!!!!!!
   })
 
   var newSnapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
@@ -461,15 +457,4 @@ export async function markPickedUp (orderObj) {
   return {orderDetails: updatedOrder.val()}
 }
 
-/// /////////TIMER FUNCTIONS//////////////
-// function timeToMins (time){
-//     time.pop
-
-// // }
-// var j = schedule.scheduleJob('*/1 * * * *', function(merchantObj){
-//     console.log('this is date in mins, ',  dateInMins)
-//     if (dateInMins - merchantObj.dateInMins > 1){
-//       console.log ('this object is past due', merchantObj)
-//     }
-
-//   })
+/// //////////////MAKE EXPRESS/////////////////////
