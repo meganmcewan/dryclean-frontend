@@ -240,9 +240,14 @@ class CreateAccount extends Component {
         }
 
         registerMerchant(this.state.merchantSubmittedInformation, prices)
+
+
         
         this.setState({ prices: prices },
-            () => this.props.history.push('/dashboard', {
+
+            () => this.props.history.push('/dashboard',
+            
+            {
                 merchantId: this.props.location.state.merchantId,
                 merchantSubmittedInformation: this.state.merchantSubmittedInformation,
                 prices: this.state.prices

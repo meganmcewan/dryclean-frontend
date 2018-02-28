@@ -7,7 +7,7 @@ var database = firebase.database()
 
 /// //////login, sign up and singout functions//////////
 
-/// //////SIGN UP FUNCITON //////////
+//////////SIGN UP FUNCITON /////////////
 
 export function registerUser (email, password) {
   return firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -39,7 +39,7 @@ export function checkLogin () {
   return {user}
 }
 
-/// /////LOGIN FUNCTION////////
+/////////LOGIN FUNCTION////////
 
 export function login (email, password) {
   return firebase.auth().signInWithEmailAndPassword(email, password)
@@ -399,6 +399,7 @@ export async function getOpenOrders (merchantObj){
           .update({
             inProgress:false,
           })
+        
         }
        else if((ndate.getTime() - order.timestamp) > 600000){
 
@@ -408,6 +409,8 @@ export async function getOpenOrders (merchantObj){
               orderStatus: 'past due'
             })
          }
+         console.log("send SMS because an order has been marked past due")
+         /////send sms?
       })
 
   var newSnapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
@@ -419,7 +422,12 @@ export async function getOpenOrders (merchantObj){
           if (order.orderStatus === 'open') {
             onlyOpenOrders.push(order)
       }else if (order.orderStatus === 'past due')
-           {  pastDueOrders.push(order) }
+           { 
+             pastDueOrders.push(order)
+            
+           }
+      
+
    })
 
   console.log('this is the return ',{ openOrders: onlyOpenOrders, pastDueOrders: pastDueOrders })
@@ -484,21 +492,9 @@ export async function markPickedUp (orderObj) {
 }
 
 
-////////////TIMER FUNCTIONS//////////////
-// function timeToMins (time){
-//     time.pop
-
-// // }
-// var j = schedule.scheduleJob('*/1 * * * *', function(merchantObj){
-//     console.log('this is date in mins, ',  dateInMins)
-//     if (dateInMins - merchantObj.dateInMins > 1){
-//       console.log ('this object is past due', merchantObj)
-//     }
- 
+/////////////////MAKE EXPRESS/////////////////////
 
 
-
-//   })
 
 
 

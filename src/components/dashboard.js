@@ -48,6 +48,9 @@ class Dashboard extends Component {
     this.setState({ merchantId: uidFromBack.user.uid })
     var merchantObj = { merchantId: uidFromBack.user.uid }
 
+    console.log("this is merchant object 1", merchantObj)
+    console.log(this.state)
+
     getOpenOrders(merchantObj)
       .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
@@ -57,6 +60,7 @@ class Dashboard extends Component {
 
     getMerchantPrices(merchantObj)
       .then(x => {
+        console.log(x)
         this.setState({ merchantPrices: x.prices })
       })
     
@@ -69,14 +73,16 @@ class Dashboard extends Component {
     //   console.log('props state log: ', this.props.location.state)
   }
   moveToClosed = (item) => {
+    
+    var merchantObj = { merchantId: this.state.merchantId }
+    
+    getOpenOrders(merchantObj)
+    .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
-    var updatedOpenOrders = this.state.openOrders.filter(order => {
-      return order.orderId !== item.orderDetails.orderId
-    })
-    var updatedPastDueOrders = this.state.pastDueOrders.filter(order => {
-      return order.orderId !== item.orderDetails.orderId
-    })
-    this.setState({ openOrders: updatedOpenOrders, pastDueOrders: updatedPastDueOrders, completedOrder: this.state.completedOrders.push(item) })
+
+    getClosedOrders(merchantObj)
+    .then(x => { this.setState({ completedOrders: x.closedOrders }); })
+
 
   }
 
@@ -179,12 +185,14 @@ class Dashboard extends Component {
 
 
   completedOrders = () => {
+    console.log('this is the state in ompleted orders', this.state)
     const { completedOrders } = this.state;
 
     return completedOrders.map((item, idx) => {
 
       let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
       let filteredItems = totalItems.filter(function (x) { return x })
+      console.log(filteredItems)
       let sumItems = filteredItems.reduce(function (a, b) { return a + b })
 
       return (
