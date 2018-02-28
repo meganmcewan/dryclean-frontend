@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { registerMerchant, signout } from '../requests.js'
+import { registerMerchant, signout, checkLogin, getMerchantPrices } from '../requests.js'
 import { Redirect } from 'react-router'
 class ClientOrder extends Component {
     constructor() {
@@ -27,17 +27,23 @@ class ClientOrder extends Component {
         if (!this.props.location.state.merchantId) {
             this.props.history.push('/dashboard')
         }
+        
+       
         // console.log('this is in merhcant', this.props.location.state.merchantId)
         // console.log('this is in the else merchant prices',this.props.location.state.merchantPrices.Regular )
-        else {
-            this.setState({
-                merchantObj: {
-                    merchantId: this.props.location.state.merchantId,
-                    merchantPrices: this.props.location.state.merchantPrices.Regular,
-                    merchantAddress: this.props.location.state.merchantAddress
-                }
-            })
-        }
+        else { 
+            var uidFromBack = checkLogin()
+            var merchantObj = { merchantId: uidFromBack.user.uid }
+           
+            getMerchantPrices(merchantObj)
+            .then(x => {
+                console.log('this is merchant prices',x)        
+            
+            this.setState({ merchantObj: { merchantId: this.props.location.state.merchantId, 
+                                              merchantPrices: x.prices,//this.props.location.state.merchantPrices.Regular,
+                                              merchantAddress: this.props.location.state.merchantAddress 
+                                             }}
+                                            )})}
     }
 
     // STEP 1/3  CLIENT PERSONAL INFO  ---------------------
@@ -91,7 +97,8 @@ class ClientOrder extends Component {
     }
 
     updatePrice = (inp, productName) => {
-        var inc = inp * this.state.merchantObj.merchantPrices[productName]
+        console.log('this is the state merchant obj, merchant prices', this.state.merchantObj.merchantPrices)
+        var inc = inp * this.state.merchantObj.merchantPrices.Regular[productName]
         console.log('inc, from updatePrice:', inc)
         // console.log('PreSt from update Price: ', PreSt.totalPrice)
         this.setState(PreSt => ({ totalPrice: inc + PreSt.totalPrice }))
@@ -118,6 +125,12 @@ class ClientOrder extends Component {
         this.props.history.push('/')
     }
 
+    addSurchage =()=>{ 
+        var incPrice = this.state.totalPrice * 1.5
+        var surCharge = incPrice - this.state.totalPrice
+        this.setState({totalPrice: incPrice, surCharge: surCharge})
+    }
+
     clientOrderDetails = () => {
         return (
             <div className='inital-css'>
@@ -128,9 +141,10 @@ class ClientOrder extends Component {
                 </div>
 
                 <div className='order-subtotal'>
-                    <div>Subtotal: <b>${this.totalPrice()}</b></div>
-                    <div>Reset ✕</div>
-                </div>
+                            <div>Subtotal: <b>${this.totalPrice()}</b></div>
+                            <button onClick = {this.addSurchage} >Express</button>
+                            <div>Reset</div>
+                        </div>
 
                 <div className='client-order-wrapper'>
                     <div>
