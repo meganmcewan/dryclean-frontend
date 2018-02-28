@@ -51,7 +51,7 @@ class Login extends Component {
 
               {/* <button className='ctaButton' onClick={this.submitLogin}>Submit</button> */}
             </form>
-            <p className='footnote'>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
+            <p id='footnote'>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
           </div>
         </div>
       </div>

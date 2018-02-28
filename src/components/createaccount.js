@@ -50,14 +50,14 @@ class CreateAccount extends Component {
                 <div>
                     <div className='loginWrapper'>
                         <img id='form-icons' src='https://i.imgur.com/kMAaD0x.png' />
-                        <p>Enter your name</p>
+                        <p>Enter Your Name</p>
                         <form>
                             <div>
                                 <input ref={r => this.merchantFullName = r} placeholder="Full Name" required />
                             </div>
                             <div className='enter-number'>
                                 <img id='form-icons' src='https://i.imgur.com/bbk2dOx.png' />
-                                <p>Enter your number</p>
+                                <p>Enter Your Number</p>
                                 <div>
                                     <input ref={r => this.merchantPersonalNumber = r}
                                         placeholder="(111)-222-3333"
@@ -116,7 +116,7 @@ class CreateAccount extends Component {
                 </div>
                 <div className='loginWrapper'>
                     <img id='form-icons' src='https://i.imgur.com/uboTvOx.png' />
-                    <p>Enter your buisness details</p>
+                    <p>Enter Your Buisness Details</p>
                     <div><input ref={r => this.businessName = r} placeholder='Business Name' /></div>
                     <div><input ref={r => this.businessPhoneNum = r} placeholder='Business Phone #' type='tel'/></div>
                     <div><input ref={r => this.businessAddress = r} placeholder='Business Address' /></div>
@@ -145,12 +145,14 @@ class CreateAccount extends Component {
                     <h3>Account Setup</h3>
                 </div>
                 <div className='settings-wrapper'>
-                    <div>
-                        <p>Price List Setup</p>
+                <div id='price-list' className='loginWrapper'>
+                <div>
+                    <img id='form-icons' src='https://i.imgur.com/6qYO8RW.png' />
+                        <p id='price-tag'>Define Your Prices</p>
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Trousers </div>
                             <div className='price-wrapper'>
-                                $<input className='price-input' ref={r => this.trousersRegular = r} placeholder='4.50' />
+                                $<input className='price-input' ref={r => this.trousersRegular = r} placeholder='4.50' required />
                                 {/* <input className='price-input' ref={r => this.trousersExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -160,7 +162,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Suit </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.suitRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.suitRegular = r} placeholder='5.00' required />
                                 {/* <input className='price-input' type='number' ref={r => this.suitExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -170,7 +172,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Overcoat </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.overcoatRegular = r} placeholder='7.25' required />
                                 {/* <input className='price-input' type='number' ref={r => this.overcoatExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -180,7 +182,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Ladies Suit </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.ladiesSuitRegular = r} placeholder='5.00' required />
                                 {/* <input className='price-input' type='number' ref={r => this.ladiesSuitExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -190,7 +192,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Dress </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.dressRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.dressRegular = r} placeholder='4.25' required />
                                 {/* <input className='price-input' type='number' ref={r => this.dressExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -200,7 +202,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Skirt </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.skirtRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.skirtRegular = r} placeholder='4.00' required />
                                 {/* <input className='price-input' type='number' ref={r => this.skirtExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -210,7 +212,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Jacket </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.jacketRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.jacketRegular = r} placeholder='8.00' required />
                                 {/* <input className='price-input' type='number' ref={r => this.jacketExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -220,7 +222,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Shirt </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.shirtRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.shirtRegular = r} placeholder='3.50' required />
                                 {/* <input className='price-input' type='number' ref={r => this.shirtExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -230,7 +232,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Blouse </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='3.50' required />
                                 {/* <input className='price-input' type='number' ref={r => this.blouseExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -240,13 +242,13 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Tie </div>
                             <div className='price-wrapper'>
-                            $<input className='price-input' type='number' ref={r => this.tieRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.tieRegular = r} placeholder='2.00' required />
                                 {/* <input className='price-input' type='number' ref={r => this.tieExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
                 </div>
-                
+                    </div>
                     <div className='footer-btn-wrapper'>
                         <button className='large-footer-btn' onClick={this.createNewAccount}>Create Account</button>
                     </div>

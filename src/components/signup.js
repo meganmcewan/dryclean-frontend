@@ -55,7 +55,7 @@ class Signup extends Component {
                     <div>
                         <button id='color-cta' className='large-footer-btn' onClick={this.submitSignup}>Create Account</button>
                     </div>
-                    <p className='footnote'>Already have an account? <Link to='/login'>Log In</Link></p>
+                    <p id='footnote'>Already have an account? <Link to='/login'>Log In</Link></p>
                 </div>
             </div>
             </div>
