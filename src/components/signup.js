@@ -43,9 +43,9 @@ class Signup extends Component {
                     <input ref={r => this.usertype = r} type="radio" id="customer" name="usertype" value="customer" onChange={this.handleOnChange}/>
                     <label for="customer">Customer</label> */}
 
-                    <div> <input type='text' ref={r => this.user = r} placeholder='Email' /></div>
-                    <div> <input type='password' ref={r => this.pass = r} placeholder='Password' /></div>
-                    <div> <input type='password' ref={r => this.confirmPass = r} placeholder='Confirm Password' /></div>
+                        <div> <input type='text' ref={r => this.user = r} placeholder='Email' required/></div>
+                        <div> <input type='password' ref={r => this.pass = r} placeholder='Password' required/></div>
+                        <div> <input type='password' ref={r => this.confirmPass = r} placeholder='Confirm Password' required/></div>
 
                     <div>{this.state.formError}</div>
                     <button onClick={this.submitSignup}>Submit</button>

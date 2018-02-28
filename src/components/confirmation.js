@@ -11,11 +11,31 @@ class Confirmation extends Component {
     this.setState({ orderSummary: this.props.location.state.orderSummary })
   }
 
-  confirmOrder = () => {
-   console.log("orderSummary",this.state.orderSummary)
-    createNewOrder(this.state.orderSummary)
-      .then(x => this.props.history.push('/dashboard', { merchantId: x.merchantId }))
+  sendSms = (x) => {
+    console.log(x)
+    console.log(x.orderConfirmation.date)
+    var number = '' + this.state.orderSummary.clientObj.clientPersonalNumber;
+    var newTimeStamp = x.orderConfirmation.timestamp + 172800000;
+    var pickupDate = (new Date(newTimeStamp)).toLocaleDateString();
+    var message = 'Hi ' + this.state.orderSummary.clientObj.clientFullName + ', welcome to clnr! Your dry cleaning order no.' + this.state.orderSummary.orderNumber + ' will be ready on ' + pickupDate + " at 1pm. Don't worry, we'll also send you a reminder."
 
+
+    fetch('/sendSms', {
+      method: 'POST',
+      body: JSON.stringify({
+              phoneNumber: number,
+              message: message
+        })
+        }).then()
+}
+
+
+  confirmOrder = () => {
+      createNewOrder(this.state.orderSummary)
+      .then(x => this.sendSms(x))
+      .then(x => this.state.orderSummary)
+      .then(x => this.props.history.push('/dashboard', { merchantId: x.merchantId }))
+      
     // setTimeout(() => this.props.history.push('/dashboard'), 1000)
     // this.props.history.push('/dashboard', this.state.orderSummary.merchantObj.merchantId)
   }
@@ -65,7 +85,7 @@ class Confirmation extends Component {
 
                     <div className='date'>
                       <div className='confirmation-field-title'>Date</div>
-                      <div className='client-info'>02/25/2018</div>
+                      <div className='client-info'>{this.state.orderSummary.date}</div>
                     </div>
 
                   </div>

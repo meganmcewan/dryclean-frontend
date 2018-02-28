@@ -1,4 +1,4 @@
-
+import { sendReminderSms, sendPastDueSms } from './smsConfigFile.js'
 import firebase from './firebaseConfig.js'
 var serviceAccount = require('./key.json')
 // var schedule = require('node-schedule');
@@ -206,66 +206,53 @@ export async function getMerchantPrices (merchantObj) {
 }
 
 export async function findOrder (merchantId, orderId) {
-
   var orderObject = await database.ref('Merchants/' + merchantId + '/Orders/' + orderId)
     .once('value')
 
-  var merchant = await database.ref('/Merchants/' + merchantId)  
+  var merchant = await database.ref('/Merchants/' + merchantId)
     .once('value')
 
   var merchantAddress = merchant.val()
-  console.log('this is the return from view order funciton ',{orderObject: orderObject.val(), merchantAddress: merchantAddress}) 
-  
-  return { 
-    orderObject: orderObject.val(),
-    merchantAddress: { 
+  console.log('this is the return from view order funciton ', {orderObject: orderObject.val(), merchantAddress: merchantAddress})
 
-    merchantFullName: merchantAddress.merchantFullName,
-    merchantPersonalNumber: merchantAddress.merchantPersonalNumber,
-    businessName: merchantAddress.businessName,
-    businessAddress: merchantAddress.businessAddress,
-    city: merchantAddress.city,
-    province: merchantAddress.province,
-    postalCode: merchantAddress.postalCode,
-    businessPhoneNum: merchantAddress.businessPhoneNum
-     } 
+  return {
+    orderObject: orderObject.val(),
+    merchantAddress: {
+
+      merchantFullName: merchantAddress.merchantFullName,
+      merchantPersonalNumber: merchantAddress.merchantPersonalNumber,
+      businessName: merchantAddress.businessName,
+      businessAddress: merchantAddress.businessAddress,
+      city: merchantAddress.city,
+      province: merchantAddress.province,
+      postalCode: merchantAddress.postalCode,
+      businessPhoneNum: merchantAddress.businessPhoneNum
+    }
   }
- 
 }
 
-
-
-
-
-
-  
-
-
-//////////get the address of the merchant so it can be displayed in the confirmation ///////
-
+/// ///////get the address of the merchant so it can be displayed in the confirmation ///////
 
 export async function getMerchantAddress (merchantObj) {
-  
-  var address = await database.ref('Merchants/' + merchantObj.merchantId )
+  var address = await database.ref('Merchants/' + merchantObj.merchantId)
     .once('value')
   var merchantAddress = address.val()
-   
-  return { 
-    
-    merchantAddress: { 
 
-    merchantFullName: merchantAddress.merchantFullName,
-    merchantPersonalNumber: merchantAddress.merchantPersonalNumber,
-    businessName: merchantAddress.businessName,
-    businessAddress: merchantAddress.businessAddress,
-    city: merchantAddress.city,
-    province: merchantAddress.province,
-    postalCode: merchantAddress.postalCode,
-    businessPhoneNum: merchantAddress.businessPhoneNum
-     } 
+  return {
+
+    merchantAddress: {
+
+      merchantFullName: merchantAddress.merchantFullName,
+      merchantPersonalNumber: merchantAddress.merchantPersonalNumber,
+      businessName: merchantAddress.businessName,
+      businessAddress: merchantAddress.businessAddress,
+      city: merchantAddress.city,
+      province: merchantAddress.province,
+      postalCode: merchantAddress.postalCode,
+      businessPhoneNum: merchantAddress.businessPhoneNum
+    }
   }
 }
-
 
 /// /////create new order function stores the order summary object in firebase///////////
 let ndate = new Date()  /// // give the curent that in time
@@ -276,7 +263,6 @@ let date = month + '/' + day + '/' + year
 let timestamp = ndate.getTime()
 
 export async function createNewOrder (orderSummary) {
-  
   var newOrder = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
   .push(
     {
@@ -287,7 +273,7 @@ export async function createNewOrder (orderSummary) {
       standardReady: 'current date + 3 days',
       expressReady: 'current date +1 day',
       orderStatus: 'open',
-      inProgress:true,
+      inProgress: true,
       clientObj: orderSummary.clientObj,
       blouse: orderSummary.blouse,
       dress: orderSummary.dress,
@@ -301,8 +287,7 @@ export async function createNewOrder (orderSummary) {
       trousers: orderSummary.trousers,
       totalPrice: orderSummary.totalPrice,
       orderNumber: orderSummary.orderNumber,
-      merchantObj: orderSummary.merchantObj,
-
+      merchantObj: orderSummary.merchantObj
 
     }
   )
@@ -355,7 +340,6 @@ function makeOrdersArr (snapshot) {
 
 //   let openOrders = []
 //   let merchantOrders = makeOrdersArr(snapshot)
- 
 
 //   merchantOrders.forEach(order => {
 //     if (order.orderStatus === 'open') {
@@ -363,72 +347,66 @@ function makeOrdersArr (snapshot) {
 //     }
 //   })
 
-
 //   return { openOrders: openOrders }
 // }
 
-///////////
+/// ////////
 
+/// /////check and mark past due orders /////////////
 
-
-
-////////check and mark past due orders /////////////
-
-export async function getOpenOrders (merchantObj){
-
-      var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
+export async function getOpenOrders (merchantObj) {
+  var snapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
       .once('value')
 
-      let openOrders = []
-      let merchantOrders = makeOrdersArr(snapshot)
-      let onlyOpenOrders =[];
-      let pastDueOrders=[];
+  let openOrders = []
+  let merchantOrders = makeOrdersArr(snapshot)
+  let onlyOpenOrders = []
+  let pastDueOrders = []
 
-
-  var getOpenOrders = await  merchantOrders.forEach(order => {
-          if (order.orderStatus === 'open') {
-            openOrders.push(order)
-      }
+  var getOpenOrders = await merchantOrders.forEach(order => {
+    if (order.orderStatus === 'open') {
+      openOrders.push(order)
+    }
   })
 
-   var checkTimeStamp = await openOrders.forEach(order =>{
-        console.log('this is the math', ndate.getTime() - order.timestamp) 
-        if ((ndate.getTime() - order.timestamp) > 30000 && (ndate.getTime() - order.timestamp) < 300000){
-          var updateProgress =  database.ref('/Merchants/' + order.merchantId +
+  var checkTimeStamp = await openOrders.forEach(order => {
+    console.log('this is the math', ndate.getTime() - order.timestamp)
+    if ((ndate.getTime() - order.timestamp) > 30000 && (ndate.getTime() - order.timestamp) < 300000) {
+      var updateProgress = database.ref('/Merchants/' + order.merchantId +
           '/Orders/' + order.orderId)
           .update({
-            inProgress:false,
+            inProgress: false
           })
-        }
-       else if((ndate.getTime() - order.timestamp) > 600000){
-
-          var updateStatus =  database.ref('/Merchants/' + order.merchantId +
+          // PUT SMS FUNCTION HERE (this is ready for pickup)
+      sendReminderSms(order)
+      console.log('reminder SMS sent')
+    } else if ((ndate.getTime() - order.timestamp) > 600000) {
+      var updateStatus = database.ref('/Merchants/' + order.merchantId +
             '/Orders/' + order.orderId)
             .update({
               orderStatus: 'past due'
             })
-         }
-      })
+    }
+    sendPastDueSms(order)
+    console.log('overdue SMS sent')
+    // THIS IS WHERE WE WILL PUT SMS PAST DUE FUNCTION!!!!!!!!!!!!!!!!!!!!~!!!!!!!!!!!!!!!!!
+  })
 
   var newSnapshot = await database.ref('/Merchants/' + merchantObj.merchantId + '/Orders/')
       .once('value')
-      
-      let newMerchantOrders = makeOrdersArr(newSnapshot)
 
-      newMerchantOrders.forEach(order => {
-          if (order.orderStatus === 'open') {
-            onlyOpenOrders.push(order)
-      }else if (order.orderStatus === 'past due')
-           {  pastDueOrders.push(order) }
-   })
+  let newMerchantOrders = makeOrdersArr(newSnapshot)
 
-  console.log('this is the return ',{ openOrders: onlyOpenOrders, pastDueOrders: pastDueOrders })
- 
-     return { openOrders: onlyOpenOrders, pastDueOrders: pastDueOrders }
+  newMerchantOrders.forEach(order => {
+    if (order.orderStatus === 'open') {
+      onlyOpenOrders.push(order)
+    } else if (order.orderStatus === 'past due') { pastDueOrders.push(order) }
+  })
+
+  console.log('this is the return ', { openOrders: onlyOpenOrders, pastDueOrders: pastDueOrders })
+
+  return { openOrders: onlyOpenOrders, pastDueOrders: pastDueOrders }
 }
-
-
-
 
 /// / closed order function/////
 
@@ -483,8 +461,7 @@ export async function markPickedUp (orderObj) {
   return {orderDetails: updatedOrder.val()}
 }
 
-
-////////////TIMER FUNCTIONS//////////////
+/// /////////TIMER FUNCTIONS//////////////
 // function timeToMins (time){
 //     time.pop
 
@@ -494,11 +471,5 @@ export async function markPickedUp (orderObj) {
 //     if (dateInMins - merchantObj.dateInMins > 1){
 //       console.log ('this object is past due', merchantObj)
 //     }
- 
-
-
 
 //   })
-
-
-

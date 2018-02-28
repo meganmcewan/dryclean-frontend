@@ -20,7 +20,7 @@ class ClientOrder extends Component {
             tie: null,
             blouse: null,
             shirt: null,
-            totalPrice: null
+            totalPrice: null,
         }
     }
 
@@ -62,10 +62,12 @@ class ClientOrder extends Component {
                     <p> 1/2 - Client Personal Info:</p>
                     <form>
                         <div>
-                            <input ref={r => this.clientFullName = r} placeholder='Full Name' />
+                            <input ref={r => this.clientFullName = r} placeholder="Client's Name" required/>
                         </div>
                         <div>
-                            <input ref={r => this.clientPersonalNumber = r} placeholder='Phone Number' />
+                            <input  ref={r => this.clientPersonalNumber = r} 
+                                    placeholder="(111)-222-3333"
+                                    required pattern="[0-9]{3}[0-9]{3}[0-9]{4}" />
                         </div>
                         <div className='page-circles'>
                             <div className='circles'></div>
@@ -109,6 +111,20 @@ class ClientOrder extends Component {
         return (ret)
     }
 
+    resetState = () => {
+        this.setState({trousers: null,
+            suit: null,
+            overcoat: null,
+            ladiesSuit: null,
+            dress: null,
+            skirt: null,
+            jacket: null,
+            tie: null,
+            blouse: null,
+            shirt: null,
+            totalPrice: null})
+    }
+
     logout = () => {
         signout()
         this.props.history.push('/')
@@ -125,7 +141,7 @@ class ClientOrder extends Component {
 
                 <div className='order-subtotal'>
                             <div>Subtotal: <b>${this.totalPrice()}</b></div>
-                            <div>Reset</div>
+                            <div><button onClick={this.resetState}>Reset</button></div>
                         </div>
 
                 <div className='client-order-wrapper'>
