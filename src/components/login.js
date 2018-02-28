@@ -12,15 +12,15 @@ class Login extends Component {
 
   // SUBMITS & CHECKS LOGIN INFORMATION WITH BACKEND  ---------------------
   submitLogin = async (e) => {
-   
-    
+
+
     e.preventDefault()
-    
+
 
     var uidFromBack = await login(this.usernameInput.value, this.passwordInput.value)
 
     if (uidFromBack !== undefined) {
- 
+
       this.setState({ merchantId: uidFromBack.merchantId })
       this.props.history.push('/dashboard', { merchantId: uidFromBack.merchantId })
 
@@ -31,21 +31,28 @@ class Login extends Component {
 
 
   render() {
-    
+
     return (
-      <div className='loginWrapper'>
-        <div className='inital-css'>
-          <h3>Log In:</h3>
-          <form>
-            <div>
-              <input ref={r => this.usernameInput = r} type='text' placeholder='Email' />
-            </div>
-            <div>
-              <input ref={r => this.passwordInput = r} type='password' placeholder='Password' />
-            </div>
-            <button className='ctaButton' onClick={this.submitLogin}>Submit</button>
-          </form>
-          <p className='footnote'>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
+      <div>
+        <div className='app-nav'>
+          <h3>Login to <img id='logo-type-nav' src='https://i.imgur.com/3rrt8WL.png'/></h3>
+        </div>
+        <div className='loginWrapper'>
+          <div className='inital-css'>
+          <img id='logo-login' src='https://i.imgur.com/HdPaVzf.png'/>
+            <form>
+              <div>
+                <input ref={r => this.usernameInput = r} type='text' placeholder='Email' />
+              </div>
+              <div>
+                <input ref={r => this.passwordInput = r} type='password' placeholder='Password' />
+              </div>
+              <button id='color-cta' className='large-footer-btn' onClick={this.submitLogin}>Submit</button>
+
+              {/* <button className='ctaButton' onClick={this.submitLogin}>Submit</button> */}
+            </form>
+            <p className='footnote'>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
+          </div>
         </div>
       </div>
     )

@@ -29,10 +29,15 @@ class ClientOrder extends Component {
         }
         // console.log('this is in merhcant', this.props.location.state.merchantId)
         // console.log('this is in the else merchant prices',this.props.location.state.merchantPrices.Regular )
-        else { this.setState({ merchantObj: { merchantId: this.props.location.state.merchantId, 
-                                              merchantPrices: this.props.location.state.merchantPrices.Regular,
-                                              merchantAddress: this.props.location.state.merchantAddress 
-                                             }})}
+        else {
+            this.setState({
+                merchantObj: {
+                    merchantId: this.props.location.state.merchantId,
+                    merchantPrices: this.props.location.state.merchantPrices.Regular,
+                    merchantAddress: this.props.location.state.merchantAddress
+                }
+            })
+        }
     }
 
     // STEP 1/3  CLIENT PERSONAL INFO  ---------------------
@@ -123,22 +128,20 @@ class ClientOrder extends Component {
                 </div>
 
                 <div className='order-subtotal'>
-                            <div>Subtotal: <b>${this.totalPrice()}</b></div>
-                            <div>Reset</div>
-                        </div>
-
-                        <div className='line'></div>
+                    <div>Subtotal: <b>${this.totalPrice()}</b></div>
+                    <div>Reset ✕</div>
+                </div>
 
                 <div className='client-order-wrapper'>
                     <div>
                         <div className='order-buttons-wrapper'>
-                        {[['trousers', 'suit'], ['overcoat', 'ladiesSuit'], ['dress', 'skirt'], ['jacket', 'blouse'], ['shirt', 'tie']].map(container => (
-                            <div className='flex'>
-                            {container.map(item => (
-                                <div className={`order-button ${this.state[item] ? 'order-button-selected' : ''}`} onClick={() => this.updateOrderDetails(item)}>{item.split(/(?=[A-Z])/).join(' ')} <p>{this.state[item]}</p> </div>
+                            {[['trousers', 'suit'], ['overcoat', 'ladiesSuit'], ['dress', 'skirt'], ['jacket', 'blouse'], ['shirt', 'tie']].map(container => (
+                                <div className='flex'>
+                                    {container.map(item => (
+                                        <div className={`order-button ${this.state[item] ? 'order-button-selected' : ''}`} onClick={() => this.updateOrderDetails(item)}>{item.split(/(?=[A-Z])/).join(' ')} <p>{this.state[item]}</p> </div>
+                                    ))}
+                                </div>
                             ))}
-                            </div>
-                        ))}
                             {/* <div className='flex'>
                                 <div className='order-button' onClick={() => this.updateOrderDetails('trousers')}>Trousers {this.state.trousers} </div>
                                 <div className='order-button' onClick={() => this.updateOrderDetails('suit')}>Suit {this.state.suit} </div>
@@ -165,13 +168,11 @@ class ClientOrder extends Component {
                             </div> */}
                         </div>
                     </div>
-
-                    <div className='page-circles'>
-                        <div id='unselected' className='circles'></div>
-                        <div className='circles'></div>
-                    </div>
                 </div>
-
+                <div className='page-circles'>
+                    <div id='unselected' className='circles'></div>
+                    <div className='circles'></div>
+                </div>
                 <div className='footer-btn-wrapper'>
                     <button className='large-footer-btn' onClick={this.goToReview}>Review</button>
                 </div>

@@ -27,7 +27,7 @@ class Confirmation extends Component {
         <div className='app-nav'>
         <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
         <h3>Review Order</h3>
-        <div className='logout' onClick={this.logout}>Logout</div>
+        <div id='back-arrow' onClick={this.logout}>✕</div>
       </div>
 
         <div className='confirmation-wrapper'>
@@ -44,8 +44,7 @@ class Confirmation extends Component {
           <div className='merchant-adress-info'>
               <div className='store-name'>{this.state.orderSummary.merchantObj.merchantAddress.businessName}</div>
               <div>{this.state.orderSummary.merchantObj.merchantAddress.businessAddress}</div>
-              <div>{this.state.orderSummary.merchantObj.merchantAddress.city}</div>
-              <div>{this.state.orderSummary.merchantObj.merchantAddress.province}</div>
+              <div>{this.state.orderSummary.merchantObj.merchantAddress.city + ' ' + this.state.orderSummary.merchantObj.merchantAddress.province}</div>
               <div>{this.state.orderSummary.merchantObj.merchantAddress.postalCode}</div>
               <div>{this.state.orderSummary.merchantObj.merchantAddress.businessPhoneNum}</div>
           </div>
@@ -67,11 +66,9 @@ class Confirmation extends Component {
                       <div className='confirmation-field-title'>Date</div>
                       <div className='client-info'>02/25/2018</div>
                     </div>
-
                   </div>
                 </div>
               </div>
-
             </div>
             <div className='line'></div>
           </div>

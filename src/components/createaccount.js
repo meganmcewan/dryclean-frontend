@@ -37,10 +37,11 @@ class CreateAccount extends Component {
         return (
             <div className='inital-css'>
                 <div className='app-nav'>
-                    <h3>Account Setup:</h3>
+                    <h3>Account Setup</h3>
                 </div>
                 <div>
-                    <p> 1/3 - Personal Info:</p>
+                    <img id='logo-login' src='https://i.imgur.com/mJDVmQH.png' />
+                    <p>Personal Info</p>
                     <form>
                         <div>
                             <input ref={r => this.merchantFullName = r} placeholder='Full Name' />
@@ -48,8 +49,15 @@ class CreateAccount extends Component {
                         <div>
                             <input ref={r => this.merchantPersonalNumber = r} placeholder='Phone Number' />
                         </div>
-                        <button onClick={this.submitPersonalInfoForm}>Next</button>
                     </form>
+                    <div className='page-circles'>
+                        <div className='circles'></div>
+                        <div id='unselected' className='circles'></div>
+                        <div id='unselected' className='circles'></div>
+                    </div>
+                    <div className='footer-btn-wrapper'>
+                        <button className='large-footer-btn' onClick={this.submitPersonalInfoForm}>Next</button>
+                    </div>
                 </div>
             </div>
         )
@@ -78,17 +86,26 @@ class CreateAccount extends Component {
         return (
             <div className='inital-css'>
                 <div className='app-nav'>
-                    <h3>Account Setup:</h3>
+                    <h3>Account Setup</h3>
                 </div>
                 <div>
-                    <p>2/3 - Business Account Info:</p>
+                    <p>2/3 - Business Account Info</p>
                     <input ref={r => this.businessName = r} placeholder='Business Name' />
                     <input ref={r => this.businessPhoneNum = r} placeholder='Business Phone #' />
                     <input ref={r => this.businessAddress = r} placeholder='Business Address' />
                     <input ref={r => this.city = r} placeholder='City' />
                     <input ref={r => this.province = r} placeholder='Province / State' />
                     <input ref={r => this.postalCode = r} placeholder='Postal / Zip Code' />
-                    <button onClick={this.submitBusinessInfoForm}>Next</button>
+
+                    <div className='page-circles'>
+                        <div id='unselected' className='circles'></div>
+                        <div className='circles'></div>
+                        <div id='unselected' className='circles'></div>
+                    </div>
+                    <div className='footer-btn-wrapper'>
+                        <button className='large-footer-btn' onClick={this.submitBusinessInfoForm}>Next</button>
+                    </div>
+
                 </div>
             </div>
         )
@@ -100,22 +117,22 @@ class CreateAccount extends Component {
         return (
             <div>
                 <div className='app-nav'>
-                    <h3>Account Setup:</h3>
+                    <h3>Account Setup</h3>
                 </div>
                 <div className='settings-wrapper'>
                     <div>
-                        <p>3/3 - Price List Setup:</p>
-                        <div className='item-wrapper'>
+                        <p>Price List Setup</p>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Trousers </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' ref={r => this.trousersRegular = r} placeholder='Regular' />
+                                $<input className='price-input' ref={r => this.trousersRegular = r} placeholder='4.50' />
                                 {/* <input className='price-input' ref={r => this.trousersExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Suit </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.suitRegular = r} placeholder='Regular' />
@@ -125,7 +142,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Overcoat </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' />
@@ -135,7 +152,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Ladies Suit </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' />
@@ -145,7 +162,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Dress </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.dressRegular = r} placeholder='Regular' />
@@ -155,7 +172,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Skirt </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.skirtRegular = r} placeholder='Regular' />
@@ -165,7 +182,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Jacket </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.jacketRegular = r} placeholder='Regular' />
@@ -175,7 +192,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Shirt </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.shirtRegular = r} placeholder='Regular' />
@@ -185,7 +202,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Blouse </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='Regular' />
@@ -195,7 +212,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div>
-                        <div className='item-wrapper'>
+                        <div className='item-wrapper price-listing'>
                             <div className='item-name'>Tie </div>
                             <div className='price-wrapper'>
                                 <input className='price-input' type='number' ref={r => this.tieRegular = r} placeholder='Regular' />
@@ -203,14 +220,21 @@ class CreateAccount extends Component {
                             </div>
                         </div>
                     </div>
-                    <button onClick={this.createNewAccount}>Create Account</button>
+                    <div className='page-circles'>
+                        <div id='unselected' className='circles'></div>
+                        <div id='unselected' className='circles'></div>
+                        <div className='circles'></div>
+                    </div>
+                    <div className='footer-btn-wrapper'>
+                        <button className='large-footer-btn' onClick={this.createNewAccount}>Create Account</button>
+                    </div>
                 </div>
             </div>
         )
     }
 
 
-// SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
+    // SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
     createNewAccount = () => {
         var prices = {
             regular: {
@@ -240,7 +264,7 @@ class CreateAccount extends Component {
         }
 
         registerMerchant(this.state.merchantSubmittedInformation, prices)
-        
+
         this.setState({ prices: prices },
             () => this.props.history.push('/dashboard', {
                 merchantId: this.props.location.state.merchantId,

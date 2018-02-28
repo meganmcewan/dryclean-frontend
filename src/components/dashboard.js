@@ -59,7 +59,7 @@ class Dashboard extends Component {
       .then(x => {
         this.setState({ merchantPrices: x.prices })
       })
-    
+
     getMerchantAddress(merchantObj)
       .then(x => {
         this.setState({ merchantAddress: x.merchantAddress })
@@ -89,30 +89,46 @@ class Dashboard extends Component {
       .then(closedOrder => {
         this.moveToClosed(closedOrder)
       }
-    )
+      )
   }
 
 
   //------- BUTTON THAT TAKES YOU TO 'NEW ORDER' FORM
   createNewOrder = () => {
-    
-    this.props.history.push('/clientorder', { merchantId: this.state.merchantId, 
-                                              merchantPrices: this.state.merchantPrices,
-                                              merchantAddress: this.state.merchantAddress})
 
-  
+    this.props.history.push('/clientorder', {
+      merchantId: this.state.merchantId,
+      merchantPrices: this.state.merchantPrices,
+      merchantAddress: this.state.merchantAddress
+    })
+
+
   }
 
   viewOrder = (item, event) => {
     console.log('in viewOrder', event)
     console.log(item)
-    this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/', 
-    { merchantAddress: this.state.merchantAddress })
+    this.props.history.push('/vieworder/' + this.state.merchantId + '/' + item.orderId + '/',
+      { merchantAddress: this.state.merchantAddress })
   }
 
   //------- FUNCTION THAT RENDER THE 3 DIFFERENT ORDER STATUS LISTS
   openOrders = () => {
     const { openOrders } = this.state;
+
+    //
+    if (this.state.dashboardOrders === 'OPEN_ORDERS' && this.state.openOrders.length < 1){
+      return (
+        <div>
+     <div className='no-orders order-listing'>
+      <div>Welcome to your <mark>clnr</mark> dashboard. </div>
+      <div>Looks like there's nothing to clean.</div>
+      </div>
+        <img id='dash-logo' src='https://i.imgur.com/o7rNnfK.png'/>
+      </div>
+      )
+    }
+
 
     return openOrders.map((item, idx) => {
 
@@ -232,13 +248,16 @@ class Dashboard extends Component {
         </div>
         <div className='dashboard-wrapper'>
           <form>
-            <input className='search-bar' type='text' placeholder='Search' />
+            <input className='search-bar' type='search' placeholder='Search' />
           </form>
 
           <div className='tab-btns-wrapper'>
-            <button className='tab-btns' onClick={this.showOpen}>Open</button>
-            <button className='tab-btns' onClick={this.showPastDue}>Past Due</button>
-            <button className='tab-btns' onClick={this.showCompleted}>Completed</button>
+            <button className={`tab-btns ${this.state.dashboardOrders === 'OPEN_ORDERS' ? 'tab-selected' : ''}`} onClick={this.showOpen}>Open</button>
+            <button className={`tab-btns ${this.state.dashboardOrders === 'PAST_DUE' ? 'tab-selected' : ''}`} onClick={this.showPastDue}>Past Due</button>
+            <button className={`tab-btns ${this.state.dashboardOrders === 'COMPLETED_ORDERS' ? 'tab-selected' : ''}`} onClick={this.showCompleted}>Completed</button>
+
+            {/* className={`tab-btns ${this.state.dashboardOrders === 'OPEN_ORDERS ? 'tab-selected' : ''}`} */}
+
           </div>
 
           <div>{
@@ -250,7 +269,7 @@ class Dashboard extends Component {
 
         </div>
         <div className='footer-btn-wrapper'>
-          <button className='large-footer-btn' onClick={this.createNewOrder}>New Order</button>
+          <button id='color-cta' className='large-footer-btn' onClick={this.createNewOrder}>Create New Order</button>
         </div>
       </div>
     )
