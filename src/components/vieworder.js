@@ -6,7 +6,7 @@ class ViewOrder extends Component {
     super()
     this.state = {
       orderSummary: null,
-      ç
+      
     }
   }
   componentWillMount () {
