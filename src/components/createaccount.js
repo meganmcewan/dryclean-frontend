@@ -22,6 +22,11 @@ class CreateAccount extends Component {
 
     // STEP 1/3  MERCHANT PERSONAL INFO  ---------------------
     submitPersonalInfoForm = (e) => {
+       if(this.merchantFullName.value === '' ||  this.merchantPersonalNumber.value ===''  ){
+
+        alert('caca')
+       }
+       else{
         e.preventDefault()
         this.setState({
             accountSetupForm: 'BUSINESS_INFO',
@@ -31,6 +36,9 @@ class CreateAccount extends Component {
                 merchantPersonalNumber: this.merchantPersonalNumber.value
             }
         })
+       }
+       
+ 
     }
 
     personalInfoForm = () => {
@@ -76,20 +84,28 @@ class CreateAccount extends Component {
 
     // STEP 2/3  MERCHANT BUSINESS INFO  ---------------------
     submitBusinessInfoForm = () => {
-        this.setState({
-            accountSetupForm: 'PRICE_INFO',
-            merchantSubmittedInformation: {
-                merchantId: this.props.location.state.merchantId,
-                merchantFullName: this.state.merchantSubmittedInformation.merchantFullName,
-                merchantPersonalNumber: this.state.merchantSubmittedInformation.merchantPersonalNumber,
-                businessName: this.businessName.value,
-                businessPhoneNum: this.businessPhoneNum.value,
-                businessAddress: this.businessAddress.value,
-                city: this.city.value,
-                province: this.province.value,
-                postalCode: this.postalCode.value,
-            }
-        })
+        if(this.businessName.value === '' || this.businessPhoneNum.value ==='' ||this.businessAddress.value ==='' || this.city.value ==='' || this.province.value ==='' || this.postalCode.value ===''  ){
+
+            alert('caca')
+           }
+
+           else{
+            this.setState({
+                accountSetupForm: 'PRICE_INFO',
+                merchantSubmittedInformation: {
+                    merchantId: this.props.location.state.merchantId,
+                    merchantFullName: this.state.merchantSubmittedInformation.merchantFullName,
+                    merchantPersonalNumber: this.state.merchantSubmittedInformation.merchantPersonalNumber,
+                    businessName: this.businessName.value,
+                    businessPhoneNum: this.businessPhoneNum.value,
+                    businessAddress: this.businessAddress.value,
+                    city: this.city.value,
+                    province: this.province.value,
+                    postalCode: this.postalCode.value,
+                }
+            })
+           }
+   
     }
 
     businessInfoForm = () => {
@@ -241,6 +257,12 @@ class CreateAccount extends Component {
 
     // SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
     createNewAccount = () => {
+        if(this.trousersRegular.value === '' || this.suitRegular.value ==='' ||this.overcoatRegular.value ==='' || this.ladiesSuitRegular.value ==='' || this.dressRegular.value ==='' || this.skirtRegular.value ==='' ||this.jacketRegular.value ==='' || this.blouseRegular.value ==='' || this.shirtRegular.value ==='' || this.tieRegular.value ===''   ){
+
+            alert('caca')
+           }
+
+       else{
         var prices = {
             regular: {
                 trousers: + this.trousersRegular.value,
@@ -266,7 +288,10 @@ class CreateAccount extends Component {
             //     shirt: + this.shirtExpress.value,
             //     tie: + this.tieExpress.value
             // }
-        }
+       }
+       
+       
+        
 
         registerMerchant(this.state.merchantSubmittedInformation, prices)
 
@@ -283,6 +308,7 @@ class CreateAccount extends Component {
                 })
         )
     }
+}
 
     componentWillMount() {
         console.log(this.state.merchantId)
