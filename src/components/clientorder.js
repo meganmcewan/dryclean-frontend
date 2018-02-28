@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { registerMerchant, signout, checkLogin, getMerchantPrices } from '../requests.js'
 import { Redirect } from 'react-router'
+import firebase from '../firebaseConfig.js'
 class ClientOrder extends Component {
     constructor() {
         super()
         this.state = {
             clientObj: {},
             merchantObj: {},
-            orderNumber: Math.floor((Math.random() * 10000) + 1),
+            orderNumber: "-1",
             clientOrderForm: 'PERSONAL_INFO',
             trousers: null,
             suit: null,
@@ -33,8 +34,19 @@ class ClientOrder extends Component {
         // console.log('this is in the else merchant prices',this.props.location.state.merchantPrices.Regular )
         else { 
             var uidFromBack = checkLogin()
+            
             var merchantObj = { merchantId: uidFromBack.user.uid }
            
+
+            var orderRef = firebase.database().ref('/Merchants/' + this.props.location.state.merchantId + '/Orders/')
+                .once('value')
+                .then(d => Object.keys(d.val()).length)
+                .then(resault => this.setState({
+                    orderNumber: resault+10000}))
+                   
+
+
+            
             getMerchantPrices(merchantObj)
             .then(x => {
                 console.log('this is merchant prices',x)        
@@ -94,8 +106,12 @@ class ClientOrder extends Component {
     }
 
     goToReview = () => {
+       if(this.state.totalPrice > 0){
         console.log('clicked go to review')
         this.props.history.push('/confirmation', { orderSummary: this.state })
+       }
+     
+        else { alert("Hello! I am an alert box!!");}
     }
 
     updatePrice = (inp, productName) => {
