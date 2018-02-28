@@ -39,9 +39,12 @@ class ClientOrder extends Component {
 
             var orderRef = firebase.database().ref('/Merchants/' + this.props.location.state.merchantId + '/Orders/')
                 .once('value')
-                .then(d => Object.keys(d.val()).length)
-                .then(resault => this.setState({
-                    orderNumber: resault+10000}))
+                .then(d => {if (d.val())
+                    { var numOrders = Object.keys(d.val()).length
+                      this.setState({ orderNumber: numOrders +10000})
+                     }else { this.setState({orderNumber: 10000})}     
+                })
+
 
 
             getMerchantPrices(merchantObj)
@@ -170,11 +173,7 @@ class ClientOrder extends Component {
         this.props.history.push('/')
     }
 
-    addSurchage = () => {
-        var incPrice = this.state.totalPrice * 1.5
-        var surCharge = incPrice - this.state.totalPrice
-        this.setState({ totalPrice: incPrice, surCharge: surCharge })
-    }
+   
 
     clientOrderDetails = () => {
         return (
@@ -187,7 +186,6 @@ class ClientOrder extends Component {
 
                 <div className='order-subtotal'>
                     <div>Subtotal: <b>${this.totalPrice()}</b></div>
-                    {/* <button onClick={this.addSurchage} >Express</button> */}
                     <div onClick={this.resetState}>Reset ✕</div>
                 </div>
 

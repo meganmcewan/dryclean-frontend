@@ -5,7 +5,8 @@ class ViewOrder extends Component {
   constructor () {
     super()
     this.state = {
-      orderSummary: null
+      orderSummary: null,
+      
     }
   }
   componentWillMount () {
@@ -41,8 +42,8 @@ console.log('this is the respnose in view order', x)
           <div className='confirmation-wrapper'>
             <div className='confirmation-header'>
               <div className='order-status'>
-                {/* <div>Status: In Progress</div>
-                <div>Service: Regular</div> */}
+                {/* <div>Status: In Progress</div> */}
+                <div>Service: {this.state.orderSummary.isExpress?"Express":"Standard"}</div>
                 <div className='date-wrapper'>
                   <div className='date'>
                     <div className='confirmation-field-title'>Recieved</div>
@@ -51,7 +52,7 @@ console.log('this is the respnose in view order', x)
                   <div>
                     <div className='date'>
                       <div className='confirmation-field-title'>Ready for</div>
-                      <div className='client-info'>03/01/2018 12PM</div>
+                      <div className='client-info'>{!this.state.orderSummary.isExpress?this.state.orderSummary.standardReady:this.state.orderSummary.expressReady}</div>
                     </div>
                   </div>
                 </div>
@@ -170,6 +171,11 @@ console.log('this is the respnose in view order', x)
                   <div className='item-type'>Tie</div>
                   <div className='item-amount'>${this.state.orderSummary.tie * this.state.orderSummary.merchantObj.merchantPrices.Regular.tie}</div>
                 </div>}
+                <div className='item-list'>
+                  <div className='item-type' />
+                  <div className='item-amount'>Express Charge</div>
+                  <div className='item-amount'>${this.state.orderSummary.isExpress? this.state.orderSummary.surCharge.toFixed(2):Number(0).toFixed(2)}</div>
+              </div>
               <div className='item-list'>
                 <div className='item-type' />
                 <div className='item-amount'>SUB.</div>

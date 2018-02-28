@@ -4,12 +4,21 @@ import { createNewOrder } from '../requests.js'
 class Confirmation extends Component {
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      isExpress: false,
+      surCharge: null
+    }
   }
 
   componentWillMount() {
 
-    console.log("orderSummary",this.props.location.state.orderSummary)
+    let ndate = new Date()  /// // give the curent that in time
+    let year = ndate.getFullYear()
+    let month = ndate.getMonth() + 1
+    let day = ndate.getDate()
+    let date = month + '/' + day + '/' + year
+
+ 
     
     // var orderObject = findOrder(merchantId, orderId)
 
@@ -18,7 +27,9 @@ class Confirmation extends Component {
     //   orderSummary: x.orderObject, merchantAddress: x.merchantAddress })}
     // )
     console.log("orderSummary",this.props.location.state.orderSummary)
-    this.setState({ orderSummary: this.props.location.state.orderSummary })
+    this.setState({ orderSummary: this.props.location.state.orderSummary,
+                    totalPrice: this.props.location.state.orderSummary.totalPrice,
+                    date: date })
   }
 
   sendSms = (x) => {
@@ -41,7 +52,7 @@ class Confirmation extends Component {
 
 
   confirmOrder = () => {
-      createNewOrder(this.state.orderSummary)
+      createNewOrder(this.state)
       .then(x => this.sendSms(x))
       .then(x => this.state.orderSummary)
       .then(x => this.props.history.push('/dashboard', { merchantId: x.merchantId }))
@@ -49,6 +60,25 @@ class Confirmation extends Component {
     // setTimeout(() => this.props.history.push('/dashboard'), 1000)
     // this.props.history.push('/dashboard', this.state.orderSummary.merchantObj.merchantId)
   }
+
+  toggleExpress = (event)=> {
+    console.log('toggle is clicked')
+    this.setState({isExpress: !this.state.isExpress});
+    this.toggleSurcharge(!this.state.isExpress);
+ }
+ 
+
+  toggleSurcharge =(isExpress)=>{
+    if (isExpress){
+    var incPrice = this.state.totalPrice * 1.5
+    var surCharge = incPrice - this.state.totalPrice
+    this.setState({totalPrice: incPrice, surCharge: surCharge})
+    }else{
+      var newTotalPrice = this.state.totalPrice - this.state.surCharge
+      this.setState({totalPrice: newTotalPrice, surCharge: null})
+    }
+   
+}
 
   render() {
 
@@ -64,8 +94,8 @@ class Confirmation extends Component {
 
           <div className='confirmation-header'>
             <div className='order-status'>
-              <div>Status: In Progress</div>
-              <div>Service: Regular</div>
+              {/* <div>Status: In Progress</div> */}
+              <div>Service: {this.state.isExpress?"Express":"Standard"}</div>
             </div>
 
             <div id='order-num'>{this.state.orderSummary.orderNumber}</div>
@@ -94,9 +124,13 @@ class Confirmation extends Component {
 
                     <div className='date'>
                       <div className='confirmation-field-title'>Date</div>
-                      <div className='client-info'>{this.state.orderSummary.date}</div>
+                      <div className='client-info'>{this.state.date}</div>
                     </div>
                   </div>
+                  <div>
+                      <input type="checkbox" onClick={this.toggleExpress} /> 
+                      <label>Checkbox</label>
+                    </div>
                 </div>
               </div>
             </div>
@@ -183,9 +217,10 @@ class Confirmation extends Component {
             <div className='item-list'>
               <div id='last-item' className='item-type'></div>
               <div id='last-item' className='item-amount'>EXPRESS CHARGE</div>
-              {/* <div id='last-item' className='item-amount'>${this.state.orderSummary.surCharge.toFixed(2)}</div> */}
+              <div id='last-item' className='item-amount'>${this.state.isExpress? this.state.surCharge.toFixed(2): Number(0).toFixed(2)}</div>
+                {/* this.state.surCharge.toFixed(2):0} */}
               <div id='last-item' className='item-amount'>TOTAL</div>
-              <div id='last-item' className='item-amount'>${this.state.orderSummary.totalPrice.toFixed(2)}</div>
+              <div id='last-item' className='item-amount'>${this.state.totalPrice.toFixed(2)}</div>
             </div>
           </div>
           </div>
