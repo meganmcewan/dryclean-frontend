@@ -5,7 +5,8 @@ class ViewOrder extends Component {
   constructor () {
     super()
     this.state = {
-      orderSummary: null
+      orderSummary: null,
+      ç
     }
   }
   componentWillMount () {
@@ -170,6 +171,11 @@ console.log('this is the respnose in view order', x)
                   <div className='item-type'>Tie</div>
                   <div className='item-amount'>${this.state.orderSummary.tie * this.state.orderSummary.merchantObj.merchantPrices.Regular.tie}</div>
                 </div>}
+                <div className='item-list'>
+                  <div className='item-type' />
+                  <div className='item-amount'>Express Charge</div>
+                  <div className='item-amount'>${this.state.orderSummary.isExpress? this.state.orderSummary.surCharge.toFixed(2):Number(0).toFixed(2)}</div>
+              </div>
               <div className='item-list'>
                 <div className='item-type' />
                 <div className='item-amount'>SUB.</div>

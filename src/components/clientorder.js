@@ -43,7 +43,8 @@ class ClientOrder extends Component {
                                               merchantPrices: x.prices,//this.props.location.state.merchantPrices.Regular,
                                               merchantAddress: this.props.location.state.merchantAddress 
                                              }}
-                                            )})}
+                                            )}
+                                        )}
     }
 
     // STEP 1/3  CLIENT PERSONAL INFO  ---------------------
@@ -141,11 +142,7 @@ class ClientOrder extends Component {
         this.props.history.push('/')
     }
 
-    addSurchage =()=>{ 
-        var incPrice = this.state.totalPrice * 1.5
-        var surCharge = incPrice - this.state.totalPrice
-        this.setState({totalPrice: incPrice, surCharge: surCharge})
-    }
+   
 
     clientOrderDetails = () => {
         return (
@@ -158,7 +155,6 @@ class ClientOrder extends Component {
 
                 <div className='order-subtotal'>
                             <div>Subtotal: <b>${this.totalPrice()}</b></div>
-                            <button onClick = {this.addSurchage} >Express</button>
                             <div><button onClick={this.resetState}>Reset</button></div>
                         </div>
 
