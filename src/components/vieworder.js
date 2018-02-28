@@ -42,8 +42,8 @@ console.log('this is the respnose in view order', x)
           <div className='confirmation-wrapper'>
             <div className='confirmation-header'>
               <div className='order-status'>
-                {/* <div>Status: In Progress</div>
-                <div>Service: Regular</div> */}
+                {/* <div>Status: In Progress</div> */}
+                <div>Service: {this.state.orderSummary.isExpress?"Express":"Standard"}</div>
                 <div className='date-wrapper'>
                   <div className='date'>
                     <div className='confirmation-field-title'>Recieved</div>
@@ -52,7 +52,7 @@ console.log('this is the respnose in view order', x)
                   <div>
                     <div className='date'>
                       <div className='confirmation-field-title'>Ready for</div>
-                      <div className='client-info'>03/01/2018 12PM</div>
+                      <div className='client-info'>{!this.state.orderSummary.isExpress?this.state.orderSummary.standardReady:this.state.orderSummary.expressReady}</div>
                     </div>
                   </div>
                 </div>

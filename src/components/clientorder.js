@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { registerMerchant, signout, checkLogin, getMerchantPrices } from '../requests.js'
 import { Redirect } from 'react-router'
+import firebase from '../firebaseConfig.js'
 class ClientOrder extends Component {
     constructor() {
         super()
         this.state = {
             clientObj: {},
             merchantObj: {},
-            orderNumber: Math.floor((Math.random() * 10000) + 1),
+            orderNumber: "-1",
             clientOrderForm: 'PERSONAL_INFO',
             trousers: null,
             suit: null,
@@ -27,24 +28,39 @@ class ClientOrder extends Component {
         if (!this.props.location.state.merchantId) {
             this.props.history.push('/dashboard')
         }
-        
-       
+
+
         // console.log('this is in merhcant', this.props.location.state.merchantId)
         // console.log('this is in the else merchant prices',this.props.location.state.merchantPrices.Regular )
-        else { 
+        else {
             var uidFromBack = checkLogin()
-            var merchantObj = { merchantId: uidFromBack.user.uid }
-           
-            getMerchantPrices(merchantObj)
-            .then(x => {
-                console.log('this is merchant prices',x)        
             
-            this.setState({ merchantObj: { merchantId: this.props.location.state.merchantId, 
-                                              merchantPrices: x.prices,//this.props.location.state.merchantPrices.Regular,
-                                              merchantAddress: this.props.location.state.merchantAddress 
-                                             }}
-                                            )}
-                                        )}
+            var merchantObj = { merchantId: uidFromBack.user.uid }
+
+            var orderRef = firebase.database().ref('/Merchants/' + this.props.location.state.merchantId + '/Orders/')
+                .once('value')
+                .then(d => {if (d.val())
+                    { var numOrders = Object.keys(d.val()).length
+                      this.setState({ orderNumber: numOrders +10000})
+                     }else { this.setState({orderNumber: 10000})}     
+                })
+
+
+
+            getMerchantPrices(merchantObj)
+                .then(x => {
+                    console.log('this is merchant prices', x)
+
+                    this.setState({
+                        merchantObj: {
+                            merchantId: this.props.location.state.merchantId,
+                            merchantPrices: x.prices,//this.props.location.state.merchantPrices.Regular,
+                            merchantAddress: this.props.location.state.merchantAddress
+                        }
+                    }
+                    )
+                })
+        }
     }
 
     // STEP 1/3  CLIENT PERSONAL INFO  ---------------------
@@ -63,40 +79,53 @@ class ClientOrder extends Component {
 
     clientPersonalInfoForm = () => {
         return (
-            <div className='inital-css'>
-                <div className='app-nav'>
-                    <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
-                    <h3>New Order</h3>
-                    <div className='logout' onClick={this.logout}>Logout</div>
-                </div>
-                <div>
-                    <p> 1/2 - Client Personal Info:</p>
-                    <form>
-                        <div>
-                            <input ref={r => this.clientFullName = r} placeholder="Client's Name" required/>
+            <div>
+                <div className='inital-css'>
+                    <div className='app-nav'>
+                        <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
+                        <h3>New Order</h3>
+                        <div className='logout' onClick={this.logout}>Logout</div>
+                    </div>
+                    <div>
+                        <div className='loginWrapper'>
+                            <img id='form-icons' src='https://i.imgur.com/kMAaD0x.png' />
+                            <p>Enter clients name</p>
+                            <form>
+                                <div>
+                                    <input ref={r => this.clientFullName = r} placeholder="Client's Name" required />
+                                </div>
+                                <div className='enter-number'>
+                                    <img id='form-icons' src='https://i.imgur.com/bbk2dOx.png' />
+                                    <p>Enter clients number</p>
+                                    <div>
+                                        <input ref={r => this.clientPersonalNumber = r}
+                                            type='tel'
+                                            placeholder="(111)-222-3333"
+                                            required pattern="[0-9]{3}[0-9]{3}[0-9]{4}" />
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <input  ref={r => this.clientPersonalNumber = r} 
-                                    placeholder="(111)-222-3333"
-                                    required pattern="[0-9]{3}[0-9]{3}[0-9]{4}" />
-                        </div>
-                        <div className='page-circles'>
-                            <div className='circles'></div>
-                            <div id='unselected' className='circles'></div>
-                        </div>
-
-                        <div className='footer-btn-wrapper'>
-                            <button className='large-footer-btn' onClick={this.submitPersonalInfoForm}>Next</button>
-                        </div>
-                    </form>
+                    </div>
+                    <div className='page-circles'>
+                        <div className='circles'></div>
+                        <div id='unselected' className='circles'></div>
+                    </div>
+                    <div className='footer-btn-wrapper'>
+                        <button className='large-footer-btn' onClick={this.submitPersonalInfoForm}>Next</button>
+                    </div>
                 </div>
             </div>
         )
     }
 
     goToReview = () => {
+       if(this.state.totalPrice > 0){
         console.log('clicked go to review')
         this.props.history.push('/confirmation', { orderSummary: this.state })
+       }
+     
+        else { alert("Hello! I am an alert box!!");}
     }
 
     updatePrice = (inp, productName) => {
@@ -124,7 +153,8 @@ class ClientOrder extends Component {
     }
 
     resetState = () => {
-        this.setState({trousers: null,
+        this.setState({
+            trousers: null,
             suit: null,
             overcoat: null,
             ladiesSuit: null,
@@ -134,7 +164,8 @@ class ClientOrder extends Component {
             tie: null,
             blouse: null,
             shirt: null,
-            totalPrice: null})
+            totalPrice: null
+        })
     }
 
     logout = () => {
@@ -154,9 +185,9 @@ class ClientOrder extends Component {
                 </div>
 
                 <div className='order-subtotal'>
-                            <div>Subtotal: <b>${this.totalPrice()}</b></div>
-                            <div><button onClick={this.resetState}>Reset</button></div>
-                        </div>
+                    <div>Subtotal: <b>${this.totalPrice()}</b></div>
+                    <div onClick={this.resetState}>Reset ✕</div>
+                </div>
 
                 <div className='client-order-wrapper'>
                     <div>

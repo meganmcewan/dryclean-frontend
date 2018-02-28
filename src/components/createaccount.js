@@ -22,6 +22,11 @@ class CreateAccount extends Component {
 
     // STEP 1/3  MERCHANT PERSONAL INFO  ---------------------
     submitPersonalInfoForm = (e) => {
+       if(this.merchantFullName.value === '' ||  this.merchantPersonalNumber.value ===''  ){
+
+        alert('caca')
+       }
+       else{
         e.preventDefault()
         this.setState({
             accountSetupForm: 'BUSINESS_INFO',
@@ -31,6 +36,9 @@ class CreateAccount extends Component {
                 merchantPersonalNumber: this.merchantPersonalNumber.value
             }
         })
+       }
+       
+ 
     }
 
     personalInfoForm = () => {
@@ -40,16 +48,26 @@ class CreateAccount extends Component {
                     <h3>Account Setup</h3>
                 </div>
                 <div>
-                    <img id='logo-login' src='https://i.imgur.com/mJDVmQH.png' />
-                    <p>Personal Info</p>
-                    <form>
-                        <div>
-                            <input ref={r => this.merchantFullName = r} placeholder='Full Name' required/>
-                        </div>
-                        <div>
-                            <input ref={r => this.merchantPersonalNumber = r} placeholder='Phone Number' required/>
-                        </div>
-                    </form>
+                    <div className='loginWrapper'>
+                        <img id='form-icons' src='https://i.imgur.com/kMAaD0x.png' />
+                        <p>Enter your name</p>
+                        <form>
+                            <div>
+                                <input ref={r => this.merchantFullName = r} placeholder="Full Name" required />
+                            </div>
+                            <div className='enter-number'>
+                                <img id='form-icons' src='https://i.imgur.com/bbk2dOx.png' />
+                                <p>Enter your number</p>
+                                <div>
+                                    <input ref={r => this.merchantPersonalNumber = r}
+                                        placeholder="(111)-222-3333"
+                                        required pattern="[0-9]{3}[0-9]{3}[0-9]{4}" 
+                                        type='tel'/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
                     <div className='page-circles'>
                         <div className='circles'></div>
                         <div id='unselected' className='circles'></div>
@@ -66,20 +84,28 @@ class CreateAccount extends Component {
 
     // STEP 2/3  MERCHANT BUSINESS INFO  ---------------------
     submitBusinessInfoForm = () => {
-        this.setState({
-            accountSetupForm: 'PRICE_INFO',
-            merchantSubmittedInformation: {
-                merchantId: this.props.location.state.merchantId,
-                merchantFullName: this.state.merchantSubmittedInformation.merchantFullName,
-                merchantPersonalNumber: this.state.merchantSubmittedInformation.merchantPersonalNumber,
-                businessName: this.businessName.value,
-                businessPhoneNum: this.businessPhoneNum.value,
-                businessAddress: this.businessAddress.value,
-                city: this.city.value,
-                province: this.province.value,
-                postalCode: this.postalCode.value,
-            }
-        })
+        if(this.businessName.value === '' || this.businessPhoneNum.value ==='' ||this.businessAddress.value ==='' || this.city.value ==='' || this.province.value ==='' || this.postalCode.value ===''  ){
+
+            alert('caca')
+           }
+
+           else{
+            this.setState({
+                accountSetupForm: 'PRICE_INFO',
+                merchantSubmittedInformation: {
+                    merchantId: this.props.location.state.merchantId,
+                    merchantFullName: this.state.merchantSubmittedInformation.merchantFullName,
+                    merchantPersonalNumber: this.state.merchantSubmittedInformation.merchantPersonalNumber,
+                    businessName: this.businessName.value,
+                    businessPhoneNum: this.businessPhoneNum.value,
+                    businessAddress: this.businessAddress.value,
+                    city: this.city.value,
+                    province: this.province.value,
+                    postalCode: this.postalCode.value,
+                }
+            })
+           }
+   
     }
 
     businessInfoForm = () => {
@@ -88,24 +114,23 @@ class CreateAccount extends Component {
                 <div className='app-nav'>
                     <h3>Account Setup</h3>
                 </div>
-                <div>
-                    <p>2/3 - Business Account Info</p>
-                    <input ref={r => this.businessName = r} placeholder='Business Name' />
-                    <input ref={r => this.businessPhoneNum = r} placeholder='Business Phone #' />
-                    <input ref={r => this.businessAddress = r} placeholder='Business Address' />
-                    <input ref={r => this.city = r} placeholder='City' />
-                    <input ref={r => this.province = r} placeholder='Province / State' />
-                    <input ref={r => this.postalCode = r} placeholder='Postal / Zip Code' />
-
-                    <div className='page-circles'>
-                        <div id='unselected' className='circles'></div>
-                        <div className='circles'></div>
-                        <div id='unselected' className='circles'></div>
-                    </div>
-                    <div className='footer-btn-wrapper'>
-                        <button className='large-footer-btn' onClick={this.submitBusinessInfoForm}>Next</button>
-                    </div>
-
+                <div className='loginWrapper'>
+                    <img id='form-icons' src='https://i.imgur.com/uboTvOx.png' />
+                    <p>Enter your buisness details</p>
+                    <div><input ref={r => this.businessName = r} placeholder='Business Name' /></div>
+                    <div><input ref={r => this.businessPhoneNum = r} placeholder='Business Phone #' type='tel'/></div>
+                    <div><input ref={r => this.businessAddress = r} placeholder='Business Address' /></div>
+                    <div><input ref={r => this.city = r} placeholder='City' /></div>
+                    <div><input ref={r => this.province = r} placeholder='Province / State' /></div>
+                    <div><input ref={r => this.postalCode = r} placeholder='Postal / Zip Code' /></div>
+                </div>
+                <div className='page-circles'>
+                    <div id='unselected' className='circles'></div>
+                    <div className='circles'></div>
+                    <div id='unselected' className='circles'></div>
+                </div>
+                <div className='footer-btn-wrapper'>
+                    <button className='large-footer-btn' onClick={this.submitBusinessInfoForm}>Next</button>
                 </div>
             </div>
         )
@@ -115,7 +140,7 @@ class CreateAccount extends Component {
     // STEP 3/3  MERCHANT SERVICES / PRICE INFO  ---------------------
     priceListForm = () => {
         return (
-            <div>
+            <div className='inital-css'>
                 <div className='app-nav'>
                     <h3>Account Setup</h3>
                 </div>
@@ -135,7 +160,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Suit </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.suitRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.suitRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.suitExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -145,7 +170,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Overcoat </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.overcoatRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.overcoatExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -155,7 +180,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Ladies Suit </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.ladiesSuitRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.ladiesSuitExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -165,7 +190,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Dress </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.dressRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.dressRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.dressExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -175,7 +200,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Skirt </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.skirtRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.skirtRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.skirtExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -185,7 +210,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Jacket </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.jacketRegular = r} placeholder='Regular' required />
+                            $<input className='price-input' type='number' ref={r => this.jacketRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.jacketExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -195,7 +220,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Shirt </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.shirtRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.shirtRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.shirtExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -205,7 +230,7 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Blouse </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.blouseRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.blouseExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
@@ -215,20 +240,16 @@ class CreateAccount extends Component {
                         <div className='item-wrapper price-listing'>
                             <div className='item-name'>Tie </div>
                             <div className='price-wrapper'>
-                                <input className='price-input' type='number' ref={r => this.tieRegular = r} placeholder='Regular' required/>
+                            $<input className='price-input' type='number' ref={r => this.tieRegular = r} placeholder='Regular' required />
                                 {/* <input className='price-input' type='number' ref={r => this.tieExpress = r} placeholder='Express' /> */}
                             </div>
                         </div>
                     </div>
-                    <div className='page-circles'>
-                        <div id='unselected' className='circles'></div>
-                        <div id='unselected' className='circles'></div>
-                        <div className='circles'></div>
-                    </div>
+                </div>
+                
                     <div className='footer-btn-wrapper'>
                         <button className='large-footer-btn' onClick={this.createNewAccount}>Create Account</button>
                     </div>
-                </div>
             </div>
         )
     }
@@ -236,6 +257,12 @@ class CreateAccount extends Component {
 
     // SUBMITS ALL FORMS & CREATES A NEW MERCHANT ACCOUNT  ---------------------
     createNewAccount = () => {
+        if(this.trousersRegular.value === '' || this.suitRegular.value ==='' ||this.overcoatRegular.value ==='' || this.ladiesSuitRegular.value ==='' || this.dressRegular.value ==='' || this.skirtRegular.value ==='' ||this.jacketRegular.value ==='' || this.blouseRegular.value ==='' || this.shirtRegular.value ==='' || this.tieRegular.value ===''   ){
+
+            alert('caca')
+           }
+
+       else{
         var prices = {
             regular: {
                 trousers: + this.trousersRegular.value,
@@ -261,23 +288,27 @@ class CreateAccount extends Component {
             //     shirt: + this.shirtExpress.value,
             //     tie: + this.tieExpress.value
             // }
-        }
+       }
+       
+       
+        
 
         registerMerchant(this.state.merchantSubmittedInformation, prices)
 
 
-        
+
         this.setState({ prices: prices },
 
             () => this.props.history.push('/dashboard',
-            
-            {
-                merchantId: this.props.location.state.merchantId,
-                merchantSubmittedInformation: this.state.merchantSubmittedInformation,
-                prices: this.state.prices
-            })
+
+                {
+                    merchantId: this.props.location.state.merchantId,
+                    merchantSubmittedInformation: this.state.merchantSubmittedInformation,
+                    prices: this.state.prices
+                })
         )
     }
+}
 
     componentWillMount() {
         console.log(this.state.merchantId)

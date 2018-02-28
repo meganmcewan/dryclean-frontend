@@ -12,6 +12,12 @@ class Confirmation extends Component {
 
   componentWillMount() {
 
+    let ndate = new Date()  /// // give the curent that in time
+    let year = ndate.getFullYear()
+    let month = ndate.getMonth() + 1
+    let day = ndate.getDate()
+    let date = month + '/' + day + '/' + year
+
  
     
     // var orderObject = findOrder(merchantId, orderId)
@@ -22,7 +28,8 @@ class Confirmation extends Component {
     // )
     console.log("orderSummary",this.props.location.state.orderSummary)
     this.setState({ orderSummary: this.props.location.state.orderSummary,
-                    totalPrice: this.props.location.state.orderSummary.totalPrice })
+                    totalPrice: this.props.location.state.orderSummary.totalPrice,
+                    date: date })
   }
 
   sendSms = (x) => {
@@ -87,8 +94,8 @@ class Confirmation extends Component {
 
           <div className='confirmation-header'>
             <div className='order-status'>
-              <div>Status: In Progress</div>
-              <div>Service: Regular</div>
+              {/* <div>Status: In Progress</div> */}
+              <div>Service: {this.state.isExpress?"Express":"Standard"}</div>
             </div>
 
             <div id='order-num'>{this.state.orderSummary.orderNumber}</div>
@@ -117,17 +124,12 @@ class Confirmation extends Component {
 
                     <div className='date'>
                       <div className='confirmation-field-title'>Date</div>
-                      <div className='client-info'>{this.state.orderSummary.date}</div>
+                      <div className='client-info'>{this.state.date}</div>
                     </div>
                   </div>
                   <div>
-                 
-                      <input type="checkbox" onClick={this.toggleExpress} />
-                      
-                     
+                      <input type="checkbox" onClick={this.toggleExpress} /> 
                       <label>Checkbox</label>
-                   
-                      {/* <button onClick = {this.addSurcharge} >Express</button> */}
                     </div>
                 </div>
               </div>

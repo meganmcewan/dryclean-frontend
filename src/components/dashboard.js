@@ -148,7 +148,7 @@ class Dashboard extends Component {
           <div onClick={(event) => this.viewOrder(item, event)} className='order-listing'>
             <div className='dash-order-header'>
               <div className='dash-order-number'>#{item.orderNumber}</div>
-              <div className='dash-order-status'>Cleaning</div>
+              {item.inProgress === true ? <div className='dash-order-status'>Cleaning</div> : <div id='order-ready' className='dash-order-status'>Ready</div>}
             </div>
             <div>
               <h2>{item.clientObj.clientFullName}</h2>

@@ -1,6 +1,6 @@
 import { sendReminderSms, sendPastDueSms } from './smsConfigFile.js'
 import firebase from './firebaseConfig.js'
-var serviceAccount = require('./key.json')
+// var serviceAccount = require('./key.json')
 // var schedule = require('node-schedule');
 
 var database = firebase.database()
@@ -262,6 +262,8 @@ let day = ndate.getDate()
 let date = month + '/' + day + '/' + year
 let timestamp = ndate.getTime()
 
+
+
 export async function createNewOrder (theWholeState) {
   var newOrder = await database.ref('/Merchants/' + theWholeState.orderSummary.merchantObj.merchantId + '/Orders/')
   .push(
@@ -270,8 +272,8 @@ export async function createNewOrder (theWholeState) {
       merchantId: theWholeState.orderSummary.merchantObj.merchantId,
       timestamp: timestamp,
       date: date,
-      standardReady: 'current date + 3 days',
-      expressReady: 'current date +1 day',
+      standardReady:  month + '/' + (day+3) + '/' + year,
+      expressReady:  month + '/' + (day+1) + '/' + year,
       orderStatus: 'open',
       inProgress: true,
       clientObj: theWholeState.orderSummary.clientObj,
