@@ -1,6 +1,6 @@
 import { sendReminderSms, sendPastDueSms } from './smsConfigFile.js'
 import firebase from './firebaseConfig.js'
-var serviceAccount = require('./key.json')
+// var serviceAccount = require('./key.json')
 // var schedule = require('node-schedule');
 
 var database = firebase.database()
