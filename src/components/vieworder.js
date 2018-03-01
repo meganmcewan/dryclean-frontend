@@ -5,8 +5,8 @@ class ViewOrder extends Component {
   constructor () {
     super()
     this.state = {
-      orderSummary: null,
-      
+      orderSummary: null
+
     }
   }
   componentWillMount () {
@@ -16,11 +16,11 @@ class ViewOrder extends Component {
     console.log(merchantId)
 
     var orderObject = findOrder(merchantId, orderId)
-    .then(x => { 
-console.log('this is the respnose in view order', x)
+    .then(x => {
+      console.log('this is the respnose in view order', x)
       this.setState({
-        orderSummary: x.orderObject, merchantAddress: x.merchantAddress }) 
-}
+        orderSummary: x.orderObject, merchantAddress: x.merchantAddress })
+    }
     )
   }
 
@@ -42,8 +42,6 @@ console.log('this is the respnose in view order', x)
           <div className='confirmation-wrapper'>
             <div className='confirmation-header'>
               <div className='order-status'>
-                {/* <div>Status: In Progress</div> */}
-                <div>Service: {this.state.orderSummary.isExpress?"Express":"Standard"}</div>
                 <div className='date-wrapper'>
                   <div className='date'>
                     <div className='confirmation-field-title'>Recieved</div>
@@ -52,7 +50,7 @@ console.log('this is the respnose in view order', x)
                   <div>
                     <div className='date'>
                       <div className='confirmation-field-title'>Ready for</div>
-                      <div className='client-info'>{!this.state.orderSummary.isExpress?this.state.orderSummary.standardReady:this.state.orderSummary.expressReady}</div>
+                      <div className='client-info'>{!this.state.orderSummary.isExpress ? this.state.orderSummary.standardReady : this.state.orderSummary.expressReady}</div>
                     </div>
                   </div>
                 </div>
@@ -70,18 +68,6 @@ console.log('this is the respnose in view order', x)
 
             <div>
               <div>
-                {/* <div className='client-info-fields'> */}
-                {/* <div className='date'>
-                    <div className='confirmation-field-title'>Name</div>
-                    <div className='client-info'>{this.state.orderSummary.clientObj.clientFullName}</div>
-                  </div>
-
-                  <div className='client-phone'>
-                    <div className='confirmation-field-title'>Phone</div>
-                    <div className='client-info'>{this.state.orderSummary.clientObj.clientPersonalNumber}</div>
-                  </div>
-                  <div />
-                </div> */}
                 <div className='item-list'>
                   <div id='form-header' className='item-type'>Client Name</div>
                   <div id='form-header' className='item-type'>Client Phone #</div>
@@ -91,7 +77,6 @@ console.log('this is the respnose in view order', x)
                   <div id='last-item' className='item-type'>{this.state.orderSummary.clientObj.clientFullName}</div>
                   <div id='last-item' className='item-type'>{this.state.orderSummary.clientObj.clientPersonalNumber}</div>
                 </div>
-
               </div>
             </div>
             <p id='order-summary'>Order Summary</p>
@@ -125,7 +110,7 @@ console.log('this is the respnose in view order', x)
 
               {this.state.orderSummary.ladiesSuit > 0 &&
                 <div className='item-list'>
-                  <div id='qty' className='item-amount' id='qty'>{this.state.orderSummary.ladiesSuit}</div>
+                  <div id='qty' className='item-amount'>{this.state.orderSummary.ladiesSuit}</div>
                   <div className='item-type'>Ladies Suit</div>
                   <div className='item-amount'>${this.state.orderSummary.ladiesSuit * this.state.orderSummary.merchantObj.merchantPrices.Regular.ladiesSuit}</div>
                 </div>}
@@ -171,25 +156,26 @@ console.log('this is the respnose in view order', x)
                   <div className='item-type'>Tie</div>
                   <div className='item-amount'>${this.state.orderSummary.tie * this.state.orderSummary.merchantObj.merchantPrices.Regular.tie}</div>
                 </div>}
-                <div className='item-list'>
-                  <div className='item-type' />
-                  <div className='item-amount'>Express Charge</div>
-                  <div className='item-amount'>${this.state.orderSummary.isExpress? this.state.orderSummary.surCharge.toFixed(2):Number(0).toFixed(2)}</div>
+
+              <div className='item-list'>
+                <div className='item-type' />
+                <div className='item-amount service'>EXPRESS</div>
+                <div className='item-amount service'>${this.state.orderSummary.isExpress ? this.state.orderSummary.surCharge.toFixed(2) : Number(0).toFixed(2)}</div>
               </div>
               <div className='item-list'>
                 <div className='item-type' />
-                <div className='item-amount'>SUB.</div>
-                <div className='item-amount'>${this.state.orderSummary.totalPrice.toFixed(2)}</div>
+                <div className='item-amount service'>SUBTOTAL</div>
+                <div className='item-amount service'>${this.state.orderSummary.totalPrice.toFixed(2)}</div>
               </div>
               <div className='item-list'>
                 <div className='item-type' />
-                <div className='item-amount'>TAX</div>
-                <div className='item-amount'>${(this.state.orderSummary.totalPrice * 0.15).toFixed(2)}</div>
+                <div className='item-amount service'>TAX</div>
+                <div className='item-amount service'>${(this.state.orderSummary.totalPrice * 0.15).toFixed(2)}</div>
               </div>
               <div className='item-list'>
-                <div id='last-item' className='item-type' />
-                <div id='last-item' className='item-amount'>TOTAL</div>
-                <div id='last-item' className='item-amount'>${(this.state.orderSummary.totalPrice * 1.15).toFixed(2)}</div>
+                <div id='last-item' className='item-type service'>Service: {this.state.orderSummary.isExpress ? 'Express' : 'Standard'}</div>
+                <div id='last-item' className='item-amount total-cost'>TOTAL</div>
+                <div id='last-item' className='item-amount total-cost'>${(this.state.orderSummary.totalPrice * 1.15).toFixed(2)}</div>
               </div>
 
             </div>

@@ -63,14 +63,16 @@ input{
 }
 
 button{
-  background-color: rgb(240, 240, 243);
-  color: #737373;
+  background-color: rgb(231, 231, 231);
+  color: #707070;
   padding: 7px;
   /* padding-left: 20px; */
   /* padding-right: 20px; */
   border: none;
   font-weight: 600;
   border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 Link{
@@ -128,6 +130,11 @@ Link{
   height: 58vh;
 }
 
+.loginWrapper p{
+  font-size: 18px;
+  line-height: 35px;
+}
+
 .form{
   margin-left: auto;
   margin-right: auto;
@@ -138,13 +145,14 @@ Link{
   margin-right: auto;
   display: flex;
   justify-content: center;
+  font-size: 16px;
 }
 
 #form-label{
   display: block;
 }
 
-.footnote{
+#footnote{
   font-size: 12px;
   color: rgb(153, 153, 153);
 }
@@ -214,6 +222,7 @@ Link{
   margin-bottom: 10px;
   width: 90%;
   color: white;
+  max-width: 325px;
 }
 
 .footer-btn-wrapper{
@@ -245,18 +254,26 @@ Link{
 }
 
 .price-input{
-  width: 110px;
+  width: 60px;
   margin-left: 5px;
   background: none;
   border: none;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   border-radius: 0px;
   font-size: 16px;
-  opacity: .6
+  color: rgb(58,76,186);
+  font-weight: 800;
+  height: 25px;
 }
 
 .price-input::placeholder{
   font-size: 16px;
+  font-weight: 500;
+  opacity: .5;
+}
+
+#price-tag{
+  margin-bottom: 10px;
 }
 
 input:focus::-webkit-input-placeholder {
@@ -346,6 +363,10 @@ margin-top: 10px;
   border-bottom: 1px solid #e6e6e6;
 }
 
+#price-list{
+  height: 100%;
+}
+
 .tab-btns{
   /* background-color: white;
   color: black; */
@@ -429,6 +450,7 @@ margin-top: 10px;
   opacity: 0.12;
   width: 49%;
   margin-top: 40px;
+  max-width: 250px;
 }
 
 #color-cta{
@@ -510,7 +532,6 @@ letter-spacing: 3px;
   padding: 5px;
   width: 30%
 }
-
 
 #qty{
   border: none;
@@ -667,6 +688,11 @@ width: 64% !important;
   font-weight: 800;
 }
 
+.order-btn-flex{
+  display: flex;
+  justify-content: space-around
+}
+
 .items-selected{
   background-color: #ff0907;
   position: relative;
@@ -717,11 +743,17 @@ width: 64% !important;
 .order-subtotal{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: 20px;
   margin-bottom: 10px;
   width: 90vw;
   margin-left: auto;
   margin-right: auto;
+}
+
+.total-cost{
+  background-color: #3a4cba;
+  color: #ffebf3;
 }
 
 #order-summary{
@@ -735,4 +767,21 @@ width: 64% !important;
 
 .enter-number{
   margin-top: 20px;
+}
+
+#express{
+  width: 25px;
+}
+
+.express-order{
+  display: flex;
+  align-items: center;
+}
+
+.service{
+  font-size: 12px;
+}
+
+.error{
+  color: red;
 }
