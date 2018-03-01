@@ -262,42 +262,46 @@ let day = ndate.getDate()
 let date = month + '/' + day + '/' + year
 let timestamp = ndate.getTime()
 
-export async function createNewOrder (orderSummary) {
-  var newOrder = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/')
+
+
+export async function createNewOrder (theWholeState) {
+  var newOrder = await database.ref('/Merchants/' + theWholeState.orderSummary.merchantObj.merchantId + '/Orders/')
   .push(
     {
 
-      merchantId: orderSummary.merchantObj.merchantId,
+      merchantId: theWholeState.orderSummary.merchantObj.merchantId,
       timestamp: timestamp,
       date: date,
-      standardReady: 'current date + 3 days',
-      expressReady: 'current date +1 day',
+      standardReady:  month + '/' + (day+3) + '/' + year,
+      expressReady:  month + '/' + (day+1) + '/' + year,
       orderStatus: 'open',
       inProgress: true,
-      clientObj: orderSummary.clientObj,
-      blouse: orderSummary.blouse,
-      dress: orderSummary.dress,
-      jacket: orderSummary.jacket,
-      ladiesSuit: orderSummary.ladiesSuit,
-      overcoat: orderSummary.overcoat,
-      shirt: orderSummary.shirt,
-      skirt: orderSummary.skirt,
-      suit: orderSummary.suit,
-      tie: orderSummary.tie,
-      trousers: orderSummary.trousers,
-      totalPrice: orderSummary.totalPrice,
-      orderNumber: orderSummary.orderNumber,
-      merchantObj: orderSummary.merchantObj
+      clientObj: theWholeState.orderSummary.clientObj,
+      blouse: theWholeState.orderSummary.blouse,
+      dress: theWholeState.orderSummary.dress,
+      jacket: theWholeState.orderSummary.jacket,
+      ladiesSuit: theWholeState.orderSummary.ladiesSuit,
+      overcoat: theWholeState.orderSummary.overcoat,
+      shirt: theWholeState.orderSummary.shirt,
+      skirt: theWholeState.orderSummary.skirt,
+      suit: theWholeState.orderSummary.suit,
+      tie: theWholeState.orderSummary.tie,
+      trousers: theWholeState.orderSummary.trousers,
+      totalPrice: theWholeState.totalPrice,
+      surCharge:  theWholeState.surCharge,
+      orderNumber: theWholeState.orderSummary.orderNumber,
+      merchantObj: theWholeState.orderSummary.merchantObj,
+      isExpress: theWholeState.isExpress
 
     }
   )
 
-  var getKey = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/' + newOrder.key)
+  var getKey = await database.ref('/Merchants/' + theWholeState.orderSummary.merchantObj.merchantId + '/Orders/' + newOrder.key)
   .update({
     orderId: newOrder.key
   })
 
-  var orderConfirmation = await database.ref('/Merchants/' + orderSummary.merchantObj.merchantId + '/Orders/' + newOrder.key)
+  var orderConfirmation = await database.ref('/Merchants/' + theWholeState.orderSummary.merchantObj.merchantId + '/Orders/' + newOrder.key)
   .once('value')
 
   return {orderConfirmation: orderConfirmation.val()}
@@ -308,10 +312,12 @@ export async function createNewOrder (orderSummary) {
 /// ////this function gets all of the orders for the requested merchant and is called //////
 
 function makeOrdersArr (snapshot) {
-  let allOrders = []
+ 
   // let usersOrders = []
   // let allOrders = []
   // let flatOrders = []
+
+  let allOrders = []
 
   snapshot.forEach(item => {
     allOrders.push(item.val())
@@ -457,4 +463,35 @@ export async function markPickedUp (orderObj) {
   return {orderDetails: updatedOrder.val()}
 }
 
-/// //////////////MAKE EXPRESS/////////////////////
+//////////////////////SEARCH FUNCTION////////////////////////////////
+
+export async function getSearchResults (merchantId, searchInput) {
+
+  var snapshot = await database.ref('/Merchants/' + merchantId + '/Orders/')
+      .once('value')
+
+  let merchantOrders = makeOrdersArr(snapshot)
+  
+  var searchResults = []
+  searchInput = searchInput.toLowerCase()
+
+  console.log("this is merchant orders", merchantOrders)
+  console.log("this is search in put", searchInput)
+
+  for (let i in merchantOrders) {
+      var searchOrderNumber = merchantOrders[i].orderNumber.toString()
+      
+      var searchClientName = merchantOrders[i].clientObj.clientFullName.toLowerCase()
+     
+      var searchPhoneNumber = merchantOrders[i].clientObj.clientPersonalNumber
+
+    if (searchOrderNumber === searchInput || searchClientName.includes(searchInput) || searchPhoneNumber.includes(searchInput)) {
+      searchResults = searchResults.concat(merchantOrders[i])
+    }
+  }
+  console.log('this are the search results', searchResults)
+  return {searchResults: searchResults}
+}
+
+
+
