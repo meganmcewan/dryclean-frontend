@@ -84,19 +84,19 @@ class ClientOrder extends Component {
                     <div className='app-nav'>
                         <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
                         <h3>New Order</h3>
-                        <div className='logout' onClick={this.logout}>Logout</div>
-                    </div>
+                        <div id='back-arrow' onClick={this.goToDash}>✕</div>
+                        </div>
                     <div>
                         <div className='loginWrapper'>
                             <img id='form-icons' src='https://i.imgur.com/kMAaD0x.png' />
-                            <p>Enter clients name</p>
+                            <p>Enter Client's Name</p>
                             <form>
                                 <div>
                                     <input ref={r => this.clientFullName = r} placeholder="Client's Name" required />
                                 </div>
                                 <div className='enter-number'>
                                     <img id='form-icons' src='https://i.imgur.com/bbk2dOx.png' />
-                                    <p>Enter clients number</p>
+                                    <p>Enter Client's Number</p>
                                     <div>
                                         <input ref={r => this.clientPersonalNumber = r}
                                             type='tel'
@@ -125,7 +125,7 @@ class ClientOrder extends Component {
         this.props.history.push('/confirmation', { orderSummary: this.state })
        }
      
-        else { alert("Hello! I am an alert box!!");}
+        else { alert("No items added to your order");}
     }
 
     updatePrice = (inp, productName) => {
@@ -173,7 +173,9 @@ class ClientOrder extends Component {
         this.props.history.push('/')
     }
 
-   
+    goToDash = () => {
+        this.props.history.push('/dashboard')
+      }
 
     clientOrderDetails = () => {
         return (
@@ -181,19 +183,19 @@ class ClientOrder extends Component {
                 <div className='app-nav'>
                     <img className='logo-icon' src='https://i.imgur.com/mJDVmQH.png' />
                     <h3>New Order</h3>
-                    <div className='logout' onClick={this.logout}>Logout</div>
+                    <div id='back-arrow' onClick={this.goToDash}>✕</div>
                 </div>
 
                 <div className='order-subtotal'>
                     <div>Subtotal: <b>${this.totalPrice()}</b></div>
-                    <div onClick={this.resetState}>Reset ✕</div>
+                    <button onClick={this.resetState}>Reset Order</button>
                 </div>
 
                 <div className='client-order-wrapper'>
                     <div>
                         <div className='order-buttons-wrapper'>
                             {[['trousers', 'suit'], ['overcoat', 'ladiesSuit'], ['dress', 'skirt'], ['jacket', 'blouse'], ['shirt', 'tie']].map(container => (
-                                <div className='flex'>
+                                <div className='order-btn-flex'>
                                     {container.map(item => (
                                         <div className={`order-button ${this.state[item] ? 'order-button-selected' : ''}`} onClick={() => this.updateOrderDetails(item)}>{item.split(/(?=[A-Z])/).join(' ')} <p>{this.state[item]}</p> </div>
                                     ))}

@@ -156,7 +156,7 @@ class Dashboard extends Component {
             </div>
 
             <div className='flex-between'>
-              <p>Total <span id='highlight'>${item.totalPrice.toFixed(2)}</span></p>
+              <p>Total <span id='highlight'>${(item.totalPrice * 1.15).toFixed(2)}</span></p>
               <div>
                 <button onClick={(event) => this.pickedUp(item, event)}>Mark Done</button>
               </div>
