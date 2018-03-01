@@ -312,10 +312,12 @@ export async function createNewOrder (theWholeState) {
 /// ////this function gets all of the orders for the requested merchant and is called //////
 
 function makeOrdersArr (snapshot) {
-  let allOrders = []
+ 
   // let usersOrders = []
   // let allOrders = []
   // let flatOrders = []
+
+  let allOrders = []
 
   snapshot.forEach(item => {
     allOrders.push(item.val())
@@ -461,4 +463,35 @@ export async function markPickedUp (orderObj) {
   return {orderDetails: updatedOrder.val()}
 }
 
-/// //////////////MAKE EXPRESS/////////////////////
+//////////////////////SEARCH FUNCTION////////////////////////////////
+
+export async function getSearchResults (merchantId, searchInput) {
+
+  var snapshot = await database.ref('/Merchants/' + merchantId + '/Orders/')
+      .once('value')
+
+  let merchantOrders = makeOrdersArr(snapshot)
+  
+  var searchResults = []
+  searchInput = searchInput.toLowerCase()
+
+  console.log("this is merchant orders", merchantOrders)
+  console.log("this is search in put", searchInput)
+
+  for (let i in merchantOrders) {
+      var searchOrderNumber = merchantOrders[i].orderNumber.toString()
+      
+      var searchClientName = merchantOrders[i].clientObj.clientFullName.toLowerCase()
+     
+      var searchPhoneNumber = merchantOrders[i].clientObj.clientPersonalNumber
+
+    if (searchOrderNumber === searchInput || searchClientName.includes(searchInput) || searchPhoneNumber === searchInput) {
+      searchResults = searchResults.concat(merchantOrders[i])
+    }
+  }
+  console.log('this are the search results', searchResults)
+  return {searchResults: searchResults}
+}
+
+
+

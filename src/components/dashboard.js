@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import { Link } from 'react-router-dom'
-import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices, signout, checkLogin, markPickedUp, getMerchantAddress } from '../requests';
+import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices, signout, checkLogin, markPickedUp, getMerchantAddress, getSearchResults } from '../requests';
 // import Login from './login.js'
 // import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
@@ -17,7 +17,8 @@ class Dashboard extends Component {
       isLoggedIn: false,
       openOrders: [],
       pastDueOrders: [],
-      completedOrders: []
+      completedOrders: [],
+      searchResults: []
     }
   }
 
@@ -226,6 +227,54 @@ class Dashboard extends Component {
     })
   }
 
+  showSearchResults =() =>{
+    const { searchResults } = this.state;
+
+    //
+    if (this.state.dashboardOrders === 'SEARCH_RESULTS' && this.state.searchResults.length < 1){
+      return (
+        <div>
+     <div className='no-orders order-listing'>
+      <div>Looks like there are no matches to your search request</div>
+      </div>
+        <img id='dash-logo' src='https://i.imgur.com/o7rNnfK.png'/>
+      </div>
+      )
+    }
+
+
+    return searchResults.map((item, idx) => {
+
+      //------- CALULATES THE TOTAL AMOUNT OF ITEMS IN THE ORDER
+      let totalItems = [item.shirt, item.tie, item.blouse, item.jacket, item.skirt, item.dress, item.ladiesSuit, item.overcoat, item.suit, item.trousers]
+      let filteredItems = totalItems.filter(function (x) { return x })
+      let sumItems = filteredItems.reduce(function (a, b) { return a + b })
+
+      return (
+        <div key={idx}>
+          <div onClick={(event) => this.viewOrder(item, event)} className='order-listing'>
+            <div className='dash-order-header'>
+              <div className='dash-order-number'>#{item.orderNumber}</div>
+              {item.inProgress === true ? <div className='dash-order-status'>Cleaning</div> : <div id='order-ready' className='dash-order-status'>Ready</div>}
+            </div>
+            <div>
+              <h2>{item.clientObj.clientFullName}</h2>
+              <p><span id='highlight'>{sumItems} Items</span> on <span id='highlight'>{item.date}</span></p>
+            </div>
+
+            <div className='flex-between'>
+              <p>Total <span id='highlight'>${item.totalPrice.toFixed(2)}</span></p>
+              <div>
+                <button onClick={(event) => this.pickedUp(item, event)}>Mark Done</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    })
+  
+  }
+
   //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
   showOpen = () => {
     this.setState({ dashboardOrders: 'OPEN_ORDERS' })
@@ -238,6 +287,17 @@ class Dashboard extends Component {
   showCompleted = () => {
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
   }
+
+  runSearch =() =>{
+
+    getSearchResults(this.state.merchantId, this.searchInput.value)
+      .then(x => {
+        this.setState({ searchResults: x.searchResults, dashboardOrders: 'SEARCH_RESULTS' })
+      })
+    this.searchInput.value=''
+  }
+
+  
 
 
   render() {
@@ -255,9 +315,10 @@ class Dashboard extends Component {
           <div className='logout' onClick={this.logout}>Logout</div>
         </div>
         <div className='dashboard-wrapper'>
-          <form>
-            <input className='search-bar' type='search' placeholder='Search' />
-          </form>
+         
+            <input className='search-bar' type='search' placeholder='Search'ref={srch => this.searchInput = srch} />
+            <button onClick={this.runSearch}>Search</button>
+        
 
           <div className='tab-btns-wrapper'>
             <button className={`tab-btns ${this.state.dashboardOrders === 'OPEN_ORDERS' ? 'tab-selected' : ''}`} onClick={this.showOpen}>Open</button>
@@ -269,10 +330,10 @@ class Dashboard extends Component {
           </div>
 
           <div>{
-            this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
-              : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
+            this.state.dashboardOrders === 'OPEN_ORDERS'  ? this.openOrders()
+              : this.state.dashboardOrders === 'PAST_DUE'? this.pastDueOrders()
                 : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-                  : null}
+                  : this.state.dashboardOrders === 'SEARCH_RESULTS' ? this.showSearchResults():null}
           </div>
 
         </div>
