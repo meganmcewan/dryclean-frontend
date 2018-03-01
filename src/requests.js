@@ -485,7 +485,7 @@ export async function getSearchResults (merchantId, searchInput) {
      
       var searchPhoneNumber = merchantOrders[i].clientObj.clientPersonalNumber
 
-    if (searchOrderNumber === searchInput || searchClientName.includes(searchInput) || searchPhoneNumber === searchInput) {
+    if (searchOrderNumber === searchInput || searchClientName.includes(searchInput) || searchPhoneNumber.includes(searchInput)) {
       searchResults = searchResults.concat(merchantOrders[i])
     }
   }
