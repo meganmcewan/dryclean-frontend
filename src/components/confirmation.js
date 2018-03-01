@@ -44,6 +44,7 @@ class Confirmation extends Component {
       createNewOrder(this.state.orderSummary)
       .then(x => this.sendSms(x))
       .then(x => this.state.orderSummary)
+      .then(x => {window.print(); return x;})
       .then(x => this.props.history.push('/dashboard', { merchantId: x.merchantId }))
       
     // setTimeout(() => this.props.history.push('/dashboard'), 1000)
