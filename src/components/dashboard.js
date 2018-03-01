@@ -318,7 +318,7 @@ class Dashboard extends Component {
 
           <div className='search-bar-wrapper'>
             <input className='search-bar' type='search' placeholder='Search' ref={srch => this.searchInput = srch} />
-            <button id='search-btn' onClick={this.runSearch}>Search</button>
+            <button id='search-btn' onClick={this.runSearch}>Submit</button>
           </div>
 
           <div className='tab-btns-wrapper'>
