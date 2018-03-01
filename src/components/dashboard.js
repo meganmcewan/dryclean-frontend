@@ -74,15 +74,15 @@ class Dashboard extends Component {
     //   console.log('props state log: ', this.props.location.state)
   }
   moveToClosed = (item) => {
-    
+
     var merchantObj = { merchantId: this.state.merchantId }
-    
+
     getOpenOrders(merchantObj)
-    .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
+      .then(x => { this.setState({ openOrders: x.openOrders, pastDueOrders: x.pastDueOrders }); })
 
 
     getClosedOrders(merchantObj)
-    .then(x => { this.setState({ completedOrders: x.closedOrders }); })
+      .then(x => { this.setState({ completedOrders: x.closedOrders }); })
 
 
   }
@@ -124,15 +124,15 @@ class Dashboard extends Component {
     const { openOrders } = this.state;
 
     //
-    if (this.state.dashboardOrders === 'OPEN_ORDERS' && this.state.openOrders.length < 1){
+    if (this.state.dashboardOrders === 'OPEN_ORDERS' && this.state.openOrders.length < 1) {
       return (
         <div>
-     <div className='no-orders order-listing'>
-      <div>Welcome to your <mark>clnr</mark> dashboard. </div>
-      <div>Looks like there's nothing to clean.</div>
-      </div>
-        <img id='dash-logo' src='https://i.imgur.com/o7rNnfK.png'/>
-      </div>
+          <div className='no-orders order-listing'>
+            <div>Welcome to your <mark>clnr</mark> dashboard. </div>
+            <div>Looks like there's nothing to clean.</div>
+          </div>
+          <img id='dash-logo' src='https://i.imgur.com/o7rNnfK.png' />
+        </div>
       )
     }
 
@@ -227,18 +227,18 @@ class Dashboard extends Component {
     })
   }
 
-  showSearchResults =() =>{
+  showSearchResults = () => {
     const { searchResults } = this.state;
 
     //
-    if (this.state.dashboardOrders === 'SEARCH_RESULTS' && this.state.searchResults.length < 1){
+    if (this.state.dashboardOrders === 'SEARCH_RESULTS' && this.state.searchResults.length < 1) {
       return (
         <div>
-     <div className='no-orders order-listing'>
-      <div>Looks like there are no matches to your search request</div>
-      </div>
-        <img id='dash-logo' src='https://i.imgur.com/o7rNnfK.png'/>
-      </div>
+          <div className='no-orders order-listing'>
+            <div>Looks like there are no matches to your search request</div>
+          </div>
+          <img id='dash-logo' src='https://i.imgur.com/o7rNnfK.png' />
+        </div>
       )
     }
 
@@ -272,7 +272,7 @@ class Dashboard extends Component {
         </div>
       )
     })
-  
+
   }
 
   //------- ON-CLICK FUNCTIONS THAT CHANGES STATE TO DISPLAY DIFFERENT LISTS
@@ -288,16 +288,16 @@ class Dashboard extends Component {
     this.setState({ dashboardOrders: 'COMPLETED_ORDERS' })
   }
 
-  runSearch =() =>{
+  runSearch = () => {
 
     getSearchResults(this.state.merchantId, this.searchInput.value)
       .then(x => {
         this.setState({ searchResults: x.searchResults, dashboardOrders: 'SEARCH_RESULTS' })
       })
-    this.searchInput.value=''
+    this.searchInput.value = ''
   }
 
-  
+
 
 
   render() {
@@ -315,10 +315,11 @@ class Dashboard extends Component {
           <div className='logout' onClick={this.logout}>Logout</div>
         </div>
         <div className='dashboard-wrapper'>
-         
-            <input className='search-bar' type='search' placeholder='Search'ref={srch => this.searchInput = srch} />
-            <button onClick={this.runSearch}>Search</button>
-        
+
+          <div className='search-bar-wrapper'>
+            <input className='search-bar' type='search' placeholder='Search' ref={srch => this.searchInput = srch} />
+            <button id='search-btn' onClick={this.runSearch}>Search</button>
+          </div>
 
           <div className='tab-btns-wrapper'>
             <button className={`tab-btns ${this.state.dashboardOrders === 'OPEN_ORDERS' ? 'tab-selected' : ''}`} onClick={this.showOpen}>Open</button>
@@ -330,10 +331,10 @@ class Dashboard extends Component {
           </div>
 
           <div>{
-            this.state.dashboardOrders === 'OPEN_ORDERS'  ? this.openOrders()
-              : this.state.dashboardOrders === 'PAST_DUE'? this.pastDueOrders()
+            this.state.dashboardOrders === 'OPEN_ORDERS' ? this.openOrders()
+              : this.state.dashboardOrders === 'PAST_DUE' ? this.pastDueOrders()
                 : this.state.dashboardOrders === 'COMPLETED_ORDERS' ? this.completedOrders()
-                  : this.state.dashboardOrders === 'SEARCH_RESULTS' ? this.showSearchResults():null}
+                  : this.state.dashboardOrders === 'SEARCH_RESULTS' ? this.showSearchResults() : null}
           </div>
 
         </div>
