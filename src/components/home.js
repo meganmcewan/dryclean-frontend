@@ -25,13 +25,14 @@ class NakedHome extends Component {
   render () {
    
     return (
-      <div className='inital-css'>
-        <h3>Welcome to CLNR!</h3>
-        <img alt='clnr logo' id='clnr-logo' src='https://i.imgur.com/yJBUFUu.png' />
-        <div className='home-btns-wrapper'>
-        <button onClick={this.goToLogin}>Login</button>
-        <button onClick={this.goToSignUp}>Sign Up</button>
-        </div>
+      <div className='inital-css' className='home'> 
+          <div className='home-btns-wrapper'>
+              <button className = 'home-btns' onClick={this.goToLogin}>Login</button>
+              <button className = 'home-btns' onClick={this.goToSignUp}>Sign Up</button>
+          </div>
+          <img alt='clnr logo' id='clnr-logo' src='https://i.imgur.com/m1ff1oB.gif' />
+         
+          <h3 className= 'blurb' >clnr.me is a Customer Service Relations platform for dry-cleaners. Delivering efficient order creation & tracking, with easy client communications in a simple and customizable app</h3>
         {/* <LoginWithRouter /> */}
       </div>
     )

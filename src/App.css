@@ -237,8 +237,35 @@ Link{
   display: flex;
   justify-content: space-around;
   margin-left: auto;
+  margin-right: 20vw;
+  width: 150px;
+
+ 
+}
+
+.home {
+  background-color:black;
+  height: 100%;
+}
+.home-btns{
+  color: white;
+  background-color:black;
+  font-size: 16px;
+
+}
+  
+
+.blurb {
+  color: white;
+  max-width: 50vw;
+  margin-left: auto;
   margin-right: auto;
-  width: 300px;
+  text-align: center;
+  font-weight: normal;
+  font-size: 20px;
+  margin-top: 50px;
+  margin-bottom: 200px;
+  line-height: 25px;
 }
 
 
