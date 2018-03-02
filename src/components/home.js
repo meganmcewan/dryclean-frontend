@@ -31,7 +31,9 @@ class NakedHome extends Component {
               <button className = 'home-btns' onClick={this.goToSignUp}>Sign Up</button>
           </div>
           <img alt='clnr logo' id='clnr-logo' src='https://i.imgur.com/m1ff1oB.gif' />
-         
+          <div className="iframe-wrapper">
+            <iframe className="home-iframe" src="https://player.vimeo.com/video/258202836" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          </div>
           <h3 className= 'blurb' >clnr.me is a Customer Service Relations platform for dry-cleaners. Delivering efficient order creation & tracking, with easy client communications in a simple and customizable app</h3>
         {/* <LoginWithRouter /> */}
       </div>

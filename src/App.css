@@ -233,14 +233,25 @@ Link{
   border-top: 1px solid #e6e6e6;
 }
 
+.home-iframe {
+  max-width: 100%;
+  margin-top: 30px;
+}
+
+@media(min-width: 992px) {
+  .home-iframe {
+    width: 600px;
+    height: 400px;
+  }
+}
+
+.iframe-wrapper {
+  text-align: center;
+}
+
 .home-btns-wrapper{
   display: flex;
-  justify-content: space-around;
-  margin-left: auto;
-  margin-right: 20vw;
-  width: 150px;
-
- 
+  justify-content: flex-end;
 }
 
 .home {
@@ -257,13 +268,13 @@ Link{
 
 .blurb {
   color: white;
-  max-width: 50vw;
+  max-width: 80vw;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
   font-weight: normal;
-  font-size: 20px;
-  margin-top: 50px;
+  font-size: 16px;
+  margin-top: 30px;
   margin-bottom: 200px;
   line-height: 25px;
 }
