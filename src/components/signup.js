@@ -26,7 +26,7 @@ class Signup extends Component {
         }
     }
 
-    //CHECKS THE 'RADIO' SELECT BUTTONS IF MERCHANT OR CUSTOMER ACCOUNT IS SELECTED
+    
     handleOnChange = (event) => {
         this.setState({ userType: event.target.value })
     }
@@ -41,12 +41,6 @@ class Signup extends Component {
                 <div className='inital-css'>
                 <img id='logo-login' src='https://i.imgur.com/HdPaVzf.png'/>
                     <form>
-
-                        {/* <input ref={r => this.usertype = r} type="radio" id="merchant" name="usertype" value="merchant" defaultChecked onChange={this.handleOnChange}/>
-                    <label for="merchant">Merchant</label>
-                    <input ref={r => this.usertype = r} type="radio" id="customer" name="usertype" value="customer" onChange={this.handleOnChange}/>
-                    <label for="customer">Customer</label> */}
-
                         <div> <input type='text' ref={r => this.user = r} placeholder='Email' /></div>
                         <div> <input type='password' ref={r => this.pass = r} placeholder='Password' /></div>
                         <div> <input type='password' ref={r => this.confirmPass = r} placeholder='Confirm Password' /></div>

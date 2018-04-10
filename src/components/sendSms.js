@@ -26,16 +26,4 @@ app.post('/sendSms', (req, res) => {
 
 app.listen(3005, () => console.log('Port 3005'))
 
-// sendSms = () => {
-//   var number = '+15147120366';
-//   var message = 'Bon matin antoine'
-//    fetch('/sendSms', {
-//      method: "POST",
 
-//      body: JSON.stringify({
-//       test: number,
-//       message: message
-//      })
-
-//    }).then()
-//    }

@@ -19,13 +19,7 @@ class Confirmation extends Component {
     let date = month + '/' + day + '/' + year
 
 
-    // var orderObject = findOrder(merchantId, orderId)
 
-    // .then(x =>{console.log('this is the respnose in view order', x)
-    //   this.setState({
-    //   orderSummary: x.orderObject, merchantAddress: x.merchantAddress })}
-    // )
-    console.log("orderSummary", this.props.location.state.orderSummary)
     this.setState({
       orderSummary: this.props.location.state.orderSummary,
       totalPrice: this.props.location.state.orderSummary.totalPrice,
@@ -59,8 +53,7 @@ class Confirmation extends Component {
       .then(x => {window.print(); return x;})
       .then(x => this.props.history.push('/dashboard', { merchantId: x.merchantId }))
 
-    // setTimeout(() => this.props.history.push('/dashboard'), 1000)
-    // this.props.history.push('/dashboard', this.state.orderSummary.merchantObj.merchantId)
+    
   }
 
   toggleExpress = (event) => {

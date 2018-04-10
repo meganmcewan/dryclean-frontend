@@ -274,18 +274,7 @@ class CreateAccount extends Component {
                     shirt: + this.shirtRegular.value,
                     tie: + this.tieRegular.value
                 },
-                // express: {
-                //     trousers: + this.trousersExpress.value,
-                //     suit: + this.suitExpress.value,
-                //     overcoat: + this.overcoatExpress.value,
-                //     ladiesSuit: + this.ladiesSuitExpress.value,
-                //     dress: + this.dressExpress.value,
-                //     skirt: + this.skirtExpress.value,
-                //     jacket: + this.jacketExpress.value,
-                //     blouse: + this.blouseExpress.value,
-                //     shirt: + this.shirtExpress.value,
-                //     tie: + this.tieExpress.value
-                // }
+                
             }
 
 

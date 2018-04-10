@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
-// import { Link } from 'react-router-dom'
 import { createNewOrder, getOpenOrders, getClosedOrders, getPastDueOrders, getMerchantPrices, signout, checkLogin, markPickedUp, getMerchantAddress, getSearchResults } from '../requests';
-// import Login from './login.js'
-// import { withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router'
-
-// import NavBar from './nav.js'
 import ViewOrder from './vieworder.js'
 
 class Dashboard extends Component {
@@ -26,25 +21,10 @@ class Dashboard extends Component {
     signout()
     this.props.history.push('/')
   }
-  // componentWillMount() {
-  //   var uidFromBack = checkLogin()
-  //   console.log("2", uidFromBack)
-  //   if (uidFromBack.user === null) {
-  //     this.props.history.push('/login')
 
-  //   }
-  // this.setState({merchantId : this.props.location.state.merchantId, isLoggedIn: true})
-  //     var merchantObj = { merchantId: this.props.location.state.merchantId }
-  // console.log('merchant obj', merchantObj)
-
-  // else {
-  //   // }
-  // }
   componentDidMount() {
 
     var uidFromBack = checkLogin()
-
-    // var orderObject = checkOrder()
 
     this.setState({ merchantId: uidFromBack.user.uid })
     var merchantObj = { merchantId: uidFromBack.user.uid }
@@ -70,8 +50,6 @@ class Dashboard extends Component {
         this.setState({ merchantAddress: x.merchantAddress })
       })
 
-    // if (this.props.location.state.merchantId == undefined) { return <Redirect to='/login' /> }
-    //   console.log('props state log: ', this.props.location.state)
   }
   moveToClosed = (item) => {
 
@@ -301,10 +279,6 @@ class Dashboard extends Component {
 
 
   render() {
-    // if (this.props.location.state.merchantId === undefined) { return <Redirect to='/login' /> }
-    // if (this.props.location.state.merchantId == undefined){
-    //   return <Redirect to='/login'></Redirect>
-    // }
 
     return (
       <div className='inital-css' >

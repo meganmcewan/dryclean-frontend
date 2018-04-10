@@ -49,7 +49,6 @@ class Login extends Component {
               </div>
               <button id='color-cta' className='large-footer-btn' onClick={this.submitLogin}>Submit</button>
 
-              {/* <button className='ctaButton' onClick={this.submitLogin}>Submit</button> */}
             </form>
             <p id='footnote'>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
           </div>

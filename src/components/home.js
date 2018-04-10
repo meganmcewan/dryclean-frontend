@@ -5,11 +5,6 @@ import {  checkLogin } from '../requests';
 
 
 
-
-
-
-
-
 class NakedHome extends Component {
 
   goToLogin = () => {

@@ -30,8 +30,6 @@ class ClientOrder extends Component {
         }
 
 
-        // console.log('this is in merhcant', this.props.location.state.merchantId)
-        // console.log('this is in the else merchant prices',this.props.location.state.merchantPrices.Regular )
         else {
             var uidFromBack = checkLogin()
             
@@ -121,7 +119,6 @@ class ClientOrder extends Component {
 
     goToReview = () => {
        if(this.state.totalPrice > 0){
-        console.log('clicked go to review')
         this.props.history.push('/confirmation', { orderSummary: this.state })
        }
      
@@ -129,10 +126,7 @@ class ClientOrder extends Component {
     }
 
     updatePrice = (inp, productName) => {
-        console.log('this is the state merchant obj, merchant prices', this.state.merchantObj.merchantPrices)
         var inc = inp * this.state.merchantObj.merchantPrices.Regular[productName]
-        console.log('inc, from updatePrice:', inc)
-        // console.log('PreSt from update Price: ', PreSt.totalPrice)
         this.setState(PreSt => ({ totalPrice: inc + PreSt.totalPrice }))
     }
 
@@ -201,30 +195,7 @@ class ClientOrder extends Component {
                                     ))}
                                 </div>
                             ))}
-                            {/* <div className='flex'>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('trousers')}>Trousers {this.state.trousers} </div>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('suit')}>Suit {this.state.suit} </div>
-                            </div>
-
-                            <div className='flex'>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('overcoat')}>Overcoat {this.state.overcoat} </div>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('ladiesSuit')}>Ladies Suit {this.state.ladiesSuit} </div>
-                            </div>
-
-                            <div className='flex'>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('dress')}>Dress {this.state.dress} </div>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('skirt')}>Skirt {this.state.skirt} </div>
-                            </div>
-
-                            <div className='flex'>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('jacket')}>Jacket {this.state.jacket} </div>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('blouse')}>Blouse {this.state.blouse} </div>
-                            </div>
-
-                            <div className='flex'>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('shirt')}>Shirt {this.state.shirt} </div>
-                                <div className='order-button' onClick={() => this.updateOrderDetails('tie')}>Tie {this.state.tie} </div>
-                            </div> */}
+                            
                         </div>
                     </div>
                 </div>

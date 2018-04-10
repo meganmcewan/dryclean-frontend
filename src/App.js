@@ -5,7 +5,6 @@ import Home from './components/home.js'
 import Login from './components/login.js'
 import Signup from './components/signup.js'
 import CreateAccount from './components/createaccount'
-import orderForm from './components/orderForm.js'
 import Dashboard from './components/dashboard.js'
 import Confirmation from './components/confirmation.js'
 import ClientOrder from './components/clientorder.js'
@@ -48,7 +47,6 @@ class App extends Component {
         {!this.state.loggedIn && <Route path='/login' component={Login} />}
         {!this.state.loggedIn && <Route path='/signup' component={Signup} />}
         {this.state.loggedIn && <Route path='/createaccount' component={CreateAccount} />}
-        {this.state.loggedIn && <Route path='/orderform' component={orderForm} />}
         {this.state.loggedIn && <Route path='/clientorder' component={ClientOrder} />}
         {this.state.loggedIn && <Route path='/dashboard' component={Dashboard} />}
         {this.state.loggedIn && <Route path='/confirmation' component={Confirmation} />}
